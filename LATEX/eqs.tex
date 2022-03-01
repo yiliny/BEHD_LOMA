@@ -1,0 +1,583 @@
+%!TEX program = pdflatex
+\documentclass[books,12pt]{elegantpaper}
+\usepackage{physics}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{mathrsfs}
+%\usepackage{graphics}
+\usepackage{cancel} %用于在偏微分符号上画斜线
+\usepackage{ulem} %波浪线, 双下划线
+\usepackage{tikz} % 数字画圈
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1.5pt] (char) {#1};}}
+
+
+\usepackage{xcolor}
+\usepackage{sectsty}
+\definecolor{ChimieBlue}{rgb}{0.282,0.514,0.6}
+\sectionfont{\color{ChimieBlue}}
+\subsectionfont{\color{ChimieBlue}}
+%\subsubsectionfont{\color{ChimieBlue}}
+
+
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\bf}[1]{\mathbf{#1}}
+\newcommand{\sec}{\section}
+\newcommand{\ssc}{\subsection}
+\newcommand{\sss}{\subsubsection}
+\newcommand{\tenspace}{\ \ \ \ \ \ \ \ \ \ }
+\newcommand{\tens}{\ \ \ \ \ \ \ \ \ \ }
+\newcommand{\fivespace}{\ \ \ \ \ }
+\newcommand{\fives}{\ \ \ \ \ }
+\newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bgn}{\begin{align}}
+\newcommand{\ggn}{\end{align}}
+%\newcommand{\egnn}{\end{align}}
+\newcommand{\tlag}[1]{\tag{#1} \label{#1}}
+\newcommand{\parag}{\paragraph}
+\newcommand{\veps}{\varepsilon}
+\newcommand{\llang}{\left\langle}
+\newcommand{\rrang}{\right\rangle}
+\newcommand{\uu}{\underline}
+
+
+
+\title{\textcolor{ChimieBlue}{Mixing Langevin + ElastoHydroDynamic Problems}}
+%\author{\href{}{Yilin YE}}
+\author{\href{yilin.ye@ens.psl.eu}{{Yilin YE}}\\ \textit{\small{Département de Chimie, École Normale Supérieure, 75231 Paris Cedex 05, France}} \\ \textit{\small{Laboratoire Ondes et Matière d'Aquitaine, 33405 Talence Cedex, France}}}
+\date{\today} %将时间括号中内容留白，这样编译之后文档中不显示时间。
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+What would happen if a fluid-immersed negatively buoyant particle moves randomly in 3D, especially in the vicinity of a thin compressible elastic wall in 2D? Herein, I do my M1S2 internship at LOMA (Laboratoire Ondes et Matière d'Aquitaine) with Prof. Thomas SALEZ, focusing on this mixing Langevin + ElastoHydroDynamic Problems.
+
+In this personal note, I try to derive important equations from the relevant articles published previously, adding fundamental and useful concepts at the same time. Then, paramount details would be discussed precisely, as well as the new improvement over the old system.
+\end{abstract}
+\tableofcontents %本句作用为显示目录
+%\thispagestyle{empty} %本句作用为去掉首页/目录页的页码
+
+
+
+
+\newpage
+\setcounter{page}{1} %本句作用为将该页页码设置为1
+%\part{Molecular Simulation (Damien Laage)}
+
+
+\section{Zhang2020: Direct Measurement of the Elastohydrodynamic Lift Force at the Nanoscale}
+PHYSICAL REVIEW LETTERS 124, 054502 (2020)
+
+
+\ssc{Prerequisites}
+\paragraph{Lubrication theory}
+Mathematically, lubrication theory can be seen as exploiting the disparity between two length scales. The first is the characteristic film thickness, $H$, and the second is a characteristic substrate length scale $L$. The key requirement for lubrication theory is that the ratio $\epsilon=H/L$ is small, that is, $\epsilon\ll1$. The Navier-Stokes equations (or Stokes equations, when fluid inertia may be neglected) are expanded in this small parameter, and the leading-order equations are then
+$$ \frac{\partial p}{\partial z} = 0 \tens \frac{\partial p}{\partial x} = \mu\frac{\partial^2 p}{\partial z^2} $$
+where $\mu$ is the fliud viscosity.
+
+\paragraph{Reynolds equation}
+The Reynolds Equation is a partial differential equation governing the pressure distribution of thin viscous fluid films in lubrication theory. It should not be confused with Osborne Reynolds' other namesakes, Reynolds number and Reynolds-averaged Navier–Stokes equations. It was first derived by Osborne Reynolds in 1886. The classical Reynolds Equation can be used to describe the pressure distribution in nearly any type of fluid film bearing; a bearing type in which the bounding bodies are fully separated by a thin layer of liquid or gas.
+$$ \frac{\partial}{\partial x} \left( \frac{\rho h^3}{12 \mu} \frac{\partial p}{\partial x} \right) + \frac{\partial}{\partial y} \left( \frac{\rho h^3}{12 \mu} \frac{\partial p}{\partial y} \right) = \frac{\partial}{\partial x} \left[ \frac{\rho h (u_a + u_b)}{2} \right] + \frac{\partial}{\partial y} \left[ \frac{\rho h (u_a + u_b)}{2} \right] + \rho (w_a - w_b) - \rho u_a \frac{\partial h}{\partial x} - \rho v_a \frac{\partial h}{\partial y} + h \frac{\partial \rho}{\partial t} $$
+where $p$ is the fluid film pressure; $x$ and $y$ are the bearing width and length coordinates; $z$ is fluid film thickness coordinate; $h$ is fluid film thickness; $\mu$ is fluid viscosity; $\rho$ is the fluid density; $u,v,w$ are the bounding body velocities in $x,y,z$ respectively; $a,b$ are subscripts denoting the top and bottom bounding bodies respectively.
+
+\paragraph{Poiseuille flow} Poiseuille flow is the flow which obeys the Poiseuille equation. It describes the pressure drop in an incompressible and Newtonian fluid in laminar flow flowing through a long cylindrical pipe of constant cross section.
+% Un écoulement de Poiseuille est un écoulement qui suit une loi de Poiseuille.
+$$ \Delta p = \frac{8 \eta L Q}{\pi R^4} $$
+where $\Delta p$ is the pressure difference between the two ends; $\eta$ is the dynamic viscosity; $L$ is the length of pipe; $Q$ is the volumetric flow rate; $R$ is the pipe radius.
+
+
+\paragraph{Couette flow}
+In fluid dynamics, Couette flow is the flow of a viscous fluid in the space between two surfaces, one of which is moving tangentially relative to the other. The relative motion of the surfaces imposes a shear stress on the fluid and induces flow. Depending on the definition of the term, there may also be an applied pressure gradient in the flow direction.
+
+A simple configuration corresponds to two infinite, parallel plates separated by a distance $h$; on plate translates with a constant relative velocity $U$ in its own plane. Neglecting pressure gradients, the N-S eq. simplify to 
+$$ \frac{d^2 u}{d y^2} = 0 $$
+where $y$ is the spatial coordinate normal to the plates and $u(y)$ is the velocity field. 
+
+
+\paragraph{Complete elliptic integral of the first kind $K$} is defined as
+$$ K(k) = \int_0^{\pi/2} \frac{d\theta}{\sqrt{1-k^2\sin^2\theta}} = \int_0^1 \frac{dt}{\sqrt{(1-t^2)(1-k^2t^2)}} $$
+
+\paragraph{Complete elliptic integral of the second kind $E$} is defined as
+$$ E(k) = \int_0^{\pi/2} \sqrt{1-k^2\sin^2\theta} d\theta = \int_0^1 \frac{\sqrt{1-k^2t^2}}{\sqrt{1-t^2}} dt $$
+
+
+\paragraph{Runge-Kutta methods} 
+In numerical analysis, the Runge–Kutta methods are a family of implicit and explicit iterative methods, used in temporal discretization for the approximate solutions of ordinary differential equations. These methods were developed around 1900 by the German mathematicians Carl Runge and Wilhelm Kutta.
+
+Let an initial value problem be specified as follows:
+$$ \frac{dy}{dt} = f(t,y) \tens y(t_0) = y_0 $$
+Here $y$ is an unknown function of $t$, which we'd like to approximate; we are told that $\frac{dy}{dt}$ is a function of $t$ and of $y$ itself. At the initial time $t_0$ the corresponding $y$ value is $y_0$. The function $f$ and the initial conditions $t_0, y_0$ are given. Now pick a step-size $h>0$ and define
+$$ \begin{align}
+y_{n+1} &= y_n + \frac{h}{6} (k_1 + 2k_2 + 2k_3 + k_4) \\
+t_{n+1} &= t_n + h 
+\end{align} $$
+for $n=0,1,2,\cdots$ using
+$$ \begin{align}
+k_1 &= f(t_n,y_n) \\
+k_2 &= f\left( t_n + \frac{h}{2} , y_n + h \frac{k_1}{2} \right) \\
+k_3 &= f\left( t_n + \frac{h}{2} , y_n + h \frac{k_2}{2} \right) \\
+k_4 &= f(t_n + h , y_n + hk_3) 
+\end{align} $$
+Here $y_{n+1}$ is the RK4 approximations of $y(t_{n+1})$.
+
+
+\ssc{Soft Lubrication Model}
+
+\begin{center}
+\includegraphics[scale=1.6,frame]{plots/Zhang2020figure.pdf}
+\end{center}
+
+
+The resulting horizontal fluid velocity field $\vec{v}(\vec{r},z,t)$ is a linear combination of Poiseuille and Couette flows:
+\begin{equation} \vec{v}(\vec{r},z,t) = \frac{1}{2\eta} \vec\nabla p \left[ z^2 - z(h_0 + \delta) + h_0 \delta \right] + \frac{h_0 - z}{h_0 - \delta} \vec{V} \tag{Zhang2020.S1} \end{equation}
+where $z$ is the vertical coordinate, $\vec{r}(x,y)$ the horizontal ones, we could derive the distance $h_0$ between the sphere and the substrate as the function of $\vec{r}$
+$$ h_0 (\vec{r}) = h(\vec{r}) + \delta(\vec{r}) = d + (R - \sqrt{R^2 - r^2}) \simeq d + R - \left( R - \frac{r^2}{2R} + o(r^4) \right) = d + \frac{r^2}{2R} $$
+The lubrication Reynolds equations:
+\begin{equation} \partial_t h(\vec{r},t) = \vec\nabla \cdot \left[ \frac{h^3 (\vec{r},t)}{12 \eta} \vec\nabla p(\vec{r},t) - \frac{h(\vec{r},t)}{2} \vec{V}(t) \right] \tag{Zhang2020.S2} \label{Zhang2020.S2} \end{equation}
+and the deformation reads
+\begin{equation} \delta(\vec{r},t) = - \frac{1}{4\pi G} \int d^2 \vec{r^\prime} \frac{p(\vec{r^\prime},t)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} \tag{Zhang2020.S3} \label{Zhang2020.S3} \end{equation}
+
+According to the non-dimensionalized parameters below
+\begin{equation} h(\vec{r},t) = d \hat{h}(\vec{\hat{r}},t) \tens \vec{r} = \ell \vec{\hat{r}} \tens \delta(\vec{r},t) = d\hat\delta (\vec{\hat{r}},t) \tag{Zhang2020.S4} \end{equation}
+\begin{equation} p(\vec{r},t) = \frac{\eta A \omega \ell}{d^2} \hat{p}(\vec{\hat{r}},t) \tens t = \frac{\ell}{A \omega} \hat{t} \tens \vec{v}(\vec{r},t) = A \omega \hat{v}(\vec{\hat{r}},t) \tens \vec{V}(t) = A \omega \hat{V}(\hat{t}) \vec{e}_x \tag{Zhang2020.S5} \end{equation}
+%with $\hat{V}(\hat{t}) = \sin(\ell\hat{t}/A)$
+as well as the $\vec\nabla$ in the polar coord.
+$$ \vec\nabla = \frac{\partial}{\partial r} \vec{e}_r + \frac{1}{r} \frac{\partial}{\partial \theta} \vec{e}_\theta $$
+we have 
+$$ \vec\nabla p = \frac{\partial p}{\partial r} \vec{e}_r  = \frac{\eta A \omega \ell}{d^2}\frac{\partial \hat{p}}{\ell \partial \hat{r}} \vec{e}_r = \frac{\eta A \omega}{d^2} \frac{\partial \hat{p}}{\partial \hat{r}} \vec{e}_r \tens \Rightarrow \tens \nabla^2 p = \frac{\eta A \omega}{d^2 \ell} \frac{\partial^2 \hat{p}}{\partial \hat{r}^2} $$
+then the eq. \ref{S2} turns to 
+$$ \partial_t h(\vec{r},t) = \frac{A \omega}{\ell} \frac{\partial (d \hat{h})}{\partial \hat{t}} = \vec\nabla \cdot \left[ \frac{(d\hat{h})^3}{12\eta} \vec\nabla \left( \frac{\eta A \omega}{d^2 \ell} \hat{p} \right) - \frac{d \hat{h}}{2} \vec{V} \right] \fives \Rightarrow \fives \frac{\partial \hat{h}}{\partial \hat{t}} = \vec\nabla \cdot \left[ \frac{\hat{h}^3}{12} \vec\nabla \hat{p} - \frac{\hat{h}}{2} \vec{V} \right] $$
+by removing all hats $\hat{}$, we get the eq. \ref{Zhang2020.S6}
+\begin{equation} 12 \partial _t h(\vec{r},t) = \vec\nabla \cdot \left[ h^3(\vec{r},t) \vec\nabla p(\vec{r},t) - 6 h(\vec{r},t) \vec{V}(t) \right] \tag{Zhang2020.S6} \label{Zhang2020.S6} \end{equation}
+
+Also, from $h_0 (\vec{r}) = h(\vec{r}) + \delta(\vec{r}) = d + \frac{r^2}{2R}$, and $\ell = \sqrt{2Rd}$, we have
+$$ d\hat{h} = h = d + \frac{r^2}{2R} - \delta = d + \frac{\ell^2 \hat{r}^2}{2R} - d\hat\delta = d + d \hat{r}^2 - d \hat\delta $$
+again, we remove the hats $\hat{}$ and derive the eq. \ref{Zhang2020.S7}
+\begin{equation} h(\vec{r},t) = 1 + r^2 - \delta(\vec{r},t) \tag{Zhang2020.S7} \label{Zhang2020.S7} \end{equation}
+Recall the eq. \ref{Zhang2020.S3} 
+$$ \begin{align}
+d\hat\delta &= \delta(\vec{r},t) = - \frac{1}{4\pi G} \int d^2 \vec{r^\prime} \frac{p(\vec{r^\prime},t)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} = - \frac{1}{4\pi G} \int \ell^2 d^2 \vec{\hat{r^\prime}} \frac{\eta A \omega \ell}{d^2} \frac{\hat{p}}{\left\vert \vec{\hat{r}} - \vec{\hat{r^\prime}} \right\vert \ell} \\
+&= - \frac{2Rd}{4\pi G} \frac{\eta A \omega}{d^2} \int d^2 \vec{\hat{r^\prime}} \frac{\hat{p}}{\left\vert \vec{\hat{r}} - \vec{\hat{r^\prime}} \right\vert} = -\frac{1}{2\pi} \frac{\eta A \omega R}{G d^2} \int d^2 \vec{\hat{r^\prime}} \frac{\hat{p}}{\left\vert \vec{\hat{r}} - \vec{\hat{r^\prime}} \right\vert} \\
+\end{align} $$
+Still, after removing hats $\hat{}$, we introduce the coefficient $\xi = \frac{\eta A \omega R}{G d^2}$, and thus derive the eq. \ref{Zhang2020.S8}:
+\begin{equation} \delta(\vec{r},t) = - \frac{\xi}{2 \pi} \int_{\mathbb{R}^2} d^2 \vec{r^\prime} \frac{p(\vec{r^\prime},t)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} \tag{Zhang2020.S8} \label{Zhang2020.S8} \end{equation}
+Note that we use $V$ directly as its root-mean-squared value
+$$ V = \sqrt{\frac{1}{T} \int_0^T \left[ A\omega \sin(\omega t) \right]^2} = \sqrt{\frac{\omega}{2\pi} A^2 \omega^2 \int_0^{2\pi} \frac{1}{\omega} \sin^2x dx} = \sqrt{\frac{A^2 \omega^2}{2}} = \frac{A \omega}{\sqrt{2}} $$
+thus $\kappa = \frac{\eta V R}{G d^2} = \frac{\eta A \omega R}{\sqrt{2} G d^2}$, we could write $\xi = \sqrt{2} \kappa$.
+
+
+
+\ssc{Perturbation Theory}
+Assume $\xi \ll 1$, we take a perturbative expansion:
+\begin{equation} h(\vec{r},t) = h_0 (\vec{r}) + \xi h_1(\vec{r},t) + o(\xi^2) \tag{Zhang2020.S9} \label{Zhang2020.S9} \end{equation}
+\begin{equation} p(\vec{r},t) = p_0 (\vec{r}) + \xi p_1(\vec{r},t) + o(\xi^2) \tag{Zhang2020.S10} \end{equation}
+at $0^{th}$ order, we only consider $h_0(\vec{r}) = 1 + r^2$ and $p_0$. Since $h_0(\vec{r})$ is time-independent, we have the eq. \ref{Zhang2020.S6} below:
+\begin{equation} 0 = \vec\nabla \cdot \left( h_0^3 \vec\nabla p_0 - 6 h_0 \vec{V} \right) \tag{Zhang2020.S11} \label{Zhang2020.S11} \end{equation}
+
+In the polar coordinate, $\vec\nabla = \vec\partial_r + \vec\partial_\theta / r$, and we have the Laplacian as 
+$$ \Delta f &= \frac{1}{r} \pder[]{r} \left( r \pder[f]{r} \right) + \frac{1}{r^2} \pdv[2]{f}{\theta} = \pdv[2]{f}{r} + \frac{1}{r} \pdv{f}{r} + \frac{1}{r^2} \pdv[2]{f}{\theta} $$ 
+Also with $\vec\nabla \cdot (\varphi \vec{A}) = \varphi (\vec\nabla \cdot \vec{A}) + (\vec\nabla \varphi) \cdot \vec{A}$, we write
+$$ \begin{align}
+& \vec\nabla \cdot \left( h_0^3 \vec\nabla p_0 \right) = h_0^3 (\nabla^2 p_0) + (\vec\nabla h_0^3) \cdot \vec\nabla p_0 = (1+r^2)^3 (\partial_r^2 + \frac{\partial_r}{r} + \frac{\partial_\theta^2}{r^2}) p_0 + \frac{\partial h_0^3}{\partial h_0} \frac{\partial h_0}{\partial r} \vec{e}_r \cdot (\vec\partial_r + \frac{\vec\partial_\theta}{r}) p_0 \\ % rang 1
+&= (1+r^2)^3 (\partial_r^2 p_0 + \frac{\partial_r p_0}{r} + \frac{\partial_\theta^2 p_0}{r^2}) + 3(1+r^2)^2 \cdot 2r \cdot \partial_r p_0 = (1+r^2)^3 (\partial_r^2 p_0 + \frac{\partial_r p_0}{r} + \frac{\partial_\theta^2 p_0}{r^2}) + 6r(1+r^2)^2 \partial_r p_0 
+\end{align} $$
+as well as
+$$ \vec\nabla \cdot (6 h_0 \vec{V}) = 6h_0 (\vec\nabla \cdot \vec{V}) + (6 \vec\nabla h_0) \cdot \vec{V} = 6(1+r^2) (\vec\partial_r + \frac{\vec\partial_\theta}{r}) \cdot \left[ A\omega \sin(\omega t) \vec{e}_x \right] + 6 \cdot 2r \vec{e}_r \cdot V \vec{e}_x = 12 r V(t) \cos\theta $$
+Combine these two equations:
+$$ (1+r^2)^3 (\partial_r^2 p_0 + \frac{\partial_r p_0}{r} + \frac{\partial_\theta^2 p_0}{r^2}) + 6r(1+r^2)^2 \partial_r p_0 &= 12 r V(t) \cos\theta $$
+% r^2 \partial_r^2 p_0 + \left( \frac{6r^2}{1+r^2} \right) \partial_r p_0 + \partial_\theta^2 p_0 &= \frac{12 r^3 V \cos\theta}{(1+r^2)^3} 
+%%% Note that the equation above is \textcolor{red}{not} correct, since in the polar coordinate, we have the Laplacian as 
+%%% $$ \Delta f &= \frac{1}{r} \pder[]{r} \left( r \pder[f]{r} \right) + \frac{1}{r^2} \pdv[2]{f}{\theta} = \pdv[2]{f}{r} + \frac{1}{r} \pdv{f}{r} + \frac{1}{r^2} \pdv[2]{f}{\theta} $$ 
+%with the explicit derivations (http://faculty.wwu.edu/curgus/courses/math\_pages/math\_430/Laplacian\_in\_polar.html). 
+Therefore, we divide $(1+r^2)^3$ and multiply $r^2$
+%\textit{Sorry I could not figure out the term $r\partial_r p_0$ temporally... Thanks for your notice in advance.}
+\begin{equation} r^2 \partial_r^2 p_0 + \left( r + \frac{6r^2}{1+r^2} \right) \partial_r p_0 + \partial_\theta^2 p_0 = \frac{12 r^3 V \cos\theta}{(1+r^2)^3} \tag{Zhang2020.S12} \end{equation}
+
+If we express $p_0$ as
+\begin{equation} p_0(r,\theta,t) = P_0^{(1)}(r,t) \cos\theta \tag{Zhang2020.S13} \end{equation}
+thus we could extract $\cos\theta$ and recover:
+\begin{equation} r^2 \partial_r^2 P_0^{(1)} + \left( r + \frac{6r^2}{1+r^2} \right) \partial_r P_0^{(1)} - P_0^{(1)} = \frac{12 r^3 V}{(1+r^2)^3} \tag{Zhang2020.S14} \label{Zhang2020.S14} \end{equation}
+Suppose that $P_0^{(1)}(r,t) = \frac{k(t) r^a}{(1+r^2)^b}$, where $k$ is a function of time $t$, and $a,b$ and two integers. We could find the derivatives of $P_0^{(1)}$
+$$ \begin{align}
+\partial_r P_0^{(1)} &= \frac{a}{r} P_0^{(1)} - \frac{2br}{1+r^2} P_0^{(1)} \\ % rang 1
+\partial_r^2 P_0^{(1)} &= \frac{a(a-1)}{r^2} P_0^{(1)} - \frac{2b(2a+1)}{1+r^2} P_0^{(1)} + \frac{4b(b+1)r^2}{(1+r^2)^2} P_0^{(1)} % rang 2
+\end{align} $$
+Insert them into eq. \ref{Zhang2020.S14}, we could finally simplify to 
+$$ k(t) \left[ (1+r^2)^{3-b} (a^2 - 1) r^a + 2(3a-2b-2ab) r^{a+2} (1+r^2)^{2-b} + 4b(b-2) (1+r^2)^{1-b} r^{4+a} \right] = 12 r^3 V(t) $$
+To get the same order of $r$, we could find three potential solutions for each term: 
+\begin{itemize}
+  \item $a=3,b=3$
+  \item $a=1,b=2$
+  \item $a=-1,b=1$
+\end{itemize}
+%1. $a=3,b=3$; 2. $a=1,b=2$; 3. $a=-1,b=1$.
+Since $r\to\infty,p_0\to0$, we discard the third one. \\
+For the first one, we would get $r^5/(1+r^2)$ for the second term, which would not be the counterpart of the right side. \\
+For the second one, the first and the third term vanish. We have
+$$ k \cdot 2(3a-2b-2ab) r^{a+2} (1+r^2)^{2-b} = 12 r^3 V(t) \tens \Rightarrow \tens k(t) = - \frac{6}{5} V(t) $$
+namely the final solution to $p_0$:
+\begin{equation} p_0(r,\theta,t) = - \frac{6r V(t) \cos\theta}{5(1+r^2)^2} \tag{Zhang2020.S15} \end{equation}
+
+From the eq. \ref{Zhang2020.S7} and \ref{Zhang2020.S9},
+$$ h = h_0 + \xi h_1 = 1 + r^2 - \delta $$
+note that $\xi = \frac{\eta A \omega R}{Gd^2}$ and $h_0 = 1+r^2$, we have the expression of $h_1$:
+\begin{equation} h_1 (\vec{r},t) = - \frac{\delta}{\xi} = \frac{1}{2\pi} \int_{\mathbb{R}^2} d^2 \vec{r^\prime} \frac{p_0 (\vec{r^\prime},t)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} \tag{Zhang2020.S16} \end{equation}
+with the Fourier transform
+$$ \begin{align}
+\tilde{h}_1 (\vec{k},t) &= \int_{\mathbb{R}^2} d^2 \vec{r} h_1 (\vec{r},t) e^{-i\vec{k}\vec{r}} = \int_{\mathbb{R}^2} d^2 \vec{r} \frac{1}{2\pi} \int_{\mathbb{R}^2} d^2 \vec{r^\prime} \frac{p_0 (\vec{r^\prime},t)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} e^{-i\vec{k}\vec{r}} \\
+&= \frac{1}{2\pi} \int_{\mathbb{R}^2} d^2 \vec{r^\prime} p_0 (\vec{r^\prime},t) e^{-i\vec{k}\vec{r^\prime}} \int_{\mathbb{R}^2} d^2 \vec{r} \frac{\exp\left( -i\vec{k} \left\vert \vec{r} - \vec{r^\prime} \right\vert \right)}{\left\vert \vec{r} - \vec{r^\prime} \right\vert} \\
+&= \frac{1}{2\pi} \int_{\mathbb{R}^2} d^2 \vec{r} p_0 (\vec{r},t) e^{-i\vec{k}\vec{r}} \cdot \frac{2\pi}{k} = \frac{\tilde{p}_0 (\vec{k},t)}{k}
+\end{align} $$
+where $2\pi/k$ is from the Hankel transform of $1/r$, a 2d Fourier self-transform, leading to
+\begin{equation} \tilde{h}_1 (\vec{k},t) = \frac{\tilde{p}_0 (\vec{k},t)}{k} \tag{Zhang2020.S17} \end{equation}
+
+\hline
+
+\ \\
+
+The 2D Fourier transform of a function $f(x,y)$ is defined as 
+$$ F(\vec\omega) = F(\omega_x,\omega_y) = \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} f(x,y) \exp\left[ -i (\omega_x x + \omega_y y) \right] dx dy $$
+The inverse Fourier transform is given by
+$$ f(\vec{r}) = f(x,y) = \frac{1}{(2\pi)^2} \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} F(\omega_x,\omega_y) \exp(i\vec\omega \cdot \vec{r}) d\omega_x d\omega_y $$
+$\vec\omega = (\omega_x,\omega_y)$, $\vec{r}=(x,y)$ and similarly in the spatial frequency domain as $\omega_x = \rho \cos\psi$, $\omega_y = \rho \sin\psi$. It then follows that the two-dimensional Fourier transform can be written as
+$$ F(\rho,\psi) = \int_0^\infty \int_{-\pi}^{+\pi} f(r,\theta) \exp \left[ -ir\rho \cos(\psi-\theta) \right] rdr d\theta $$
+In terms of polar coordinates, the Fourier transform operation transforms the spatial position radius and angle $(r,\theta)$ to the frequency radius and angle $(\rho,\psi)$. The corresponding 2D inverse Fourier transform is written as
+$$ f(r,\theta) = \frac{1}{(2\pi)^2} \int_0^\infty \int_0^{2\pi} F(\rho,\psi) \exp \left[ ir\rho \cos(\psi-\theta) \right] d\psi \rho d\rho $$
+
+Recall the Complete elliptic integral
+$$ \begin{align}
+K(k) &= \int_0^{\pi/2} \frac{d\theta}{\sqrt{1-k^2\sin^2\theta}} = \int_0^1 \frac{dt}{\sqrt{(1-t^2)(1-k^2t^2)}} \\
+E(k) &= \int_0^{\pi/2} \sqrt{1-k^2\sin^2\theta} d\theta = \int_0^1 \frac{\sqrt{1-k^2t^2}}{\sqrt{1-t^2}} dt
+\end{align} $$
+and ... \textit{(sorry, more time needed to derive S18)}
+\begin{equation} h_1 (r,\theta,t) = - \frac{3V(t)}{5r} \left[ \mathcal{K} (-r^2) - \frac{\mathcal{E} (-r^2)}{1+r^2} \right] \cos\theta \tag{Zhang2020.S18} \label{Zhang2020.S18} \end{equation}
+
+Return to the eq. \ref{Zhang2020.S6} 
+$$ 12 \xi \partial_t h_1 = \vec\nabla \cdot \left[ (h_0 + \xi h_1)^3 \vec\nabla (p_0 + \xi p_1) - 6(h_0 + \xi h_1) \vec{V} \right] $$
+and subtract the eq. \ref{Zhang2020.S11}, $0 = \vec\nabla \cdot \left( h_0^3 \vec\nabla p_0 - 6 h_0 \vec{V} \right)$:
+$$ 12 \xi \partial_t h_1 = \vec\nabla \cdot \left[ (3 \xi h_0^2 h_1 + 3\xi^2 h_0 h_1^2 + \xi^3 h_1^3) \vec\nabla(p_0 + \xi p_1) + (h_0 + \xi h_1)^3 \vec\nabla (\xi p_1) - 6 \xi h_1 \vec{V} \right] $$
+we could find the equation with the 1st order of $\xi$:
+\begin{equation} 12 \partial_t h_1 = \vec\nabla \cdot \left( h_0^3 \vec\nabla p_1 + 3h_0^2 h_1 \vec\nabla p_0 - 6h_1 \vec{V} \right) \tag{Zhang2020.S19} \end{equation}
+where we only need to solve $p_1$.
+
+$$ 12 \partial_t h_1 = - \frac{36 \dot{V}(t)}{5r} \left[ K(-r^2) - \frac{E(-r^2)}{1+r^2} \right] \cos\theta $$
+$$ \begin{align}
+\vec\nabla \cdot (3h_0^2 h_1 \vec\nabla p_0) &= 3 h_0^2 h_1 \nabla^2 p_0 + \vec\nabla p_0 \cdot \vec\nabla(3h_0h_1) \\ % rang 1
+&= - 3(1+r^2)^2 \cdot \frac{3V(t)}{5r} \left[ \mathcal{K} (-r^2) - \frac{\mathcal{E} (-r^2)}{1+r^2} \right] \cos\theta \cdot \left( \partial_r^2 + \frac{\partial_\theta^2}{r^2} \right) p_0 \\
+&\ \ \ + \left( \partial_r + \frac{\partial_\theta}{r} \right) p_0 \cdot \left( \partial_r + \frac{\partial_\theta}{r} \right) \left\{ - 3(1+r^2) \cdot \frac{3V(t)}{5r} \left[ \mathcal{K} (-r^2) - \frac{\mathcal{E} (-r^2)}{1+r^2} \right] \cos\theta \right\} % rang 2
+\end{align} $$
+$$ \vec\partial_r p_0 = - \frac{6V(t)}{5} \cos\theta \left[ \frac{1}{(1+r^2)^2} - \frac{4r^2}{(1+r^2)^3} \right] \vec{e}_r \tens  \frac{\vec\partial_\theta}{r} p_0 = \frac{6 V(t)}{5 (1+r^2)^2} \sin\theta \cdot \vec{e}_\theta $$
+$$ \partial_r^2 p_0 = - \frac{6V(t)}{5} \cos\theta \left[ \frac{-12r}{(1+r^2)^3} + \frac{12 r^3}{(1+r^2)^4} \right] \tens \frac{\partial_\theta^2}{r^2} p_0 = \frac{6V(t)}{5 r (1+r^2)^2} \cos\theta $$
+Additionally, we have Derivatives of Elliptic integral:
+$$ \frac{d E(k)}{dk} = \frac{E(k) - K(k)}{k} $$
+$$ (k^2 - 1) \frac{d}{dk} \left( k \frac{dE(k)}{dk} \right) = kE(k) \tens \Rightarrow \tens \frac{dK(k)}{dk} = \frac{E(k) - K(k)}{k} - \frac{k E(k)}{k^2 - 1} $$
+After these algebra, we could find the eq. \ref{Zhang2020.S20}
+\begin{equation} \begin{align}
+r^2 \partial_r^2 p_1 +& \left( r + \frac{6r^3}{1+r^2} \right) \partial_r p_1 + \partial_\theta^2 p_1 = \frac{36 r^2 V^2(t)}{25(1+r^2)^6} \left[ (-10+2r^2) \mathcal{E}(-r^2) + (8+7r^2-r^4) \mathcal{K}(-r^2) \right] \\ % rang 1
+&\ \ \ - \frac{36 r \dot{V}(t)}{5(1+r^2)^4} \left[ -\mathcal{E}(-r^2) + (1+r^2)\mathcal{K}(-r^2) \right] \cos\theta \\ % rang 2
+&\ \ \ + \frac{36 V^2(t)}{25(1+r^2)^6} \left[ -2(2 + 9r^2 + r^4) \mathcal{E}(-r^2) + (1+r^2) (4+16r^2-3r^4) \mathcal{K}(-r^2) \right] \cos(2\theta) % rang 3
+\end{align} \tag{Zhang2020.S20} \label{Zhang2020.S20} \end{equation}
+
+Similar to $p_0$, we expand $p_1$ as $p_1(r,\theta,t) = P_1^{(0)} (r,t) + P_1^{(1)} (r,t) \cos\theta + P_1^{(2)} (r,t) \cos(2\theta)$, focusing on the isotropic part without $\theta$
+\begin{equation} r^2 \partial_r^2 P_1^{(0)} + \left( r &+ \frac{6r^3}{1+r^2} \right) \partial_r P_1^{(0)} = \frac{36 r^2 V^2(t)}{25(1+r^2)^6} \left[ (-10+2r^2) \mathcal{E}(-r^2) + (8+7r^2-r^4) \mathcal{K}(-r^2) \right] \tag{Zhang2020.S21} \end{equation}
+Finally, with the help of RK4 algorithm, the lift force would appear!
+\begin{equation} F_\mathrm{lift}(t) \simeq 8\pi F^\ast \xi \int_{\mathbb{R}_+} \hat{r} d\hat{r} \hat{P}_1^{(0)} (\hat{r},\hat{t}) \approx 0.416 \frac{\eta^2 V^2(t)}{G} \left( \frac{R}{d} \right)^{5/2} \tag{Zhang2020.S22} \end{equation}
+
+\begin{equation} F \approx 0.416 \kappa F^\ast \tag{Zhang2020.S23} \end{equation}
+
+
+
+
+\newpage
+\section{Lavaud2021: Stochastic inference of surface-induced effects using Brownian motion}
+PHYSICAL REVIEW RESEARCH 3, L032011 (2021)
+
+\ssc{Prerequisite}
+\paragraph{Padé approximant}
+Given a function $f$ and two integers $m \geq 0$ and $n\geq1$, the \textit{Padé approximant} of order $\left[m/n\right]$ is the rational function
+$$ R(x) = \frac{\sum_{j=0}^m a_j x^j}{1 + \sum_{k=1}^n b_k x^k} = \frac{a_0 + a_1 x + a_2 x^2 + \cdots + a_m x^m}{1 + b_1 x + b_2 x^2 + \cdots + b_n x^n} $$
+which agrees with $f(x)$ to the highest possible order, which amounts to $f^{(m+n)}(0) = R^{(m+n)}(0)$. 
+% https://en.wikipedia.org/wiki/Padé_approximant
+
+\paragraph{Debye length}
+In plasmas and electrolytes, the \textit{Debye length} $\lambda_{D}$ (also called Debye radius), is a measure of a charge carrier's net electrostatic effect in a solution and how far its electrostatic effect persists. The related Debye screening wave vector $k_D = 1/\lambda_D$ for particles of density $n$, charge $q$ at a given temperature $k_D^2 = 4\pi \beta n q^2$. % https://en.wikipedia.org/wiki/Debye_length
+
+
+\ssc{Equations}
+\begin{equation} \frac{U(z)}{k_B T} = \left\{ \begin{align} &Be^{-z/\ell_D} + \frac{z}{\ell_B} \\ &+\infty \end{align} \fives \begin{align} &z>0 \\ &z\leqslant0 \end{align} \right. \tag{Lavaud2021.1} \label{Lavaud2021.1} \end{equation}
+where $\ell_D$ is the Debye length, $\ell_B = k_B T / (g\Delta m)$ is the Boltzmann length, $g$ is the gravitational acceleration, and $\Delta m$ is the (positive) buoyant mass of the particle.
+
+From this total total potential energy, one can then construct the Gibbs-Boltzmann distribution
+$$ P_{eq}(z) = A \exp \left[ -U(z) / (k_B T) \right] $$
+where A is a normalization constant.
+
+\beq \left\langle \Delta r_i (t)^2 \right\rangle_t = \left\langle \left[ r_i (t+\Delta t) - r_i(t) \right]^2 \right\rangle_t \tag{Lavaud2021.2} \label{Lavaud2021.2} \eeq
+
+
+$$ \left\langle \Delta r_i (t)^2 \right\rangle_t = 2D_0 \Delta t = 2 \times \frac{k_B T}{6 \pi \eta a} \Delta t $$
+
+
+Nearby through hydrodynamic interactions, leading to effective viscosities $\eta_\|(z) = \eta_x(z) = \eta_y(z)$
+\beq \eta_\| = \frac{\eta}{1 - \frac{9}{16} \xi + \frac{1}{8} \xi^3 - \frac{45}{256} \xi^4 - \frac{1}{16} \xi^5} \tag{Lavaud2021.3} \label{Lavaud2021.3} \eeq
+where $\xi = a/(z+a)$
+\beq \eta_z = \eta \frac{6z^2 + 9az + 2a^2}{6z^2 + 2az} \tag{Lavaud2021.4} \label{Lavaud2021.4} \eeq
+
+
+
+\beq F_z(z)= 6\pi \eta_z(z) a \frac{\langle \Delta z \rangle}{\Delta t} - k_B T \frac{D^\prime_z(z)}{D_z(z)} \tag{Lavaud2021.11} \label{Lavaud2021.11} \eeq
+
+\beq \Delta F = \sqrt{24 \pi k_B T \eta_z(z) a / \tau_{\rm{box}}(z)} \tag{Lavaud2021.12} \label{Lavaud2021.12} \eeq
+
+\beq F_z(z) = k_B T \left( \frac{B}{\ell_D} e^{- \frac{z}{\ell_D}} - \frac{1}{\ell_B} \right) \tag{Lavaud2021.13} \label{Lavaud2021.13} \eeq
+
+
+%\newpage
+%\section{Bertin2021: Contactless rheology of finite-size air-water interfaces}
+%PHYSICAL REVIEW RESEARCH 3, L032007 (2021)
+
+
+
+
+\newpage
+\section{Bertin2022: Soft-lubrication interactions between a rigid sphere and an elastic wall}
+arXiv:2104.00900 \\
+J. Fluid Mech. (2022), vol. 933, A23, doi:10.1017/jfm.2021.1063
+
+\begin{center}
+\includegraphics[scale=1.0,frame]{plots/Bertin2022figure.pdf}
+\end{center}
+
+
+
+\begin{equation} \begin{align}
+F_z = \int_{\bb{R}^2} p(\mathbf{r}) d^2 \bf{r} &= - \frac{6 \pi \eta a^2 \dot{d}}{d} + 0.41623 \frac{\eta^2 u^2 (\lambda + 2\mu)}{\mu (\lambda +\mu)} \left( \frac{a}{d} \right)^{5/2} \\ % rang1
+& \ \ \ - 41.912 \frac{\eta^2 \dot{d}^2 (\lambda + 2\mu)}{\mu (\lambda + \mu)} \left( \frac{a}{d} \right)^{7/2} + 18.499 \frac{\eta^2 \ddot{d} a (\lambda + 2\mu)}{\mu (\lambda + \mu)} \left( \frac{a}{d} \right)^{5/2} % rang 2
+\end{align} \tag{Bertin2022.3.21} \label{Bertin2022.3.21} \end{equation}
+
+\begin{equation} \begin{align}
+F_x &= 6 \pi \eta a u \left( \frac{8}{15} \log\left(\frac{d}{a}\right) - 0.95429 \right) - 10.884 \frac{\eta^2 u \dot{d} (\lambda + 2\mu)}{\mu (\lambda +\mu)} \left( \frac{a}{d} \right)^{5/2} \\ % rang1
+& \ \ \ + 0.98661 \frac{\eta^2 \dot{u} a (\lambda + 2\mu)}{\mu (\lambda + \mu)} \left( \frac{a}{d} \right)^{3/2} % rang 2
+\end{align} \tag{Bertin2022.3.24} \label{Bertin2022.3.24} \end{equation}
+
+
+
+
+\newpage
+\section{Random Walk + Soft substance}
+\ssc{Fundamentals}
+\parag{Gibbs-Boltzmann distribution} The Boltzmann distribution is a probability distribution that gives the probability of a certain state as a function of that state's energy and temperature of the system to which the distribution is applied. It is given as
+$$ p_i = \frac{\exp(-\beta \veps_i)}{\sum_{j=1}^M \exp(-\beta \veps_j)} $$
+
+\parag{Langevin equation} %In physics, a Langevin equation (named after Paul Langevin) is a stochastic differential equation describing how a system evolves when subjected to a combination of deterministic and fluctuating ("random") forces. The dependent variables in a Langevin equation typically are collective (macroscopic) variables changing only slowly in comparison to the other (microscopic) variables of the system. The fast (microscopic) variables are responsible for the stochastic nature of the Langevin equation. One application is to Brownian motion, which models the fluctuating motion of a small particle in a fluid.
+
+The original Langevin equation describes Brownian motion, the apparently random movement of a particle in a fluid due to collisions with molecules of the fliud, 
+$$ m \frac{dv}{dt} = - \lambda v + \eta(t) $$
+where $v$ is the velocity of the particle, and $m$ is the mass. The force acting on the particle is written as a sum of a viscous force proportional to the particles's velocity, and a noise term $\eta(t)$ representing the effect of the collisions with the molecules of the fluid. The force $\eta(t)$ has a Gaussian probability distribution with correlation function $ \llang \eta_i(t) \eta_j(t^\prime) \rrang = 2 \lambda k_B T \delta_{ij} \delta(t-t^\prime)$
+
+There are two common choices of discretization: the Itô and the Stratonovich conventions. Discretization of the Langevin equation:
+$$ \frac{x_{t+\Delta} - x_t}{\Delta} = -V^\prime(x_t) + \xi_t $$
+with an associated discretization of the correlations:
+$$ \llang f\left[x(t)\right] \rrang \to \llang f(x_t) \rrang \fives \llang f\left[x(t)\right] \xi(t) \rrang \to \llang f(x_t)\xi_t \rrang \fives \llang f\left[x(t)\right] \dot{x}(t) \rrang \to \llang f(x_t) \frac{x_{t+\Delta} - x_t}{\Delta} \rrang $$
+which leads to \textbf{Itô's chain rule}:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime\left[x(t)\right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+
+
+\parag{Fokker-Planck equation} In one spatial dimension $x$, for an Itô process driven by the standard Wiener process $W_t$ and described by the stochastic differential equation (SDE)
+$$ dX_t = \mu(X_t,t) dt + \sigma(X_t,t) dW_t $$
+with drift $\mu(X_t,t)$ and diffusion coefficient $D(X_t,t) = \sigma^2(X_t,t)/2$, the Fokker-Planck equation for the probability density $p(x,t)$ of the random variable $X_t$ is
+$$ \pder{t} p(x,t) = - \pder{x} \left[ \mu(x,t) p(x,t) \right] + \pdv[2]{}{x} \left[ D(x,t) p(x,t) \right] $$
+
+\uu{Derivation from the over-damped Langevin equation}\\
+Let $\bb{P}(x,t)$ be the probability density density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
+$$ \dot{x}(t) = -V^\prime(x) + \xi (t) $$
+if $f$ is a function, we have:
+$$ \frac{d}{dt} \llang f\left[ x(t) \right] \rrang = \frac{d}{dt} \int \bb{P}(x,t) f(x) dx = \int \pder[\bb{P}(x,t)]{t} f(x) dx $$
+but using Itô's chain rule:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+with Langevin's equation
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \left\{ - V^\prime \left[ x(t) \right] + \xi(t) \right\} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+since $\llang f^\prime \left[ x(t) \right] \xi(t) \rrang = 0$, we have
+$$ \frac{d}{dt} \llang f \left[ x(t) \right] \rrang = \int \left[ \frac{df(x)}{dx} \left( - \frac{dV(x)}{dx} \right) + T \frac{d^2 f(x)}{dx^2} \right] \bb{P}(x,t) dx $$
+performing an integration by parts, and using that $\bb{P}(x,t)$ is a probability density vanishing at $x\to\infty$:
+$$ \int \pder[\bb{P}(x,t)]{t} f(x) dx = \int \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) f(x) dx $$
+this is true for any function $f$, thus
+$$ \boxed{ \pder[\bb{P}(x,t)]{t} = \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) } $$
+It could be written as $\partial_t \bb{P}(x,t) = - H_{FP} \bb{P}(x,t)$ with $H_{FP}$ the Fokker-Planck operator shown above.
+%We try to solve $\partial_t \bb{P}(x,t) = 0$. A good guess is the Gibbs-Boltzmann probability density, 
+
+
+
+
+
+\ssc{Salez2015: Elastohydrodynamics of a sliding, spinning and sedimenting cylinder near a soft wall}
+\begin{center}
+\includegraphics[scale=1.0,frame]{plots/Salez2015figure.pdf}
+\end{center}
+
+\beq \delta_s(x,t) = - \frac{h_s p(x,t)}{2\mu + \lambda} \tlag{Salez2015.2} \eeq
+... we non-dimensionalize the problem using the following choices: $z=Zr\veps$, $h=Hr\veps$, $\delta = \Delta r\veps$, $x = Xr\sqrt{2\veps}$, $x_G=X_G r \sqrt{2\veps}$, $\theta = \Theta\sqrt{2\veps}$, $t=Tr\sqrt{2\veps}/c$, $u=Uc$, and $p=P\eta c\sqrt{2}/(r\veps^{3/2})$, where we have introduced a free fall velocity scale $c=\sqrt{2gr\rho^\ast / \rho}$ and the dimensionless parameter:
+\beq \xi = \frac{3\sqrt{2} \eta}{r^{3/2} \veps \sqrt{\rho \rho^\ast g}} \tlag{Salez2015.3}
+\beq \kappa = \frac{2h_s \eta \sqrt{g\rho^\ast}}{r^{3/2} \veps^{5/2} (2\mu+\lambda)\sqrt{\rho}} \tlag{Salez2015.5}
+
+With perturbation theory in first-order correction, the soft compressible wall gives 
+\beq \ddot{X}_G + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sqrt\Delta} + \frac{\kappa \varepsilon \xi}{6} \left[ \frac{19}{4} \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} - \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot\Theta - \ddot{X}_G}{\Delta^{5/2}} \right] - \sqrt{\frac{\varepsilon}{2}} \sin\alpha = 0 \tlag{Salez2015.50} \eeq
+\beq \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0  \tlag{Salez2015.51} \eeq
+\beq \ddot{\Theta} + \frac{4\veps\xi}{3} \frac{\dot\Theta}{\sqrt\Delta} + \frac{\kappa \veps \xi}{3} \left[ \frac{19}{4} \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} - \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot{X}_G - \ddot\Theta}{\Delta^{5/2}} \right] = 0 \tlag{Salez2015.52} \eeq
+where $\Delta$ refers to $z$ and $X_G$ refers to $x$ after the scaling.
+
+For the plan case, we set $\alpha=0$. Also, there would be no rotation, thus $\theta(t)=0$.
+$$ \ddot{X}_G + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sqrt\Delta} + \frac{\kappa \varepsilon \xi}{6} \left[ \frac{19}{4} \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \cdot \frac{ - \ddot{X}_G}{\Delta^{5/2}} \right] = 0 $$
+$$ \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{( - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0  $$
+
+
+
+\ssc{David's note: Determining noise from deterministic forces}
+Consider the following deterministic equations
+\beq dX_\alpha = V_\alpha dt \tag{David.1} \label{David.1} \eeq
+and
+\beq dV_\alpha = -U_\alpha dt - \nabla \phi(\mathbf{X}) dt \tlag{David.2} \eeq 
+We assume that $U_\alpha$ are generated by hydrohynamic interactions which do not however affect the equilibrium Gibbs-Boltzmann distribution which is 
+\beq P_{eq} (\mathbf{X},\mathbf{V}) = \frac{1}{\bar{Z}} \exp \left( - \frac{\beta \mathbf{V}^2}{2} - \beta \phi(\mathbf{X}) \right) \tlag{David.3} \eeq
+
+Exploit the Fokker-Planck operator
+$$ \pder[P]{t} = - H_{FP} P = \pder{x} \left[ \frac{dV}{dx} P + T \pder{x} P \right] = \pder{V_\alpha} \left[ (U_\alpha + \nabla_\alpha \phi) P + T \gamma_{\alpha\beta} \pder[P]{V_\beta} \right] + \pder{X_\alpha} \left[ \cdots \right] $$
+Note $\pder[P]{X_\alpha} = P \left( -\beta \pder[\phi]{X_\alpha} \right)$ and $\pder[P]{V_\alpha} = P \left( -\beta V_\alpha \right)$. Consider the gravity $\phi(\mathbf{X}) = - mg\Delta$, and then we could derive the eq. \ref{David.4}
+$$ \bgn
+\pder{X_\alpha} \left[ \frac{dV}{dx} P + T \pder{x} P \right] &= \pder{X_\alpha} \left[ \frac{dV}{dX_\alpha} P + T \pder{X_\alpha} P + T \pder{V_\alpha} P \right] \\
+&= \pder{X_\alpha} \left[ (\nabla_\alpha\phi)P + \cancel{T} \cdot P \left( -\cancel{\beta} \pder[\phi]{X_\alpha} \right) + T \pder{V_\alpha} P \right] = \pder{X_\alpha} \left[ T \pder{V_\alpha} P \right] \\
+&= \pder{X_\alpha} \left[ \cancel{T} \cdot P \left( -\cancel\beta V_\alpha \right) \right] = - \pder{X_\alpha} V_\alpha P
+\end{align} $$
+
+The Fokker Planck equation at finite temperature which introduces white noise and possibly temperature dependent drifts is $\phi(\mathbf{X})$ is 
+\beq \pder[P]{t} = \pder{V_\alpha} \left[ T \gamma_{\alpha\beta} \pder[P]{V_\beta} + U_\alpha P + \pder[\phi]{X_\alpha} P \right] - \pder{X_\alpha} V_\alpha P  \tlag{David.4} \eeq
+The last two terms would vanish since
+$$ \pder{V_\alpha} \left( \pder[\phi]{X_\alpha} P \right) = \cancel{ \left( \pder{V_\alpha} \pder[\phi]{X_\alpha} \right) } \cdot P + \pder[\phi]{X_\alpha} \cdot \pder[P]{V_\alpha} = \pder[\phi]{X_\alpha} \cdot P (-\beta V_\alpha) $$
+$$ \pder{X_\alpha} V_\alpha P = \cancel{ \left( \pder[V_\alpha]{X_\alpha} \right) } P + V_\alpha \left( \pder[P]{X_\alpha} \right) = V_\alpha \cdot P \cdot \left( -\beta \pder[\phi]{X_\alpha} \right) $$
+Therefore, at equilibrium $\pder[P]{t} = 0$
+$$ \pder[P]{t} = \pder{V_\alpha} \left[ T \gamma_{\alpha\beta} \pder[P]{V_\beta} + U_\alpha P \right] = \pder{V_\alpha} \left[ \cancel{T} \gamma_{\alpha\beta} P \cdot (- \cancel\beta V_\beta) + U_\alpha P \right] = \pder{V_\alpha} \left[ (U_\alpha - \gamma_{\alpha\beta} V_\beta) \cdot P \right] = 0 $$
+
+We obtain the GB distribution for the steady state if 
+\beq U_\alpha = \gamma_{\alpha\beta} V_\beta \tlag{David.5} \eeq
+We have for small velocities that
+\beq U_\alpha = \lambda_{\alpha\beta} (\mathbf{X}) V_\beta + \Lambda_{\alpha\beta\gamma} (\mathbf{X}) V_\beta V_\gamma \tlag{David.6} \eeq
+and so we find
+\beq \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta}(\mathbf{X}) V_\beta + \Lambda_{\alpha\beta\gamma} (\mathbf{X}) V_\beta V_\gamma \tlag{David.7} \eeq
+Written this way the term $\lambda_{\alpha\beta}(\mathbf{X})$ is just the friction tensor in the absence of any elastic effects. We can thus write
+\beq \gamma_{\alpha\beta} = \lambda_{\alpha\beta} + \gamma_{2\alpha\beta} \tlag{David.8} \eeq
+and we write
+\beq \gamma_{2\alpha\beta} = \Gamma_{\alpha\beta\gamma} V_\gamma \tlag{David.9} \eeq
+and
+\beq \Gamma_{\alpha\beta\gamma} (\mathbf{X}) V_\beta V_\gamma = \Lambda_{\alpha\beta\gamma} (\mathbf{X}) V_\beta V_\gamma \tlag{David.10} \eeq
+where we without loss of generality take $\Lambda_{\alpha\beta\gamma} = \Lambda_{\alpha\gamma\beta}$, which then gives
+\beq \Gamma_{\alpha\beta\gamma} + \Gamma_{\alpha\gamma\beta} = 2 \Lambda_{\alpha\beta\gamma} \tlag{David.11} \eeq
+We have to solve this system with the constraint that $\Gamma_{\alpha\beta\gamma} V_\gamma = \Gamma_{\beta\alpha\gamma} V_\gamma$. In Thomas' problem [1412.0162, Journal of Fluid Mechanics, 779 181 (2015)], we have
+$$ \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0 $$
+$$ \ddot{X}_G + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sqrt\Delta} + \frac{\kappa \varepsilon \xi}{6} \left[ \frac{19}{4} \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} - \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot\Theta - \ddot{X}_G}{\Delta^{5/2}} \right] - \sqrt{\frac{\varepsilon}{2}} \sin\alpha = 0 $$
+where $\Delta$ refers to $z$ and $X_G$ refers to $x$. Note $\dot\Delta=-U_z$ and $\dot{X}_G=-U_x$, we write
+\beq U_z = \xi \frac{V_z}{Z^{3/2}} + \frac{21 \kappa \xi}{4} \frac{V_z^2}{Z^{9/2}} - \frac{\kappa \xi}{4} \frac{V_x^2}{Z^{7/2}}  \tlag{David.12} \eeq
+\beq U_x = 2 \xi\veps \frac{V_x}{3Z^{1/2}} + \frac{19 \kappa \xi \veps}{24} \frac{V_z V_x}{Z^{7/2}} \tlag{David.13} \eeq
+Form this we find that
+\beq \bgn
+\sum_{\alpha\beta} \Lambda_{z\alpha\beta} V_\alpha V_\beta &= \frac{21 \kappa \xi}{4} \frac{V_z^2}{Z^{9/2}} - \frac{\kappa \xi}{4} \frac{V_x^2}{Z^{7/2}} \\
+\sum_{\alpha\beta} \Lambda_{x\alpha\beta} V_\alpha V_\beta &= \frac{19 \kappa \xi \veps}{24} \frac{V_z V_x}{Z^{7/2}}
+\end{align} \tlag{David.14} \eeq
+This gives the set of equations
+\beq \Gamma_{zzz} = \frac{21 \kappa \xi}{4 Z^{9/2}} \tlag{David.15} \eeq
+\beq \Gamma_{zxx} = - \frac{\kappa \xi}{4Z^{7/2}} \tlag{David.16} \eeq
+
+\beq \Gamma_{zxz} + \Gamma_{zzx} = 0 \tlag{David.17} \eeq
+\beq \Gamma_{xzz} = 0 \tlag{David.18} \eeq
+\beq \Gamma_{xxx} = 0 \tlag{David.19} \eeq
+\beq \Gamma_{xxz} + \Gamma_{xzx} = \frac{19 \kappa \xi \veps}{24 Z^{7/2}} \tlag{David.20} \eeq
+The symmetry $\Gamma_{\alpha\beta\gamma} = \Gamma_{\beta\alpha\gamma}$ now gives
+\beq \Gamma_{xxz} = \frac{19 \kappa \xi \veps}{24 Z^{7/2}} - \Gamma_{xzx} = \frac{19 \kappa \xi \veps}{24 Z^{7/2}} - \Gamma_{zxx} = \frac{\kappa\xi}{Z^{7/2}} \left( \frac{19\veps}{24} + \frac{1}{4} \right) \tlag{David.21} \eeq
+as well as
+\beq \Gamma_{zxz} = \Gamma_{zzx} = 0 \tlag{David.22} \eeq
+The Langevin equation corresponding to this is, using the Ito convention,
+\beq \frac{dV_\alpha}{dt} = -U_\alpha - \pder[\phi(\mathbf{X})]{X_\alpha} + T \pder[\gamma_{\alpha\beta}]{V_\beta} + \eta_\alpha(t) \tlag{David.23} \eeq
+which can be written as
+\beq \frac{dV_\alpha}{dt} = -U_\alpha - \pder[\phi(\mathbf{X})]{X_\alpha} + T \Gamma_{\alpha\beta\beta} + \eta_\alpha(t) \tlag{David.24} \eeq
+where we use the Einstein summation convention and the noise correlator is given by
+\beq \llang \eta_\alpha (t) \eta_\beta(t^\prime) \rrang = 2T \gamma_{\alpha \beta} \delta(t-t^\prime) = 2T \left[ \lambda_{\alpha\beta}(\mathbf{X}) + \Gamma_{\alpha\beta\gamma}(\mathbf{X}) V_\gamma \right] \delta(t-t^\prime) \tlag{David.25} \eeq
+Putting this together we find (from eq. \ref{David.24}) with all $\Gamma_{\alpha\beta\beta}$ with $y$ index vanishing.
+\beq \bgn
+\frac{dV_z}{dt} &= -V^\prime(Z) - \xi \frac{V_z}{Z^{3/2}} - \frac{21\kappa\xi}{4}\frac{V_z^2}{Z^{9/2}} + \frac{\kappa \xi V_x^2}{4 Z^{7/2}} + T \left[ \frac{21 \kappa \xi}{4 Z^{9/2}} - \frac{\kappa \xi}{4 Z^{7/2}} \right] + \eta_z(t) \\
+\frac{dV_x}{dt} &= -2\xi\veps \frac{V_x}{3 Z^{1/2}} - \frac{19 \kappa \xi \evps V_z V_x}{24 Z^{7/2}} + \eta_x(t) 
+\end{align} \tlag{David.26} \eeq
+
+
+\ssc{Modification in 3D}
+We re-write the differential equations as 
+$$ \bgn
+-U_z = \dot{v}_\Delta = \ddot\Delta &= F_\Delta (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_\Theta) + \eta_\Delta \\ % rang 1
+-U_X = \dot{v}_X = \ddot{X} &= F_X (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_X,\dot{v}_\Theta) + \eta_X \\ % rang 2
+-U_\theta = \dot{v}_\Theta = \ddot\Theta &= F_\Theta (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_X,\dot{v}_\Theta) + \eta_\Theta % rang 3
+\end{align} $$
+In 3D system, we have independent coordinates $\Delta,v_\Delta,v_{X},v_\Theta$. Consider the second derivative in the eq. \ref{Salez2015.51}, we could obtain
+%$$ \dot{Y}_i = F_i + TF^{drift}_i + \eta_i $$
+
+%Fokker-Planck eq.
+%$$ T \sum_{\alpha\beta} \pder{Y_\alpha} \left[ \gamma_{\alpha\beta} \pder{Y_\beta} P \right] + \pder{Y_\alpha} \left[ -F_\alpha P \right] = \pder[P]{t} = 0 $$
+%the matrix $\gamma_{\alpha\beta}$ is symmetric and thus there are 10 independent elements.
+%$$ \dot{Y}_\alpha = \left[ F_\alpha + T \pder{Y_\beta} \gamma_{\beta\alpha} \right] + \sqrt{2T} \eta_\alpha $$
+%where the white noise $\eta_\alpha$ satisfies
+%$$ \llang \eta_\alpha(t) \eta_\beta(t^\prime) \rrang = \delta(t-t^\prime) \gamma_{\alpha\beta}(t) $$
+
+
+%\beq \ddot{X}_G + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sqrt\Delta} + \frac{\kappa \varepsilon \xi}{6} \left[ \frac{19}{4} \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} - \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot\Theta - \ddot{X}_G}{\Delta^{5/2}} \right] - \sqrt{\frac{\varepsilon}{2}} \sin\alpha = 0 \tlag{Salez2015.50} \eeq
+
+
+\begin{doublespace} U_z = \noindent\(\frac{8 \Delta ^{9/2}+2 \xi  \left(-\Delta  \kappa  v_X^2+4 \Delta ^3 v_z+21 \kappa  v_z^2+2 \Delta  \kappa  v_X v_{\theta }-\Delta  \kappa v_{\theta }^2\right)}{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi }\) \end{doublespace} \\
+Then combine eqs \ref{Salez2015.50} and \ref{Salez2015.52}, we could solve
+%\beq \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0  \tlag{Salez2015.51} \eeq
+%\beq \ddot{\Theta} + \frac{4\veps\xi}{3} \frac{\dot\Theta}{\sqrt\Delta} + \frac{\kappa \veps \xi}{3} \left[ \frac{19}{4} \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} - \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot{X}_G - \ddot\Theta}{\Delta^{5/2}} \right] = 0 \tlag{Salez2015.52} \eeq
+
+\begin{doublespace} U_X =
+\noindent\(\frac{\epsilon  \xi  \left(\kappa  \left(16 \Delta ^3 \epsilon  \xi +\left(-24 \Delta ^{5/2}+23 \epsilon  \kappa  \xi \right) v_z\right)
+v_{\theta }+v_X \left(-4 \epsilon  \kappa ^2 \xi  v_z+\left(6 \Delta ^{5/2}-\epsilon  \kappa  \xi \right) \left(16 \Delta ^3+19 \kappa  v_{\theta
+}\right)\right)\right)}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)}\)
+\end{doublespace}
+
+\begin{doublespace} U_\theta = 
+\noindent\(\frac{\epsilon  \xi  \left(\left(16 \Delta ^3 \left(12 \Delta ^{5/2}-\epsilon  \kappa  \xi \right)+\kappa  \left(228 \Delta ^{5/2}-23
+\epsilon  \kappa  \xi \right) v_z\right) v_{\theta }+\kappa  v_X \left(\left(-48 \Delta ^{5/2}+4 \epsilon  \kappa  \xi \right) v_z+\epsilon  \xi
+ \left(16 \Delta ^3+19 \kappa  v_{\theta }\right)\right)\right)}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)}\)
+\end{doublespace}
+
+After some calculations with the help of \textit{Mathematica}, we list all $\lambda_{\alpha\beta}$ and $\Gamma_{\alpha\beta\gamma}$
+
+$$ \begin{align}
+\lambda_{\text{zz}} &= \noindent\(\frac{8 \Delta ^2 \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }\) \\
+\lambda_{\text{xx}} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }\) \\
+\lambda_{\theta \theta} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-12 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }\)
+\end{align} $$
+
+
+$$ \bgn
+\Gamma _{\text{zzz}} &= \noindent\(\frac{42 \kappa  \xi }{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi }\) \\
+\Gamma _{\text{xzx}} = \Gamma _{\text{zxx}} &= \noindent\(\frac{2 \kappa  \xi }{-8 \Delta ^{7/2}+15 \kappa  \xi }\) \\
+\Gamma _{\text{$\theta z \theta $}} = \Gamma _{\text{z$\theta \theta $}} &= \noindent\(\frac{2 \kappa  \xi }{-8 \Delta ^{7/2}+15 \kappa  \xi }\)
+\end{align} $$
+
+$$ \bgn
+\Gamma _{\text{xxz}}&= \frac{1}{9} \kappa  \xi  \left(\frac{18}{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{\epsilon ^2 \kappa  \xi }{-4 \Delta ^6+\Delta ^{7/2} \epsilon \kappa  \xi }\right) \\
+\Gamma _{\text{xx$\theta $}}&= \frac{19 \epsilon  \kappa  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{-144 \Delta ^6+36 \Delta ^{7/2} \epsilon  \kappa \xi } \\
+\Gamma _{\text{$\theta \theta $x}}&= \frac{19 \epsilon ^2 \kappa ^2 \xi ^2}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)} \\
+\Gamma _{\text{$\theta \theta $z}}&= \frac{\epsilon  \kappa  \xi  \left(-228 \Delta ^{5/2}+23 \epsilon  \kappa  \xi \right)}{-144 \Delta ^6+36 \Delta ^{7/2} \epsilon  \kappa \xi }
+\end{align} $$
+
+$$ \bgn
+\Gamma _{\text{zx$\theta $}}=\Gamma _{\text{xz$\theta $}}=& -\frac{25}{18 \Delta }-\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2 \kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50 \Delta ^{3/2}}{36 \Delta ^{5/2}-9 \epsilon  \kappa  \xi } \\
+\Gamma _{\text{z$\theta $x}}=\Gamma _{\text{$\theta $zx}}=& \frac{25}{18 \Delta }+\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2 \kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50 \Delta ^{3/2}}{9 \left(-4 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)} \\
+\Gamma _{\text{x$\theta $z}}=\Gamma _{\text{$\theta $xz}}=& \frac{2}{15}-\frac{1}{2 \Delta }-\frac{3 \epsilon  \kappa  \xi }{8 \Delta ^{7/2}}+\frac{16}{15 \left(-8+\frac{15 \kappa  \xi }{\Delta^{7/2}}\right)}+\frac{1}{2 \Delta -\frac{\epsilon  \kappa  \xi }{2 \Delta ^{3/2}}}
+\end{align} $$
+
+\nocite{EINAV2010,Havrylchyk2018} 
+
+\bibliographystyle{aer}
+\bibliography{wp_ref}
+\end{document}
+
