@@ -25,7 +25,7 @@
 
 \title{\textcolor{ChimieBlue}{Mixing Langevin + ElastoHydroDynamic of cylinder}}
 %\author{\href{}{Yilin YE}}
-\author{\href{yilin.ye@ens.psl.eu}{{Yilin YE}}\\ \textit{\small{Département de Chimie, École Normale Supérieure, 75231 Paris Cedex 05, France}} \\ \textit{\small{Laboratoire Ondes et Matière d'Aquitaine, 33405 Talence Cedex, France}}}
+\author{\href{https://yiliny.github.io/yiliny/}{{Yilin YE}}\\ \textit{\small{Département de Chimie, École Normale Supérieure, 75231 Paris Cedex 05, France}} \\ \textit{\small{Laboratoire Ondes et Matière d'Aquitaine, 33405 Talence Cedex, France}}}
 \date{\today} %将时间括号中内容留白，这样编译之后文档中不显示时间。
 
 \begin{document}
@@ -37,24 +37,26 @@
 
 %In this personal note, I try to derive important equations from the relevant articles published previously, adding fundamental and useful concepts at the same time. Then, paramount details would be discussed precisely, as well as the new improvement over the old system.
 %\end{abstract}
-%\tableofcontents %本句作用为显示目录
+\tableofcontents %本句作用为显示目录
 %\thispagestyle{empty} %本句作用为去掉首页/目录页的页码
 
 
 
 
-%\newpage
+\newpage
 \setcounter{page}{1} %本句作用为将该页页码设置为1
-%\part{Molecular Simulation (Damien Laage)}
 
 
 
-\section{Theoretical Framework}
-\ssc{Fundamentals}
+\section{Framework Introduction}
+\ssc{Theoretical Fundamentals}
+
+\tit{Here are fundamentals used in the following parts, including Gibbs-Boltzmann distribution, Langevin equation, Fokker-Planck equation.}
+
 \parag{Gibbs-Boltzmann distribution} The Boltzmann distribution is a probability distribution that gives the probability of a certain state as a function of that state's energy and temperature of the system to which the distribution is applied. It is given as
 $$ p_i = \frac{\exp(-\beta \veps_i)}{\sum_{j=1}^M \exp(-\beta \veps_j)} $$
 
-\parag{Langevin equation} %In physics, a Langevin equation (named after Paul Langevin) is a stochastic differential equation describing how a system evolves when subjected to a combination of deterministic and fluctuating ("random") forces. The dependent variables in a Langevin equation typically are collective (macroscopic) variables changing only slowly in comparison to the other (microscopic) variables of the system. The fast (microscopic) variables are responsible for the stochastic nature of the Langevin equation. One application is to Brownian motion, which models the fluctuating motion of a small particle in a fluid.
+\parag{Langevin equation}  %In physics, a Langevin equation (named after Paul Langevin) is a stochastic differential equation describing how a system evolves when subjected to a combination of deterministic and fluctuating ("random") forces. The dependent variables in a Langevin equation typically are collective (macroscopic) variables changing only slowly in comparison to the other (microscopic) variables of the system. The fast (microscopic) variables are responsible for the stochastic nature of the Langevin equation. One application is to Brownian motion, which models the fluctuating motion of a small particle in a fluid.
 
 The original Langevin equation describes Brownian motion, the apparently random movement of a particle in a fluid due to collisions with molecules of the fliud, 
 $$ m \frac{dv}{dt} = - \lambda v + \eta(t) $$
@@ -72,8 +74,7 @@ $$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime\left[x(t)\rig
 $$ dX_t = \mu(X_t,t) dt + \sigma(X_t,t) dW_t $$
 with drift $\mu(X_t,t)$ and diffusion coefficient $D(X_t,t) = \sigma^2(X_t,t)/2$, the Fokker-Planck equation for the probability density $p(x,t)$ of the random variable $X_t$ is
 $$ \pder{t} p(x,t) = - \pder{x} \left[ \mu(x,t) p(x,t) \right] + \pdv[2]{}{x} \left[ D(x,t) p(x,t) \right] $$
-
-\uu{Derivation from the over-damped Langevin equation}\\
+\uu{\tit{Derivation from the over-damped Langevin equation}}\\
 Let $\bb{P}(x,t)$ be the probability density density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
 $$ \dot{x}(t) = -V^\prime(x) + \xi (t) $$
 if $f$ is a function, we have:
@@ -98,9 +99,7 @@ It could be written as $\partial_t \bb{P}(x,t) = - H_{FP} \bb{P}(x,t)$ with $H_{
 \ssc{Salez2015: Elastohydrodynamics of a sliding, spinning and sedimenting cylinder near a soft wall}
 \label{ssc:Thomas}
 
-\textit{arxiv: 1412.0162; Journal of Fluid Mechanics, 779 181 (2015)}
-
-This article describes the sedimentation, sliding, and spinning motions of a cylinder near a thin compressible elastic wall by thin-film lubrication dynamics. Below is the illustration. 
+\tit{Here we look at Thomas' publication (arxiv: 1412.0162) on Journal of Fluid Mechanics, 779 181 (2015). This article describes the sedimentation, sliding, and spinning motions of a cylinder near a thin compressible elastic wall by thin-film lubrication dynamics. Below is the illustration: } 
 % We consider the motion of a fluid-immersed negatively buoyant particle in the vicinity of a thin compressible elastic wall, a situation that arises in a variety of technological and natural settings. We use scaling arguments to establish different regimes of sliding, and complement these estimates us- ing thin-film lubrication dynamics to determine an asymptotic theory for the sedimentation, sliding, and spinning motions of a cylinder. The resulting theory takes the form of three coupled nonlinear singular-differential equations. Numerical integration of the resulting equations confirms our scaling relations and further yields a range of unexpected behaviours. 
 
 \begin{center}
@@ -202,7 +201,14 @@ Putting this together we find \tit{(from eq. \ref{David.24}) with all $\Gamma_{\
 \end{align} \tlag{David.26} \eeq
 
 
-\ssc{New Coefficients: $\lambda_{\alpha\beta}, \Gamma_{\alpha\beta\gamma}$ in 3D ($\Delta, X, \Theta$)}
+\sct{Further Analyses}
+Generally, the Brownian motion would furnish the following equation:
+$$ dv = \frac{f(t)}{m} dt - \gamma v dt + \sqrt{\frac{2\gamma}{\beta m}} dW(t) $$
+where $f(t)$ contains the external forces, $\gamma$ would be a matrix rather than a constant for $v$ is a velocity vector, the last term shows the random force.
+
+In this section, we would first consider the second derivatives in Thomas' results, updating the $\gamma$ matrix; then consider the effective "mass" on different directions ($\Delta, X, \Theta$), showing $\frac{1}{m}$ as an inverse matrix; finally one numerical procedure to simulate the Langevin equation.
+
+\ssc{New $\lambda_{\alpha\beta}, \Gamma_{\alpha\beta\gamma}$ in 3D ($\Delta, X, \Theta$)}
 In this part, we would renew coefficients for the motion in 3D ($\Delta, X, \Theta$). Based on the previous subsection, we could repeat the calculation by Fokker-Planck operator, finding the similar results with additional terms about $\Theta$.
 
 For the sake of convenience, we re-write Thomas'  differential equations (see subsection \ref{ssc:Thomas}) with $\dot{v}_i$, (and $X$ refers to $X_G$)
@@ -219,7 +225,7 @@ Therefore, we have to find the proper expression for each $\dot{v}_i$.
 
 Consider the second derivative in the eq. \ref{Salez2015.51}, 
 \beq \ddot{\Delta} + a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_5 \frac{\ddot\Delta}{\Delta^{7/2}} + a_6 = 0 \tlag{Yilin.2} \eeq
-\beq \ddot\Delta = (a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_6) \times \frac{-1}{1 + a_5 / \Delta^{7/2}} \tlag{Yilin.3} \eeq
+\beq \ddot\Delta = \left( a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_6 \right) \times \frac{-1}{1 + a_5 / \Delta^{7/2}} \tlag{Yilin.3} \eeq
 We know that $a_1 = \xi$, $a_2 = \frac{21\kappa\xi}{4}$, $a_3 = -\frac{\kappa\xi}{4}$, $a_4 = \frac{\kappa\xi}{2}$, $a_5 = -\frac{15\kappa\xi}{8}$, $a_6 = \cos(\alpha=0) = 1$. After simple calculation, we could obtain $\dot{v}_\Delta$ ($\dot{v}_z$) namely $\ddot\Delta$
 
 
@@ -240,8 +246,8 @@ Similarly, we write the eqs \ref{Salez2015.50} and \ref{Salez2015.52} as
 \beq \textcolor{red}{\ddot{X}} + b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + b_6 = 0 \tlag{Yilin.5} \eeq
 \beq \textcolor{blue}{\ddot{\Theta}} + c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 = 0 \tlag{Yilin.6} \eeq
 with all coefficients we need: $b_1 = \frac{2\veps\xi}{3}$, $b_2 = \frac{19\kappa\xi\veps}{24}$, $b_3 = - \frac{\kappa\xi\veps}{6}$, $b_4 = \frac{\kappa\xi\veps}{12}$, $b_5 = - \frac{\kappa\xi\veps}{12}$, $b_6 = \sin(\alpha = 0) = 0$; and $c_1 = \frac{4\veps\xi}{3}$, $c_2 = \frac{19\kappa\xi\veps}{12}$, $c_3 = - \frac{\kappa\xi\veps}{3}$, $c_4 = \frac{\kappa\xi\veps}{6}$, $c_5 = - \frac{\kappa\xi\veps}{6}$, $c_6 = 0$. For this system of linear equations, the coefficient matrix has full rank.
-$$ \left(\begin{array}{cc}1+(b_5) & (b_4) \\(c_4) & 1+(c_5)\end{array}\right) \left(\begin{array}{cc}\ddot{X} \\ \ddot\Theta  \end{array}\right) = \left(\begin{array}{cc} (b_1+b_2+b_3+b_6) \\ (c_1+c_2+c_3+c_6) \end{array}\right) $$
-Then we could solve $\ddot{X}=\dot{v}_X$ and $\ddot\Theta = \dot{v}_\Theta$ directly 
+$$ \left( \begin{array}{cc} 1 + (b_5) & (b_4) \\(c_4) & 1+(c_5)\end{array} \right) \left(\begin{array}{cc}\ddot{X} \\ \ddot\Theta  \end{array}\right) = \left(\begin{array}{cc} (b_1+b_2+b_3+b_6) \\ (c_1+c_2+c_3+c_6) \end{array}\right) $$
+Then we could solve $\ddot{X}=\dot{v}_X$ and $\ddot\Theta = \dot{v}_\Theta$ directly %mark
 %\beq \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0  \tlag{Salez2015.51} \eeq
 %\beq \ddot{\Theta} + \frac{4\veps\xi}{3} \frac{\dot\Theta}{\sqrt\Delta} + \frac{\kappa \veps \xi}{3} \left[ \frac{19}{4} \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} - \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot{X}_G - \ddot\Theta}{\Delta^{5/2}} \right] = 0 \tlag{Salez2015.52} \eeq
 \beq \bgn
@@ -271,7 +277,7 @@ As for $\Gamma_{\alpha\beta\gamma}$, we should resolve them by
 \beq 2\Lambda_{\alpha\beta\gamma} = \rm{Coefficient}[ U_\alpha , v_\beta v_\gamma ] = \Gamma_{\alpha\beta\gamma} + \Gamma_{\alpha\gamma\beta} \tlag{Yilin.12} \eeq
 as well as the constraint $\Gamma_{\alpha\beta\gamma} = \Gamma_{\beta\alpha\gamma}$.
 
-After some calculations with the help of \textit{Mathematica}, we list all $\lambda_{\alpha\beta}$ 
+After some calculations verified by \textit{Mathematica}, we list all $\lambda_{\alpha\beta}$ 
 
 \beq \begin{align}
 \lambda_{\text{zz}} &= \noindent\(\frac{8 \Delta ^2 \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }\) \\
@@ -307,7 +313,7 @@ and then $\Gamma_{\alpha\beta\gamma}$
 
 
 
-\ssc{$\gamma_{\alpha\beta}$ and linear approximation of $\kappa$}
+\ssc{$\gamma_{\alpha\beta}$ and linear approximation of $\kappa$} \label{gamma}
 Since $\gamma_{\alpha\beta} = \lambda_{\alpha\beta} + \Gamma_{\alpha\beta\gamma} V_\gamma$, we have 
 
 
@@ -364,7 +370,7 @@ v_z+\frac{19 \epsilon  \kappa  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi
 \xi ^3}{36 \Delta ^{11/2}}+\frac{\left(-15+\Delta  \epsilon ^2\right) \xi ^2 v_z}{32 \Delta ^7}\right) \kappa ^2+O[\kappa ]^3\)
 \end{align} \tlag{Yilin.27} \eeq
 
-Finally, we have obtained the all components of $\gamma_{\alpha\beta}$.
+As we could see, $\gamma_{\alpha\beta}$ is a symmetric matrix. %Finally, we have obtained the all components of $\gamma_{\alpha\beta}$.
 $$ \noindent\(\pmb{\gamma _{\text{}}=\left(
 \begin{array}{ccc}
  \gamma _{\text{zz}} & \gamma _{\text{zx}} & \gamma _{\text{z$\theta $}} \\
@@ -372,25 +378,33 @@ $$ \noindent\(\pmb{\gamma _{\text{}}=\left(
  \gamma _{\text{$\theta $z}} & \gamma _{\text{$\theta $x}} & \gamma _{\theta \theta } \\
 \end{array}
 \right)}\) $$
-As we could see, this is a symmetric matrix. In addition, only three diagonal elements, namely $\gamma_{zz}, \gamma_{xx}, \gamma_{\theta\theta}$ have zero-order term of $\kappa$, which describes the compliance. In genenral, this parameter is about $10^{-4} \sim 10^{-3}$. Hence we just consider the first-order correction in the following calculations. \\
+In addition, only three diagonal elements, namely $\gamma_{zz}, \gamma_{xx}, \gamma_{\theta\theta}$ have zero-order term of $\kappa$, which describes the compliance. In genenral, this parameter is about $10^{-4} \sim 10^{-3}$. %Hence we just consider the first-order correction in the following calculations. \\
+Right now, we could write the equation of motion as:
+%Up to now, we have elucidated the drift force. Indeed, there exist the external potential (like gravity) and white noises at the same time.
+\beq \dot{v}_i = \frac{F_i}{m} - \gamma_{ij} v_j + \eta_i \tlag{Yilin.28} \eeq
+where $F_i$ contains the force due to external potentials (gravity and buoyant force), as well as the spurious drift force, which originates from the derivative of $\gamma_{\alpha\beta}$, equal to $\pder[\gamma_{\alpha\beta}]{v_\beta} = \Gamma_{\alpha\beta\beta}$. See eqs \ref{Yilin.16}, we could easily obtain non-zero components:
+$$ \bgn
+\pder[\gamma_{zz}]{v_z} &= \Gamma_{zzz} = \frac{42 \kappa  \xi }{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi } \approx \frac{21 \kappa  \xi }{4 \Delta ^{9/2}}+\frac{315 \kappa ^2 \xi ^2}{32 \Delta ^8} \\ 
+\pder[\gamma_{zx}]{v_x} &= \Gamma_{zxx} = \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
+\pder[\gamma_{z\theta}]{v_\theta} &= \Gamma_{z\theta\theta} = \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
+\end{align} $$
+Other $\Gamma_{\alpha\beta\beta}$s are all equal to 0. Thus there is only a spurious force on $\Delta$ direction.
+%$$ \dv{t} \left(\begin{array}{c}v_Z \\v_X \\v_\Theta \end{array}\right) = M^{-1} \left(\begin{array}{c} F_{1hZ} - \nabla_Z \phi \\F_{1hX} \\F_{1h\Theta}\end{array}\right) + T \left(\begin{array}{c}\Gamma_{Z\beta\beta} \\\Gamma_{X\beta\beta}=0 \\\Gamma_{\Theta\beta\beta}=0\end{array}\right) + \left(\begin{array}{c}\eta_Z \\\eta_X \\\eta_\Theta\end{array}\right)$$
 
-Up to now, we have elucidated the drift force. Indeed, there exist the external potential (like gravity) and white noises at the same time.
-\beq \dot{v}_i = F_i + TF^{drift}_i + \eta_i \tlag{Yilin.28} \eeq
-Since three components are coupled with each other, the equation would turn to (For the spurious force, see subsection \ref{sdrift} )
-\beq \left(\begin{array}{c}\dot{v}_\Delta \\\dot{v}_X \\\dot{v}_\Theta\end{array}\right) = - \left(
+To be exact: 
+%Since three components are coupled with each other, the equation would turn to (For the spurious force, see subsection \ref{sdrift} )
+\beq \left(\begin{array}{c}\dot{v}_\Delta \\\dot{v}_X \\\dot{v}_\Theta\end{array}\right) = \left(\begin{array}{c}F_\Delta \\ F_X \\ F_\Theta\end{array}\right) - \left(
 \begin{array}{ccc}
  \gamma _{\text{zz}} & \gamma _{\text{zx}} & \gamma _{\text{z$\theta $}} \\
  \gamma _{\text{xz}} & \gamma _{\text{xx}} & \gamma _{\text{x$\theta $}} \\
  \gamma _{\text{$\theta $z}} & \gamma _{\text{$\theta $x}} & \gamma _{\theta \theta } \\
 \end{array}
 \right)\left(\begin{array}{c}v_\Delta \\v_X \\v_\Theta\end{array}\right) + \left(\begin{array}{c}\eta_\Delta \\\eta_X \\\eta_\Theta\end{array}\right) \tlag{Yilin.29} \eeq
-where the noise correlator has been shown in the eq. \ref{David.25}: 
+As for the noise correlator, it has been shown in the eq. \ref{David.25}: 
 $$\llang \eta_\alpha (t) \eta_\beta(t^\prime) \rrang = 2T \gamma_{\alpha \beta} \delta(t-t^\prime) = 2T \left[ \lambda_{\alpha\beta}(\mathbf{X}) + \Gamma_{\alpha\beta\gamma}(\mathbf{X}) V_\gamma \right] \delta(t-t^\prime)$$
-So we'd like to find the expression of $\gamma^{1/2}$.
-
-Suppose that 
+So we'd like to find the expression of $\gamma^{1/2}$. Suppose that 
 \beq \gamma = \Psi + \kappa \Phi + O[\kappa]^2 \tlag{Yilin.30} \eeq
-where $\Psi$ is zero-order matrix of $\kappa $, and $\Phi $ the first-order one. So $\gamma^{1/2}$ would show a form such as $\gamma^{1/2} \approx \psi + \kappa\chi$, 
+where $\Psi$ is zero-order matrix of $\kappa $, and $\Phi $ the first-order one. Also, $\gamma^{1/2}$ show a form such as $\gamma^{1/2} \approx \psi + \kappa\chi$, 
 $$ \gamma = \gamma^{1/2}\gamma^{1/2} = (\psi + \kappa\chi)(\psi + \kappa\chi) = \psi\psi + \kappa (\psi\chi + \chi\psi) + O[\kappa ]^2$$
 we have $\Phi=\chi \psi +\psi \chi$, and \(\psi =\sqrt{\Psi }\). Note $\Psi$ is a symmetric matrix and all non-diagonal elements are equal to 0.
 \beq \(\Psi =\left(
@@ -419,48 +433,46 @@ and non-diagonal elements
 
 
 \ssc{Mass vector}
-In the previous parts, we always regarded the mass as 1. To be exact, the masses we would use in the Newtonian equation should be carefully distinguished. For $z,x$ components, $m_\alpha = m$ namely the mass of the column. However, for $\Theta$ one, $m_\alpha = mr^2 /2$ refers to the moment of inertia. Taking that into account, we compare these two versions (Note we re-write $U_\alpha$ as $F_\alpha$ on the left side)
+We always regarded the mass as 1 in the previous parts, while it should be carefully distinguished later. For $z,x$ components, $m_\alpha = m = \pi r^2 \rho$ namely the mass of the column (per unit length). However, $m_\Theta = mr^2 /2$ refers to the moment of inertia. Taking that into account, we compare these two versions (Note we re-write $U_\alpha$ as $F_\alpha$ on the left side)
 
 \begin{center}
 \begin{tabular}{c|c}
+\hline
 $m_\alpha = 1$ & $m_\alpha = (m,m,mr^2/2)$ \\
 \hline
 $dX_\alpha = V_\alpha dt$ & $\dot{x}_\alpha = v_\alpha \\
 $dV_\alpha = - F_\alpha dt - \nabla_\alpha \phi(\mathbf{X}) dt$ & $m_\alpha \cdot \dot{v}_\alpha = F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) - \nabla_\alpha \phi(\bbf{x})$ \\
-$$ & $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $ \\
-$$ & $M_{\alpha\beta} = \delta_{\alpha\beta} m_\alpha - F_{2h\alpha\beta}(\bbf{x})$ \\
-$$ & $M_{\alpha\beta} \dot{v}_\alpha = F_{1h\beta}(\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) $ \\
-$P_{eq} (\mathbf{X},\mathbf{V}) = \frac{1}{\bar{Z}} \exp \left( - \frac{\beta \mathbf{V}^2}{2} - \beta \phi(\mathbf{X}) \right)$ & $P_0 = \exp \left[ -\beta \sum_\alpha \frac{m_\alpha}{2} v_\alpha^2 - \beta \phi(\bbf{x}) \right] $ \\
-$\frac{dV_\alpha}{dt} = -F_\alpha - \pder[\phi(\mathbf{X})]{X_\alpha} + T \pder[\gamma_{\alpha\beta}]{V_\beta} + \eta_\alpha(t)$ & $\dot{v}_\alpha (t) = M_{\alpha\beta}^{-1} \left[ F_{1h\beta} (\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) \right] + TU_\alpha + \eta_\alpha $ \\
+$F_\alpha = \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta} V_\beta + \Gamma_{\alpha\beta\gamma} V_\beta V_\gamma$ & $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $ \\
+$$ & $M_{\alpha\beta} = \delta_{\alpha\beta} \cdot m_\alpha - F_{2h\alpha\beta}(\bbf{x})$ \\
+$$ & $M_{\alpha\beta} \dot{v}_\beta = F_{1h\alpha}(\bbf{v},\bbf{x}) - \nabla_\alpha \phi(\bbf{x}) $ \\
+%$P_{eq} (\mathbf{X},\mathbf{V}) = \frac{1}{\bar{Z}} \exp \left( - \frac{\beta \mathbf{V}^2}{2} - \beta \phi(\mathbf{X}) \right)$ & $P_0 = \exp \left[ -\beta \sum_\alpha \frac{m_\alpha}{2} v_\alpha^2 - \beta \phi(\bbf{x}) \right] $ \\
+%$\frac{dV_\alpha}{dt} = -F_\alpha - \pder[\phi(\mathbf{X})]{X_\alpha} + T \pder[\gamma_{\alpha\beta}]{V_\beta} + \eta_\alpha(t)$ & $\dot{v}_\alpha (t) = M_{\alpha\beta}^{-1} \left[ F_{1h\beta} (\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) \right] + TU_\alpha + \eta_\alpha $ \\
 %$\pder[P]{t} = \pder{V_\alpha} \left[ T \gamma_{\alpha\beta} \pder[P]{V_\beta} + U_\alpha P + \pder[\phi]{X_\alpha} P \right] - \pder{X_\alpha} V_\alpha P$ & $\pder{v_\alpha} \left\{ T \gamma_{\alpha\beta} \pder[P]{v_\alpha} - \left[ M_{\alpha\beta}^{-1} \left( F_{1h\beta}(\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) \right) - TU_\alpha \right] P \right\} - \pder{x_\alpha} (v_\alpha P)$ \\
-$F_\alpha = \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta} V_\beta + \Gamma_{\alpha\beta\gamma} V_\beta V_\gamma$ & $\beta v_\alpha \nabla_\alpha \phi P + \nabla_\beta \phi(\bbf{x}) \pder{v_\alpha} \left[ M_{\alpha\beta}^{-1} P \right] = 0 $ \\
+%$F_\alpha = \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta} V_\beta + \Gamma_{\alpha\beta\gamma} V_\beta V_\gamma$ & $\beta v_\alpha \nabla_\alpha \phi P + \nabla_\beta \phi(\bbf{x}) \pder{v_\alpha} \left[ M_{\alpha\beta}^{-1} P \right] = 0 $ \\
+\hline
 \end{tabular}
 \end{center}
 
-According to the relation $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $, we could extract $F_{1h\alpha}(\bbf{v},\bbf{x})$ and $F_{2h\alpha\beta}(\bbf{x})$ by 
-
-
-Along the perpendicular direction, 
-\beq - \frac{F_{hZ}}{m_Z} = - v_z = - \ddot{\Delta} = a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_5 \frac{\ddot\Delta}{\Delta^{7/2}} + a_6 = 0 \tlag{Yilin.34} \eeq
+Since $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $, we could extract $F_{1h\alpha}(\bbf{v},\bbf{x})$ and $F_{2h\alpha\beta}(\bbf{x})$ by %Along the perpendicular direction, 
+\beq - \frac{F_{hZ}}{m_Z} = - \dot{v}_z = - \ddot{\Delta} = a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_5 \frac{\ddot\Delta}{\Delta^{7/2}} + a_6 \tlag{Yilin.34} \eeq
 thus
 \beq \bgn
 F_{1hZ} &= -m_Z \left( a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_6 \right) \\
 F_{2hZZ} &= - \frac{m_Z a_5}{\Delta^{7/2}} \tens F_{2hZX} = 0 \tens F_{2hZ\Theta} = 0
 \end{align} \tlag{Yilin.35} \eeq
-
 Similarly, there are cross terms for $X, \Theta$ components
-\beq - \frac{F_{hX}}{m_X} = - v_x = - \textcolor{red}{\ddot{X}} = b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + b_6 \tlag{Yilin.36} \eeq
+\beq - \frac{F_{hX}}{m_X} = - \dot{v}_x = - \textcolor{red}{\ddot{X}} = b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + b_6 \tlag{Yilin.36} \eeq
 \beq \bgn
 F_{1hX} &= -m_X \left( b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_6 \right) \\
 F_{2hXZ} &=0 \tens F_{2hXX} = - \frac{m_X b_5}{\Delta^{5/2}} \tens F_{2hX\Theta} = - \frac{m_X b_4}{\Delta^{5/2}}
 \end{align} \tlag{Yilin.37} \eeq
 and
-\beq - \frac{F_{h\Theta}}{m_\Theta} = - v_\theta = - \textcolor{blue}{\ddot{\Theta}} = c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 \tlag{Yilin.38} \eeq
+\beq - \frac{F_{h\Theta}}{m_\Theta} = - \dot{v}_\theta = - \textcolor{blue}{\ddot{\Theta}} = c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 \tlag{Yilin.38} \eeq
 \beq \bgn
 F_{1h\Theta} &= -m_\Theta \left( c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_6 \right) \\
 F_{2h\Theta Z} &=0 \tens F_{2h\Theta X} = - \frac{m_\Theta c_4}{\Delta^{5/2}} \tens F_{2h\Theta\Theta} = - \frac{m_\Theta c_5}{\Delta^{5/2}}
 \end{align} \tlag{Yilin.39} \eeq
-Since $M_{\alpha\beta} = \delta_{\alpha\beta} m_\alpha - F_{2h\alpha\beta}(\bbf{x})$, hence ($m_X = m, m_\Theta = IR^2/2$) 
+We pose that $M_{\alpha\beta} = \delta_{\alpha\beta} m_\alpha - F_{2h\alpha\beta}(\bbf{x})$, hence ($m_X = m, m_\Theta = m r^2/2$) 
 \beq \bgn
 M_{ZZ} &= m_Z + \frac{m_Z a_5}{\Delta^{5/2}} \\
 M_{XX} &= m_X + \frac{m_X b_5}{\Delta^{5/2}} \tens M_{X\Theta} = \frac{m_X b_4}{\Delta^{5/2}} \\
@@ -491,36 +503,87 @@ with the approximation expressed by the series of $\kappa$:
 \end{array}
 \right) \tlag{Yilin.43} \eeq
 Only taking the first-order correction, we could verify
-$$ M \cdot M^{-1}_{app} = \left(
-\begin{array}{ccc}
- 1-\frac{225 \kappa ^2 \xi ^2}{64 \Delta ^5} & 0 & 0 \\
- 0 & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{48 \Delta ^5} & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_X}{48 \Delta ^5 m_{\theta }} \\
- 0 & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_{\theta }}{24 \Delta ^5 m_X} & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{24 \Delta ^5} \\
-\end{array}
-\right) \approx \left(\begin{array}{ccc}1 & 0 & 0 \\0 & 1 & 0 \\0 & 0 & 1\end{array}\right)$$
-Or taking the second-order term, we would get
-$$ M \cdot M^{-1}_{app} = \left(
-\begin{array}{ccc}
- 1-\frac{3375 \kappa ^3 \xi ^3}{512 \Delta ^{15/2}} & 0 & 0 \\
- 0 & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{192 \Delta ^{15/2}} & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_X}{192 \Delta ^{15/2} m_{\theta }} \\
- 0 & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_{\theta }}{96 \Delta ^{15/2} m_X} & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{96 \Delta ^{15/2}} \\
-\end{array}
-\right) \approx \left(\begin{array}{ccc}1 & 0 & 0 \\0 & 1 & 0 \\0 & 0 & 1\end{array}\right)$$
+$$ M \cdot M^{-1}_{app} = \left( \begin{array}{ccc} 1-\frac{225 \kappa ^2 \xi ^2}{64 \Delta ^5} & 0 & 0 \\ 0 & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{48 \Delta ^5} & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_X}{48 \Delta ^5 m_{\theta }} \\ 0 & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_{\theta }}{24 \Delta ^5 m_X} & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{24 \Delta ^5} \\ \end{array} \right) \approx \left(\begin{array}{ccc}1 & 0 & 0 \\0 & 1 & 0 \\0 & 0 & 1\end{array}\right)$$
+% Or taking the second-order term, we would get
+%$$ M \cdot M^{-1}_{app} = \left( \begin{array}{ccc} 1-\frac{3375 \kappa ^3 \xi ^3}{512 \Delta ^{15/2}} & 0 & 0 \\ 0 & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{192 \Delta ^{15/2}} & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_X}{192 \Delta ^{15/2} m_{\theta }} \\ 0 & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_{\theta }}{96 \Delta ^{15/2} m_X} & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{96 \Delta ^{15/2}} \\ \end{array} \right) \approx \left(\begin{array}{ccc}1 & 0 & 0 \\0 & 1 & 0 \\0 & 0 & 1\end{array}\right)$$
 
 
 
-\ssc{Spurious drift} \label{sdrift}
-The spurious drift originates from the derivative of $\gamma_{\alpha\beta}$. To be exact, it is equal to $\pder[\gamma_{\alpha\beta}]{v_\beta} = \Gamma_{\alpha\beta\beta}$. We could easily obtain non-zero components: (See eqs \ref{Yilin.16})
-$$ \bgn
-\pder[\gamma_{zz}]{v_z} &= \frac{42 \kappa  \xi }{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi } \approx \frac{21 \kappa  \xi }{4 \Delta ^{9/2}}+\frac{315 \kappa ^2 \xi ^2}{32 \Delta ^8} \\ 
-\pder[\gamma_{zx}]{v_x} &= \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
-\pder[\gamma_{z\theta}]{v_\theta} &= \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
+
+
+
+
+%\newpage
+\sct{Numerical Practice}
+\ssc{JPCB2014: Discrete-Time Langevin Integration}
+\tit{J. Phys. Chem. B, 2014, 118, 6466-6474, one article about Discrete-Time Langevin Integration. For multiple dimensions, see its Support Information:}\\
+https://pubs.acs.org/doi/suppl/10.1021/jp411770f/suppl\_file/jp411770f\_si\_001.pdf
+
+Consider a Langevin equation
+$$ dv = \frac{f(t)}{m} dt - \gamma v dt + \sqrt{\frac{2\gamma}{\beta m}} dW(t) $$
+we have 
+\begin{itemize}
+  \item Ornstein-Uehlenbeck operator for stochastic thermalization: $\scr{L}_o = -\gamma \pder{v} v - \frac{\gamma}{\beta m} \pdv[2]{}{x}$
+  \item Deterministic Newtonian evolutions: $\scr{L}_v = \frac{f}{m}$, $\scr{L}_r = v \pder{r}$
+  \item Hamiltonian: $\exp(\scr{L}_h \Delta t) \scr{H}(n) = \scr{H}(n+1)$
+\end{itemize}
+where $n$ is the time step index and $t=n\Delta t$.
+
+For this operator splitting, a single update step that advances the simulation clock by $\Delta t$ is given explicitly by
+$$ \agn{
+& \bbf{v}\left( n+ \frac{1}{4}\right) = \sqrt{a} \cdot \bbf{v}(n) + \left[ \frac{1}{\beta} (\bbf{1} - \bbf{a}) \cdot \bbf{m}^{-1} \right]^{1/2} \cdot \bbf{N}^{+} (n) \\
+& \fives \bbf{v} \left( n+ \frac{1}{2}\right) = \bbf{v} \left( n+ \frac{1}{4}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{m}^{-1} \cdot \bbf{f}(n) \\
+& \fives \fives \bbf{r} \left( n+ \frac{1}{2}\right) = \bbf{r}(n) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{v} \left( n+ \frac{1}{2}\right) \\
+& \fives \fives \fives \scr{H}(n) \to \scr{H}(n+1) \\
+& \fives \fives \bbf{r} \left( n+1\right) = \bbf{r} \left( n+ \frac{1}{2}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{v} \left( n+ \frac{1}{2}\right) \\
+& \fives v\left( n+ \frac{3}{4}\right) = v\left( n+ \frac{1}{2}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{m}^{-1} \cdot \bbf{f}(n+1) \\
+& \bbf{v}\left( n+1 \right) = \sqrt{a} \cdot \bbf{v}\left( n+ \frac{3}{4}\right) + \left[ \frac{1}{\beta} (\bbf{1} - \bbf{a}) \cdot \bbf{m}^{-1} \right]^{1/2} \cdot \bbf{N}^{-} (n+1) \\
+} $$
+where $a_{ij} = \delta_{ij} \exp(-\gamma_i \Delta t)$, $\scr{N}^\pm$ are independent normally distributed random variables with zero mean and unit variance, $b_{ij} = \delta_{ij} \sqrt{\frac{2}{\gamma_i \Delta t} \tanh \frac{\gamma_i \Delta t}{2}}$
+
+
+
+\ssc{Update $\gamma_\rm{eff}}
+We have obtained the $\gamma$ matrix in the subsection \ref{gamma}, without mass vector. Here we update the effective matrix $\gamma_\mrm{eff}$ with $M^{-1}$, starting from 
+$$ \begin{align}
+m_\al \cdot \dot{v}_\al &= F_\al (t) - m_\alpha \cdot \gamma_{\alpha\beta} v_\bt = \left[ F_{1\al}(\bbf{x}) + F_{2\ab}(\bbf{x}) \dot{v}_\bt \right] - m_\al \cdot \gamma_{\ab} v_\bt \\
+m_{\al} \cdot \dot{v}_\al &- F_{2\ab}(\bbf{x}) \dot{v}_\bt = \left( m_\al \cdot \delta_{\ab} - F_{2\ab}(\bbf{x}) \right) \dot{v}_\beta = F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \\
+\dot{v}_\bt &= \left( m_\al \cdot \delta_{\ab} - F_{2\ab}(\bbf{x}) \right)^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right) = M_{\ab}^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right)
 \end{align} $$
+Note that the $\gamma$ matrix above only contains terms about first derivatives %does not contain coefficients $(a/b/c)_{5/6}$
+$$ \agn{
+\gamma_{Z\beta} v_\beta &= a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}}\\
+\gamma_{X\beta} v_\beta &= b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} \\
+\gamma_{\Theta\beta} v_\beta &= c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} 
+} $$
+To avoid the possible confusion, we write $\gamma^\ast$ below. Consider $dv = \frac{f(t)}{m} dt - \gamma v dt + \sqrt{\frac{2\gamma}{\beta m}} dW $, we have $\gamma_\mrm{eff}$ :
+\eq{\gamma_\mrm{eff} = M_{\ab}^{-1} \cdot \left(\begin{array}{ccc}m_Z & 0 & 0 \\0 & m_X & 0 \\0 & 0 & m_\Theta \end{array}\right) \cdot \gamma^\ast_{\ab} \tlag{Yilin.44} }
+Surprisingly, we recover almost the same $\gamma_{\ab}$ shown previously
+$$ \agn{
+\gamma_{\mrm{eff},zz} &= \frac{\xi }{\Delta ^{3/2}} +\kappa  \left(\frac{15 \xi ^2}{8 \Delta ^4}+\frac{21 \xi  v_z}{4 \Delta ^{9/2}}\right) +O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},xx} &= \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(4 \sqrt{\Delta } \xi  \epsilon ^2+18 v_z+57 \epsilon  v_{\theta }\right)}{72 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},\theta\theta} &= \frac{4 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(8 \sqrt{\Delta } \xi  \epsilon ^2+57 \epsilon  v_z+9 v_z\right)}{36 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},zx} &= \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_X\right)}{12 \Delta ^{7/2}} + O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},z\theta} &= -\frac{\kappa  \left(\xi  \left(3 v_{\theta }+(\epsilon -3) v_X\right)\right)}{12 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},x\theta} &= -\frac{\kappa  \left(\xi  \left(16 \Delta ^3 \xi  \epsilon ^2+36 \Delta ^{5/2} (\epsilon +1) v_z\right)\right)}{144 \Delta ^6}+O\left(\kappa ^2\right)
+} $$
 
 
 
-\newpage
-\section{Numerical modeling}
+
+\ssc{Possible modification}
+Here we consider the following approaches for the sake of better numerical practices
+\begin{itemize}
+  \item Solve Langevin equation numerically or solve Fokker-Planck equation directly;
+  \item Add second derivatives or not; ($b_4 = b_5 = c_4 = c_5 = 0$)
+  \item Ignore rotation and fix $\Theta = 0$
+  \item Modify Gaussian random force with "Heaviside" function or not; to avoid sudden collapse $z<0$
+  \item How to determine the initial $z$ value near the equilibrium position;
+  \item Add Coulomb interaction or not; ($\frac{Q^2}{4\pi\veps z} \exp(-\lambda_D/z)$)
+  \item Diagonalize M matrix or not? physical meaning?
+  \item Consider $\kappa$ correction to which order?
+\end{itemize}
+
 
 
 \nocite{EINAV2010,Havrylchyk2018} 
