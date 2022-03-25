@@ -1,1 +1,0 @@
-All .nb files used for Mathematica would be stored in this folder.
