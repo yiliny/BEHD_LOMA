@@ -1,0 +1,106 @@
+%!TEX program = pdflatex
+\documentclass[article,12pt]{elegantpaper}
+\usepackage{physics}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{mathrsfs}
+%\usepackage{graphics}
+\usepackage{cancel} %用于在偏微分符号上画斜线
+\usepackage{ulem} %波浪线, 双下划线
+
+
+\usepackage{xcolor}
+\usepackage{sectsty}
+\definecolor{ChimieBlue}{rgb}{0.282,0.514,0.6}
+\sectionfont{\color{ChimieBlue}}
+\subsectionfont{\color{ChimieBlue}}
+%\subsubsectionfont{\color{ChimieBlue}}
+
+
+\usepackage{newcommand_yye}
+\title{Toy Model on Theta}
+\author{\href{https://yiliny.github.io/yiliny/}{{Yilin YE}}}
+\date{\today} %将时间括号中内容留白，这样编译之后文档中不显示时间。
+
+\begin{document}
+\maketitle
+
+
+
+We wish to consider a simple case only with one variable $\theta$. Suppose that we have the differential equation below:
+\eq{m \ddot{\theta} = -\lambda \dot\theta - k \theta + \eta}  
+where $\eta$ refers to the white noise. If we have $\gamma = \lambda / m$ and $\omega_0^2 = k/m$, then
+\eq{ \dv[2]{\theta}{t} + \gamma \dv{\theta}{t} + \omega_0^2 \theta = \eta}
+After the Fourier transform $\hat\theta(\omega) = \int_{-\infty}^{+\infty} \theta(t) e^{-i\omega t} \mrm{d} t$, we obtain
+\eq{ -\omega^2 \hat\theta(\omega) + i\gamma\omega \hat\theta(\omega) + \omega_0^2 \hat\theta(\omega) = \hat\eta(\omega) }
+thus we solve
+\eq{ \hat\theta(\omega) = \frac{\hat\eta(\omega)}{\omega_0^2 - \omega^2 + i\gamma\omega} }
+By the inverse Fourier transform $\theta(t)= \frac{1}{2\pi} \int_{-\infty}^{+\infty} \hat\theta(\omega) e^{i\omega t} \mrm{d}\omega$, we have the solution as
+\eq{\theta(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{\hat\eta(\omega)}{\omega_0^2 - \omega^2 + i\gamma\omega} e^{i\omega t} \mrm{d}\omega }
+
+If we know the initial condition, for example, $\theta(0) = \phi$, $\dot\theta(0) = \psi$. We could exploit the Laplace transform $\tilde\theta(s) = \int_0^\infty \theta(t) e^{-st} dt$, getting
+\eq{ \left[ s^2 \tilde\theta(s) - s\phi - \psi \right] + \gamma \left[ s\tilde\theta(s) - \phi \right] + \omega_0^2 \tilde\theta(s) = \tilde\eta(s) }
+thus (we write $\gamma = 2\gamma^\ast$ for the sake of convenience)
+\eq{ \agn{ 
+\tilde\theta(s) &= \frac{s\phi + (2\gamma^\ast \phi + \psi) + \tilde\eta(s)}{s^2 + 2\gamma^\ast s + \omega_0^2} \\
+&= \frac{\phi (s + \gamma^\ast)}{(s+\gamma^\ast)^2 + R} + \frac{\gamma^\ast \phi + \psi}{(s + \gamma^\ast)^2 + R} + \frac{\tilde\eta(s)}{(s+\gamma^\ast)^2 + R} }}
+where $R = \omega_0^2 - (\gamma^\ast)^2$. There would be three cases:
+\begin{itemize}
+  \item If $R>0$, then we pose $R=a^2$ and $a=\sqrt{\omega_0^2 - (\gamma^\ast)^2}$. After the inverse Laplace transform, we obtain 
+  \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi \cos(at) + \frac{\gamma^\ast \phi + \psi}{a} \sin(at) \right] + \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau }
+  
+  \item If $R=0$, then $a=0$ and we have
+  \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi + (\gamma^\ast \phi + \psi) t \right] + \int_0^t \eta(\tau) (t - \tau) e^{-\gamma^\ast (t-\tau)} \mrm{d}\tau }
+  
+  \item If $R<0$, then we pose $R=-b^2$ and $b = \sqrt{(\gamma^\ast)^2 - \omega_0^2}$. Due to the imaginary part, $\sin \to \sinh$ and $\cos \to \cosh$
+  \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi \cosh(bt) + \frac{\gamma^\ast \phi + \psi}{b} \sinh(bt) \right] + \frac{1}{b} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sinh\left[ b(t-\tau) \right] \mrm{d}\tau }
+\end{itemize}
+
+
+\hline \ \\
+Suppose that $\phi = \psi = 0$, and $\llang \eta(t) \eta(t^\prime) \rrang = 2B \delta(t-t^\prime)$. Hence for the case $R>0$, we could see
+$$ \theta(t) = \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau $$
+$$ \agn{
+\llang \theta^2(t) \rrang &= \frac{1}{a^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 e^{-\gamma^\ast (t-\tau_1)} \sin\left[ a(t-\tau_1) \right] e^{-\gamma^\ast (t-\tau_2)} \sin\left[ a(t-\tau_2) \right] \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
+&= \frac{1}{a^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sin^2 \left[ a(t-\tau_1) \right] \times 2B \\
+&= \frac{2B}{a^2} \times \frac{e^{-2 \gamma^\ast  t} \left(a^2 \left(e^{2 \gamma^\ast  t}-1\right)+\gamma^\ast ^2 \cos (2 a t)-a \gamma^\ast  \sin (2 a t)-\gamma^\ast ^2\right)}{4 \gamma^\ast  \left(a^2+\gamma^\ast ^2\right)} \\
+&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{a^2} \times \frac{a^2}{4a^2\gamma^\ast+4\gamma^\ast^3} = \frac{B}{2\gamma^\ast(\gamma^\ast^2 + a^2)} = \frac{B}{2 \gamma^\ast \omega_0^2} \sim k_B T
+} $$
+thus we have $\boxed{B \sim 2 k_B T \gamma^\ast \omega_0^2}$
+
+For the case $R<0$, we have the similar result
+$$ \agn{
+\llang \theta^2(t) \rrang &= \frac{1}{b^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 e^{-\gamma^\ast (t-\tau_1)} \sinh\left[ b(t-\tau_1) \right] e^{-\gamma^\ast (t-\tau_2)} \sinh\left[ b(t-\tau_2) \right] \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
+&= \frac{1}{b^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sinh^2 \left[ b(t-\tau_1) \right] \times 2B \\
+&= \frac{2B}{b^2} \times \frac{e^{-2 \gamma^\ast  t} \left(b^2 \left(e^{2 \gamma^\ast  t}-1\right)-\gamma^\ast  (\gamma^\ast  \cosh (2 b t)+b \sinh (2 b t))+\gamma^\ast ^2\right)}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} \\
+&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{b^2} \times \frac{b^2}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} = \frac{B}{2\gamma^\ast(\gamma^\ast^2 - b^2)} = \frac{B}{2 \gamma^\ast \omega_0^2} \sim k_B T
+} $$
+
+
+Then we consider $\llang \dot\theta^2(t) \rrang$. For the case $R>0$, also with $\phi=\psi=0$
+$$ \agn{
+\dot\theta(t) &= \dv{\theta(t)}{t} = \dv{}{t} \left\{ \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau \right\} \\
+%&= \frac{e^{\gamma^\ast  (-t)} \left(-\sin (a t) \left(\phi  \left(a^2+\gamma^\ast ^2\right)+\gamma^\ast  \psi \right)+e^{\gamma^\ast  t} \int_0^t \eta (\tau ) e^{\gamma^\ast  (\tau -t)} (a \cos (a (t-\tau ))-\gamma^\ast  \sin (a (t-\tau ))) \, d\tau +a \psi  \cos (a t)\right)}{a} \\
+&= \frac{1}{a} \int_0^t \eta (\tau ) e^{\gamma^\ast  (\tau -t)} (a \cos (a (t-\tau ))-\gamma^\ast  \sin (a (t-\tau ))) \, d\tau 
+}$$
+
+$$ \agn{
+\llang \dot\theta^2 \rrang &= \frac{1}{a^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 
+e^{\gamma^\ast  (\tau_1 -t)} \left\{ a \cos \left[ a (t-\tau_1 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_1 ) \right] \right\} \\
+&\fives \times e^{\gamma^\ast  (\tau_2 -t)} \left\{ a \cos \left[ a (t-\tau_2 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_2 ) \right] \right\} \times \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
+&= \frac{1}{a^2} \int_0^t \mrm{d} \tau_1 e^{2 \gamma^\ast  (\tau_1 -t)} \left\{ a \cos \left[ a (t-\tau_1 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_1 ) \right] \right\}^2 \times 2B \\
+&= \frac{2B}{a^2} \times \frac{a^2-e^{-2 \gamma  t} \left(a^2-\gamma  (\gamma  \cos (2 a t)+a \sin (2 a t))+\gamma ^2\right)}{4 \gamma } \\
+&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{a^2} \times \frac{a^2}{4 \gamma } = \frac{B}{2\gamma} \sim k_B T
+} $$
+
+
+
+
+
+
+
+
+% $$ \dv{}{t} \llang \theta^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang \dot\theta(0) \dot\theta(\tau) \rrang = 0 $$
+
+
+\end{document}
+
