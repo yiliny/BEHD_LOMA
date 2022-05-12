@@ -1,0 +1,242 @@
+\ssc{Noise correlator amplitude}
+\label{ssc:amp}
+
+Up to now, we have derived the effective friction matrix $\gamma_\rm{eff}$. Next we consider the amplitude of noise correlator. (See details in beginning of Section \ref{BEHD}) So we'd like to find the expression of the square root of $\gamma_\rm{eff}$. 
+%\beq \left(\begin{array}{c}\dot{v}_\Delta \\\dot{v}_X \\\dot{v}_\Theta\end{array}\right) = \left(\begin{array}{c}F_\Delta \\ F_X \\ F_\Theta\end{array}\right) - \left( \begin{array}{ccc} \gamma _{\text{zz}} & \gamma _{\text{zx}} & \gamma _{\text{z$\theta $}} \\ \gamma _{\text{xz}} & \gamma _{\text{xx}} & \gamma _{\text{x$\theta $}} \\ \gamma _{\text{$\theta $z}} & \gamma _{\text{$\theta $x}} & \gamma _{\theta \theta } \\ \end{array} \right)\left(\begin{array}{c}v_\Delta \\v_X \\v_\Theta\end{array}\right) + \left(\begin{array}{c}\eta_\Delta \\\eta_X \\\eta_\Theta\end{array}\right) \label{Yilin.29} \eeq
+%As for the noise correlator, it has been shown in the eq. \ref{David.25}: 
+Suppose that 
+\beq \gamma_{\mrm{eff}} = \Psi + \kappa \Phi + O[\kappa]^2 \label{Yilin.30} \eeq
+where $\Psi$ is zero-order matrix of $\kpa $, $\Psi_i = \mrm{SeriesCoefficients} [\mrm{Series}[\gma_{\mrm{eff},ii},\{\kpa,0,0\} ], 0]$; and $\Phi $ the first-order one, $\Phi_i = \mrm{SeriesCoefficients} [\mrm{Series}[\gma_{\mrm{eff},ij},\{\kpa,0,1\} ], 1]$. We suppose that $\gamma^{1/2}_\mrm{eff}$ shows a similar form such as $\gamma^{1/2}_\mrm{eff} \approx \psi + \kpa\chi$, 
+$$ \gamma_{\mrm{eff}} = \gamma_{\mrm{eff}}^{1/2}\gamma_{\mrm{eff}}^{1/2} = (\psi + \kappa\chi)(\psi + \kappa\chi) = \psi\psi + \kappa (\psi\chi + \chi\psi) + O[\kappa ]^2$$
+we have $\Phi=\chi \psi +\psi \chi$, and \(\psi =\sqrt{\Psi }\). Note $\Psi$ is a symmetric matrix and all non-diagonal elements are equal to 0, namely 
+\beq \(\Psi =\left(
+\begin{array}{ccc}
+ \Psi_z & 0 & 0 \\
+ 0 & \Psi_x & 0 \\
+ 0 & 0 & \Psi_\theta \\
+\end{array}
+\right)\) = \left(\begin{array}{ccc}\frac{\xi }{\Delta ^{3/2}} & 0 & 0 \\0 & \frac{2 \epsilon  \xi }{3 \sqrt{\Delta }} & 0 \\0 & 0 & \frac{4 \epsilon  \xi }{3 \sqrt{\Delta }}\end{array}\right) \label{Yilin.31} \eeq
+Then we could verify that $\chi$ is a symmetric matrix, $\chi_{ij} = \frac{\Phi_{ij}}{\sqrt{\Psi_i} + \sqrt{\Psi_j}}$, with diagonal components as:
+
+\beq 
+\chi_{zz} = \noindent\(\frac{3 \xi  \left(5 \xi +14 \sqrt{\Delta } v_z\right)}{16 \Delta ^5 \sqrt{\frac{\xi }{\Delta ^{3/2}}}}\) \fives
+\chi_{xx} = \noindent\(\frac{\xi  \left(18 v_z+\epsilon  \left(4 \sqrt{\Delta } \epsilon  \xi +57 v_{\theta }\right)\right)}{48 \sqrt{6} \Delta ^{7/2} \sqrt{\frac{\epsilon
+ \xi }{\sqrt{\Delta }}}}\) \fives
+\chi_{\theta\theta} = \noindent\(\frac{\xi  \left(8 \sqrt{\Delta } \epsilon ^2 \xi +(9+57 \epsilon ) v_z\right)}{48 \sqrt{3} \Delta ^{7/2} \sqrt{\frac{\epsilon  \xi }{\sqrt{\Delta
+}}}}\)
+\label{Yilin.32} \eeq
+and non-diagonal elements
+\beq \bgn
+\chi_{zx} = \chi_{xz} &= \noindent\(\frac{\xi  \left(-3 v_X+(3+\epsilon ) v_{\theta }\right)}{4 \Delta ^{7/2} \left(3 \sqrt{\frac{\xi }{\Delta ^{3/2}}}+\sqrt{6} \sqrt{\frac{\epsilon
+ \xi }{\sqrt{\Delta }}}\right)}\) \\
+\chi_{z\theta} = \chi_{\theta z} &= -\frac{\xi \left(3 v_{\theta}+(\epsilon -3) v_X\right)}{4 \Delta ^{7/2} \left(3 \sqrt{\frac{\xi }{\Delta ^{3/2}}}+2 \sqrt{3} \sqrt{\frac{\xi  \epsilon }{\sqrt{\Delta }}}\right)} \\
+\chi_{x\theta} = \chi_{\theta x} &= \noindent\(\frac{\xi  \left(4 \sqrt{\Delta } \epsilon ^2 \xi -9 (1+\epsilon ) v_z\right)}{12 \sqrt{3} \left(2+\sqrt{2}\right) \Delta ^{7/2} \sqrt{\frac{\epsilon
+ \xi }{\sqrt{\Delta }}}}\)
+\end{align} \label{Yilin.33} \eeq
+
+Consider the case without unit mass, we have to calculate the inverse mass matrix as an analogy of $\frac{1}{m}$, hences $\gamma_{\mrm{eff}}^{1/2} \to \llp \gamma_{\mrm{eff}} \cdot M^{-1} \rrp^{1/2}$ as an asymmetric matrix:
+$$ \left( \begin{array}{ccc} \frac{\xi }{\Delta ^{3/2} m_z}+\frac{\kappa  (3 \xi ) \left(\left(5 \sqrt{\Delta }\right) \xi +7 v_z(t)\right)}{\left(4 \Delta ^{9/2}\right) m_z} & -\frac{\kappa  \xi  \left(-3 v_{\theta }(t)+3 v_X(t)-\epsilon  v_{\theta }(t)\right)}{\left(12 \Delta ^{7/2}\right) m_X} & -\frac{\kappa  \xi  \left(3 v_{\theta }(t)+\epsilon  v_X(t)-3 v_X(t)\right)}{\left(12 \Delta ^{7/2}\right) m_{\theta }} \\ -\frac{\kappa  \xi  \left(-3 v_{\theta }(t)+3 v_X(t)-\epsilon  v_{\theta }(t)\right)}{\left(12 \Delta ^{7/2}\right) m_z} & \frac{\xi  (2 \epsilon )}{\left(3 \sqrt{\Delta }\right) m_X}+\frac{\kappa  \xi  \left(\xi  \left(\left(8 \sqrt{\Delta }\right) \epsilon ^2\right)+18 v_z(t)+(57 \epsilon ) v_{\theta }(t)\right)}{\left(72 \Delta ^{7/2}\right) m_X} & \frac{\kappa  \xi  \left(\xi  \left(\left(-288 \Delta ^{11/2}\right) \epsilon ^2\right)-\left(\left(432 \Delta ^5\right) (\epsilon +1)\right) v_z(t)\right)}{\left(1728 \Delta ^{17/2}\right) m_{\theta }} \\ -\frac{\kappa  \xi  \left(3 v_{\theta }(t)+\epsilon  v_X(t)-3 v_X(t)\right)}{\left(12 \Delta ^{7/2}\right) m_z} & \frac{\kappa  \xi  \left(\xi  \left(\left(-288 \Delta ^{11/2}\right) \epsilon ^2\right)-\left(\left(216 \Delta ^5\right) (\epsilon +1)\right) v_z(t)\right)}{\left(864 \Delta ^{17/2}\right) m_X} & \frac{\xi  (4 \epsilon )}{\left(3 \sqrt{\Delta }\right) m_{\theta }}+\frac{\kappa  \xi  \left(\xi  \left(\left(16 \sqrt{\Delta }\right) \epsilon ^2\right)+(57 \epsilon ) v_z(t)+9 v_z(t)\right)}{\left(36 \Delta ^{7/2}\right) m_{\theta }} \\ \end{array} \right) $$
+Even though we could neglect the non-diagonal elements as the cross-correlated noise since $\kpa \ll 1$, we are still motivated to clarify these terms by proper treatment, such as the diagonalisation. However, we could hardly furnish a simple diagonalized matrix, numerical method would be expected. After extracting noise eigenvalues, we exploit the inverse base transform to furnish the exact contribution on each direction. Further discussion see subsection \ref{Discretisation algorithm}.
+
+
+The results seem plausible and enough with the first-order correction of $\kappa$. However, some velocities have been included, which would contribute to Laplace transform. Return to the equation of motion
+\eq{\dot{\bbf{v}}_{3\times1} = - \gamma_{\rm{eff},3\times3} \cdot \bbf{v}_{3\times1} + M^{-1}_{3\times3} \cdot \delta F_{3\times1} }
+and consider the corresponding Laplace transform
+\eq{ \widetilde{\dot{\bbf{v}}}_{3\times1} = - \widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} + \widetilde{M^{-1} \cdot \delta F} }
+Note that it contains velocities in $\gamma_{\mrm{eff}}$ rather than a constant coefficient. We could not extract this friction matrix outside the Laplace transform, while similar for $M^{-1}$. We try the Laplace transform directly on $-\widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}}$, obtaining
+$$ \agn{
+& \left(\begin{array}{c} s\widetilde{v_z}(s)-v_z(0) \\ s\widetilde{v_x}(s)-v_x(0) \\ s\widetilde{v_\theta}(s)-v_\theta(0) \end{array}\right) = \left(\begin{array}{ccc}\frac{2\xi}{8 \Delta ^{9/2}-15 \Delta ^2 \kappa  \xi } & 0 & 0 \\0 & \frac{\xi  \epsilon }{36 \left(4 \Delta ^6-\Delta ^{7/2} \kappa  \xi  \epsilon \right)} & 0 \\0 & 0 & \frac{\xi  \epsilon}{36 \left(4 \Delta ^6-\Delta ^{7/2} \kappa  \xi  \epsilon \right)}\end{array}\right) \cdot \\ % rang1
+& \left(\begin{array}{c}   \left\{ \Delta  \kappa  \left( \widetilde{v_{\theta }^2} - 2 \widetilde{v_{\theta } v_X} \right) + \Delta  \kappa  \widetilde{v_X^2} - 4 \Delta ^3  \widetilde{v_z} - 21 \kappa  \widetilde{ v_z^2 }\right\} \\ 
+ \left\{ 16\Delta^3 (\eps\kappa\xi - 6\Delta^{5/2}) \widetilde{v_x} + \kappa \left[ -4\eps\kappa\xi \widetilde{v_x v_z} + 16\Delta^3 \eps \xi \widetilde{v_\theta} +19 (\eps\kappa\xi-6\Delta^{5/2}) \widetilde{v_x v_\theta} + 3(8\Delta^{5/2} + 5\eps\kappa\xi) \widetilde{v_z v_\theta} \right] \right\}  \\
+ \left(16 \Delta ^3 \kappa  \xi  \epsilon -192 \Delta ^{11/2} \right) \widetilde{v_{\theta }} +16 \Delta ^3 \kappa  \xi  \epsilon  \widetilde{v_X} - 4 \kappa  \left(\kappa  \xi  \epsilon -12 \Delta ^{5/2}\right) \widetilde{v_X v_z}  +19 \kappa ^2 \xi  \epsilon   \widetilde{v_{\theta } v_X} +3 \kappa  \left(5 \kappa  \xi  \epsilon -76 \Delta ^{5/2}\right) \widetilde{v_{\theta } v_z} \end{array}\right) 
+}$$
+
+The Laplace transform of multiplication would be quite complex, since 
+$$ \widetilde{f(t)g(t)}(p) = \frac{1}{2\pi i} \lim_{T \to \infty} \int_{c-iT}^{c+iT} \widetilde{f}(s) \widetilde{g}(p-s) ds $$ 
+The integration is done along the vertical line $\Re(s)=c$ that lies entirely within the region of convergence of $\widetilde{f}$. For example, $f(t) = e^t$ does not possess a convergent Laplace integral if $\Re p>1$ or if $\Re p<1$. The strip of convergence has contracted to a line: the integral converges only where $\Re p=1$, and even then not exactly at $p=1$. We'd like to consider this part after getting the proper formula of $v_i$. For instance, if $f(t) = e^{-\gamma t}$ with $t>0$, we have the convergence strip if $\Re p > - \gamma$, which could be satisfied in our issue if we have a constant $\gamma$.
+
+
+Dissect $\gamma_\rm{eff}$ as $\gamma_{\rm{eff}} = \gamma_{0} + \gamma_{1}$, where $\gamma_0$ is independent on any velocity while $\gamma_1$ not:
+\eq{ \gamma_0 = \left(\begin{array}{ccc} \frac{\xi }{\Delta ^{3/2}} + \frac{15 \kappa \xi ^2}{8 \Delta ^4} & 0 & 0 \\0 & \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }} + \frac{ \kappa  \xi^2  \epsilon ^2}{18 \Delta^3} & -\frac{\kappa \xi^2 \eps^2}{9 \Delta^3} \\0 & -\frac{\kappa \xi^2 \eps^2}{9 \Delta^3} & \frac{4\xi \eps}{3\sqrt{\Delta}} + \frac{2 \kappa \xi^2 \eps^2}{9 \Delta^3} \end{array}\right) }
+\eq{ \gamma_1 = \left(\begin{array}{ccc} \frac{21 \kappa\xi v_z}{4 \Delta ^{9/2}} & \frac{\kxi  \left((\epsilon +3) v_{\theta }-3 v_X\right)}{12 \Delta ^{7/2}} & -\frac{\kxi  \left(3 v_{\theta }+(\epsilon -3) v_X\right)}{12 \Delta ^{7/2}} \\ \frac{\kxi  \left((\epsilon +3) v_{\theta }-3 v_X\right)}{12 \Delta ^{7/2}} & \frac{\kappa\xi (6 v_z + 19 \eps v_\theta)}{24 \Delta^{7/2}} & - \frac{\kappa \xi (\eps+1) v_z}{4 \sqrt{\Delta}} \\ -\frac{\kxi  \left(3 v_{\theta }+(\epsilon -3) v_X\right)}{12 \Delta ^{7/2}} & - \frac{\kappa \xi (\eps+1) v_z}{4 \sqrt{\Delta}} & \frac{\kappa\xi (19 \eps v_z + 3 v_z)}{12 \Delta^{7/2}} \end{array}\right) }
+hence we could separate the transform as $\widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} = \widetilde{\gamma_0 \cdot \bbf{v}} + \widetilde{\gamma_1 \cdot \bbf{v}}$. Suppose that $\gamma_{1,ij} = g_{ij\alpha} v^\alpha$, where $g_{ij\alpha}$ refers to the coefficient of $v_\alpha$ in $\gamma_{1,ij}$, such as $g_{12x} = -\frac{\kxi v_X}{4 \Delta^{7/2}}$. A symmetric $\gamma_{\rm{eff}}$ results in symmetric $\gamma_0$ and $\gamma_1$, so is $g_{ij\alpha}$. In this case, the \tit{i}th component turns to
+$$ (\gamma_{\rm{eff}} \cdot \bbf{v})_i = \gamma_{\mrm{eff},ij} v^j = \left( \gamma_{0,ij} + g_{ij\alpha} v^\alpha \right) v^j $$
+$$ s \widetilde{v}_\mu - v_\mu (0) = -\gamma_{0,\mu\alpha} \cdot \widetilde{v}^\alpha - g_{\mu\ab} (\widetilde{v^\alpha v^\beta}) + \widetilde{M^{-1} \cdot \delta F} $$
+We are inclined to neglect all $g_{\mu\ab} (\widetilde{v^\alpha v^\beta})$ at first, which would be raisonnable for the elastic compliance parameter $\kappa \ll 1$ (about $10^{-4} \sim 10^{-3}$). We return to equations of motion in the 0-order correction of $\kappa$ (see eqs \ref{Salez2015.50} - \ref{Salez2015.52}), obtaining three friction coefficients directly, namely  a diagonal friction matrix: $\gma_{i0} = \gma_{0,ii0}$, where the first 0 refers to $\gma_0$, $ii$ refers to matrix element index, and the second 0 refers to the terms independent on $\kpa$.
+\eq{ \gamma_{z0} = \frac{\xi}{\Delta^{3/2}} \tens \gamma_{x0} = \frac{2 \xi \eps}{3\sqrt{\Delta}} \tens \gamma_{\theta0} = \frac{4 \xi \eps}{3\sqrt{\Delta}} }
+%Follow the similar process of inverse Laplace transform, we simplify the friction matrix as a diagonal one by discarding all terms depending on $\kappa$
+Also, $M^{-1}$ reduces to the diagonal one as the inverse number of original masses, leading to a simple Langevin equation as $\frac{1}{m_i} = M^{-1}_{ii0}$ with the similar notion as $\gma_{\mrm{eff}}$.
+\beq \dot{v}_{i0} = - \gamma_{i} v_{i0} + \frac{\delta F_i}{m_i} \label{Yilin.28} \eeq
+%where $F_i$ contains the force due to external potentials (gravity and buoyant force), as well as the spurious drift force. (See eqs \ref{Yilin.16})
+%$$ \dv{t} \left(\begin{array}{c}v_Z \\v_X \\v_\Theta \end{array}\right) = M^{-1} \left(\begin{array}{c} F_{1hZ} - \nabla_Z \phi \\F_{1hX} \\F_{1h\Theta}\end{array}\right) + T \left(\begin{array}{c}\Gamma_{Z\beta\beta} \\\Gamma_{X\beta\beta}=0 \\\Gamma_{\Theta\beta\beta}=0\end{array}\right) + \left(\begin{array}{c}\eta_Z \\\eta_X \\\eta_\Theta\end{array}\right)$$
+with the solution as
+\eq{ v_{i0}(t) = v_{i0}(0) e^{-\gma_{i0} t} + \int_0^t \mrm{d}\tau \frac{\delta F_i(\tau)}{m_i} \exp\left[-\gma_{i0}(t-\tau)\right] }
+Follow the same process we have done previously, we get the amplitude of noise correlator:
+$$ \llang \delta F_i (\tau_1) \delta F_j(\tau_2) \rrang = 2 k_B T m_i \gamma_{i0} \delta_{ij} \delta(\tau_1 - \tau_2) $$
+
+
+Then we consider the term $g_{\mu\ab} (\wtd{v^\alpha v^\bt})$ with the 0-order $v_i$ expression of $\kappa$ and 1-order coefficients $g_{\mu\ab}$, by the following integration:
+$$ \wtd{v_{i0}^2} = \frac{1}{2\pi i} \int_{c-i\infty}^{c+i\infty} \lls \frac{v_i(0)}{s+\gamma_{0ii0}} + \frac{M^{-1}_{ii0} \wtd{\delta F_i}(s)}{s+\gamma_{0ii0}} \rrs \times \lls \frac{v_i(0)}{p-s+\gamma_{0ii0}} + \frac{M^{-1}_{ii0} \wtd{\delta F_i}(p-s) }{p-s+\gamma_{0ii0}} \rrs \mrm{d}s $$
+where $c>-\gamma_{0ii0}$ for instance we taken $c=0$. Take four terms into account respectively:
+$$ \int_{-i\infty}^{+i\infty} \frac{v_i(0) v_i(0)}{(\gamma_{0ii0}+s) (\gamma_{0ii0}+p-s)} \, ds = \left. \frac{v_i(0)^2 (\log (\gamma_{0ii0}+s)-\log (-\gamma_{0ii0}-p+s))}{2 \gamma_{0ii0}+p} \right\vert_{-\infty}^{+\infty} = 0 $$
+As a bounded function, $\wtd{\delta F_i} < \infty$, thus we could repeat the integration above, yielding other three zero integration. So we ignore all $g_{\mu\ab} (\wtd{v^\alpha v^\bt})$. %(\tit{Pending to verify..})
+
+
+Next, we consider the first-order correction of $\kappa$ in $\gamma_0$. There would be nothing more for $\gamma_{z0}$ than one additional term: $\gamma_{z} = \gma_{z0} \Rightarrow \gamma_{z} = \gamma_{z0} + \gma_{z1} = \frac{\xi}{\Delta^3/2} + \frac{15 \kappa \xi^2}{8 \Delta^4}$. Also, $m_{z} = m_{z0} \Rightarrow m_{z} = m_{z0} + m_{z1}$, $v_z(t) = v_{z0}(t) + v_{z1}(t)$, $\delta F_z(t) = \delta F_{z0}(t) + \delta F_{z1}(t)$, where $1$ always refers to the first-order correction of $\kpa$. Consider Laplace transform again toward $\kpa$ correction on order 1:
+$$ \agn{
+ s \llp \wtd{v_{z0}} + \wtd{v_{z1}} \rrp - v_z(0) &= - (\gma_{0,zz0} + \gma_{0,zz1}) \llp \wtd{v_{z0}} + \wtd{v_{z1}} \rrp + \llp M^{-1}_{zz0} + M^{-1}_{zz1} \rrp \llp \wtd{\delta F_{z0}} + \wtd{\delta F_{z1}} \rrp \\ % rang 1
+s \wtd{v_{z0}} + s \wtd{v_{z1}} - v_z(0) &= -\gma_{0,zz0} \wtd{v_{z0}} - \gma_{0,zz0} \wtd{v_{z1}} - \gma_{0,zz1} \wtd{v_{z0}} - \cancel{\gma_{0,zz1} \wtd{v_{z1}}} \\ % rang 2-1
+& \fives + M^{-1}_{zz0} \wtd{\delta F_{z0}} + M^{-1}_{zz0} \wtd{\delta F_{z1}} + M^{-1}_{zz1} \wtd{\delta F_{z0}} + \cancel{M^{-1}_{zz1} \wtd{\delta F_{z1}}} \\ % rang 2-2
+s \wtd{v_{z0}} - v_z(0) &= -\gma_{0,zz0} \wtd{v_{z0}} + M^{-1}_{zz0} \wtd{\delta F_{z0}} \\ % rang 3
+s \wtd{v_{z1}} &= - \gma_{0,zz0} \wtd{v_{z1}} - \gma_{0,zz1} \wtd{v_{z0}} + M^{-1}_{zz0} \wtd{\delta F_{z1}} + M^{-1}_{zz1} \wtd{\delta F_{z0}} % rang 4
+}$$
+$$ \wtd{v_{z1}} = - \frac{\gma_{0,zz1}}{(s+\gma_{0,zz0})^2} \llp v_z(0) + M^{-1}_{zz0} \wtd{\delta F_{z0}} \rrp + \frac{1}{s+\gma_{0,zz0}} \llp M^{-1}_{zz0} \wtd{\delta F_{z1}} + M^{-1}_{zz1} \wtd{\delta F_{z0}} \rrp $$
+Note $\mathcal{L}_t\left[\int_0^t f(\tau ) g(t-\tau ) \, d\tau \right](s) = \left(\mathcal{L}_t[f(t)](s)\right) \left(\mathcal{L}_t[g(t)](s)\right)$, namely the Laplace transform of convolution is the multiplication of two Laplace transforms.
+$$ \mathcal{L}_s^{-1}\left[-\frac{\gamma _{0,\text{zz1}}}{\left(\gamma _{0,\text{zz0}}+s\right){}^2}\right](t) = t \gamma _{0,\text{zz1}} \left(-e^{-t \gamma _{0,\text{zz0}}}\right) \tens \mathcal{L}_s^{-1}\left[\frac{1}{\gamma _{0,\text{zz0}}+s}\right](t) = e^{-t \gamma _{0,\text{zz0}}} $$
+With the inverse Laplace transform above, we get $v_{z1}(t)$
+$$ v_{z1}(t) = - v_z(0) \gma_{0,zz1} t e^{-\gma_{0,zz0}t} + \int_0^t \mrm{d}\tau e^{-\gma_{0,zz0} (t-\tau)} \llc \lls M^{-1}_{zz0} \delta F_{z1}(\tau) + M^{-1}_{zz1} \delta F_{z0}(\tau) \rrs - \gma_{0,zz1} (t-\tau) M^{-1}_{zz0} \delta F_{z0}(\tau) \rrc $$
+
+We calculate the velocity square average up to 1-order $\kpa$:
+$$ \agn{
+& \lla v_z^2(t) \rra = \lla \lls v_{z0}^2(t) + v_{z1}^2(t) \rrs^2 \rra = \lla v_{z0}^2(t) \rra + 2 \lla v_{z0}(t) v_{z1}(t) \rra + \cancel{\lla v_{z1}^2(t) \rra} \\ % rang 1
+&= \lla v_{z0}^2(t) \rra e^{-2\gma_{0,zz0}t} + \frac{k_B T}{m_z} \llp 1 - e^{-2 \gma_{0,zz0}t} \rrp - 2 \lla v_z^2(0) \rra \gma_{0,zz1} t e^{-2 \gma_{0,zz0} t} \\ % rang 2-1
+& \fives + 2 \lla \int_0^t \mrm{d}\tau_1 \frac{\dlt F_{z0}(\tau_1)}{m_z} e^{-\gma_{0,zz0}(t-\tau_1)} \int_0^t \mrm{d}\tau_2 e^{-\gma_{0,zz0}(t-\tau_2)} \lls M^{-1}_{zz0} \dlt F_{z1}(\tau_2) + \llp M^{-1}_{zz1} - \gma_{0,zz1} (t-\tau_2) M^{-1}_{zz0} \rrp \dlt F_{z0} (\tau_2) \rrs \rra \\ % rang 2-2
+&= \lla v_{z0}^2(t) \rra e^{-2\gma_{0,zz0}t} + \frac{k_B T}{m_z} \llp 1 - e^{-2 \gma_{0,zz0}t} \rrp - 2 \lla v_z^2(0) \rra \gma_{0,zz1} t e^{-2 \gma_{0,zz0} t} \\ % rang 3-1
+& \fives + 2 \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 \frac{\lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra}{m_z} M^{-1}_{zz0} e^{-\gma_{0,zz0}(t-\tau_1)} e^{-\gma_{0,zz0}(t-\tau_2)} \\ % rang 3-2
+& \fives + 2 k_B T \lls M^{-1}_{zz1} \llp 1 - e^{-2 \gma_{0,zz0}t} \rrp + \frac{\gma_{0,zz1} M^{-1}_{zz0}}{2 \gma_{0,zz0}} e^{- 2 \gma_{0,zz0} t} \llp 1 - e^{2 \gma_{0,zz0} t} + 2 \gma_{0,zz0} t \rrp \rrs % rang 3-3
+} $$
+Suppose there exists the correlation between 0-ordre and 1-order random force, with the relation $\lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra = K_z \cdot \delta(\tau_1 - \tau_2)$. So at long time limit $t \to \infty$, $\lla v_z^2(t) \rra$ would converge to
+$$ \agn{
+\lla v_z^2(t) \rra &= \frac{k_B T}{m_z} \llp 1 - e^{-2 \gma_{0,zz0}t} \rrp + 2 k_B T \lls M^{-1}_{zz1} \llp 1 - e^{-2 \gma_{0,zz0}t} \rrp + \frac{\gma_{0,zz1} M^{-1}_{zz0}}{2 \gma_{0,zz0}} e^{- 2 \gma_{0,zz0} t} \llp 1 - e^{2 \gma_{0,zz0} t} + 2 \gma_{0,zz0} t \rrp \rrs \\ % rang 1-1
+& \fives + 2 \int_0^t \mrm{d}\tau \frac{K}{m_z} M^{-1}_{zz0} e^{-2 \gma_{0,zz0} (t-\tau)} \\ % rang 1-2
+&= k_B T \lls \frac{1}{m_z} + 2 \llp M^{-1}_{zz1} - \frac{M^{-1}_{zz0} \gma_{0,zz1}}{2\gma_{0,zz0}} \rrp \rrs + \frac{K}{m_z \gma_{0,zz0}} M^{-1}_{zz0} \llp 1 - \cancel{e^{-2 \gma_{0,zz0} t}} \rrp = \frac{k_B T}{m_z} \\ % rang 2-1
+K_z &= k_B T m_z \llp \gma_{0,zz1} - 2\gma_{0,zz0} m_z M^{-1}_{zz1} \rrp  % rang 3
+} $$
+Finally, we have the modified noise amplitude of $z$ at 1-order correction. 
+\eq{ \agn{
+& \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra = \lla \lls \dlt F_{z0}(\tau_1) + \dlt F_{z1}(\tau_1) \rrs \cdot \lls \dlt F_{z0}(\tau_2) + \dlt F_{z1}(\tau_2) \rrs \rra \\ % rang 1
+&= \lla \dlt F_{z0}(\tau_1) \dlt F_{z0}(\tau_2) \rra + 2 \lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra + \cancel{\lla \dlt F_{z1}(\tau_1) \dlt F_{z2}(\tau_2) \rra} \\ % rang 2
+&= 2 k_B T m_z \gma_{z0} \dlt(\tau_1 - \tau_2) + 2 k_B T m_z \llp \gma_{0,zz1} - 2\gma_{0,zz0} m_z M^{-1}_{zz1} \rrp \dlt(\tau_1 - \tau_2) \\ % rang 3
+&= 2 k_B T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{0,zz0} + \gma_{0,zz1} - 2\gma_{0,zz0} m_z M^{-1}_{zz1} \rrp % rang 4
+}}
+Note $M^{-1}_{zz1} = \frac{15\kxi}{8 \Delta^{5/2} m_z}$, $\gma_{0zz} = \frac{\xi}{\Delta^{3/2}} + \frac{15 \kpa \xi^2}{8 \Delta^4}$, we could calculate
+$$ \gma_{0,zz0} + \gma_{0,zz1} - 2\gma_{0,zz0} m_z M^{-1}_{zz1} = \frac{\xi}{\Delta^{3/2}} + \frac{15 \kpa \xi^2}{8 \Delta^4} - 2 \times \frac{15\kxi}{8 \Delta^{5/2}} \times \frac{\xi}{\Delta^{3/2}} = \frac{\xi}{\Delta^{3/2}} - \frac{15 \kpa \xi^2}{8 \Delta^4} $$
+and then an amazingly concise result:
+\eq{ \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra = 2 k_B T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{0,zz0} - \gma_{0,zz1} \rrp }
+which is always valid at 1-order correction, since $\gma_{0,zz0} = \frac{a_1}{\Delta^{3/2}}$, $\gma_{0,zz1} = - \frac{a_1 a_5}{\Delta^4}$, $M^{-1}_{zz1} = - \frac{a_5}{\Delta^{5/2} m_z}$.
+$$ \gma_{0,zz0} + \gma_{0,zz1} - 2\gma_{0,zz0} m_z M^{-1}_{zz1} = \frac{a_1}{\Delta ^{3/2}}+\frac{a_5 a_1}{\Delta ^4} = \gamma _{0,\text{zz0}}-\gamma _{0,\text{zz1}} $$
+
+Further treatment would be needed for other components due to non-zero non-diagonal elements $\gamma_{0x\theta} = \gamma_{0\theta x} \neq 0$. Expand $\wtd{\gamma_0 \cdot \bbf{v}}$ again, we have:
+$$ \left\{ \agn{
+s \wtd{v}_x - v_x(0) &= - \gamma_{0xx} \wtd{v}^x - \gamma_{0x\theta} \wtd{v}^\theta + M^{-1}_{xx} \wtd{\delta F_x} + M^{-1}_{x\theta} \wtd{\delta F_\theta} \\
+s \wtd{v}_\theta - v_\theta(0) &= - \gamma_{0\theta x} \wtd{v}^x - \gamma_{0\theta\theta} \wtd{v}^\theta + M^{-1}_{\theta x} \wtd{\delta F_x} + M^{-1}_{\theta\theta} \wtd{\delta F_\theta} 
+} \right. $$
+with solutions as
+\eq{\agn{
+\wtd{v}_x &= \frac{\gamma_{0x\theta} \left( M^{-1}_{\theta x} \wtd{\delta F_x} + M^{-1}_{\theta\theta} \wtd{\delta F_\theta} + v_\theta(0) \right) - (\gamma_{0\theta\theta} + s) \left( M^{-1}_{xx} \wtd{\delta F_x} + M^{-1}_{x\theta} \wtd{\delta F_\theta} + v_x(0) \right) }{\gamma_{0\theta x} \gamma_{0x\theta} - (\gamma_{0\theta\theta} + s) (\gamma_{0xx} + s)} \\
+\wtd{v}_\theta &= \frac{\gamma_{0\theta x} \left( M^{-1}_{xx} \wtd{\delta F_x} + M^{-1}_{x\theta} \wtd{\delta F_\theta} + v_x(0) \right) - (\gamma_{0xx} + s) \left( M^{-1}_{\theta x} \wtd{\delta F_x} + M^{-1}_{\theta\theta} \wtd{\delta F_\theta} + v_\theta(0) \right) }{\gamma_{0\theta x} \gamma_{0x\theta} - (\gamma_{0\theta\theta} + s) (\gamma_{0xx} + s)} 
+}}
+%which would return to equations without $\kappa$ correction. 
+We tried the inverse Laplace transform on terms without $\wtd{\delta F_i}$ below, getting
+$$ \agn{
+v_x &\supset \frac{ e^{-  \left(\gamma _{\text{0$\theta \theta $}}+\gamma _{\text{0xx}}-\gamma_s\right) t/2}}{2 \gamma_s} \cdot \left\{ 2\gamma_{0x\theta} \left( e^{-\gamma_s t} - 1 \right) v_\theta(0) + \left[ e^{-\gamma_s t} (\gamma_s + \gamma_{0xx} - \gamma_{0\theta\theta}) + (\gamma_s + \gamma_{0\theta\theta} - \gamma_{0xx}) \right] v_x(0) \right\} \\
+v_\theta &\supset \frac{ e^{-  \left(\gamma _{\text{0$\theta \theta $}}+\gamma _{\text{0xx}}-\gamma_s\right) t/2}}{2 \gamma_s} \cdot \left\{ 2\gamma_{0\theta x} \left( e^{-\gamma_s t} - 1 \right) v_x(0) + \left[ e^{-\gamma_s t} (\gamma_s - \gamma_{0xx} + \gamma_{0\theta\theta}) + (\gamma_s - \gamma_{0\theta\theta} + \gamma_{0xx}) \right] v_\theta(0) \right\}
+}$$
+with the parameter 
+$$ \gamma_s = \sqrt{4 \gamma _{\text{0$\theta $x}} \gamma _{\text{0x$\theta $}}+\left(\gamma _{\text{0xx}}-\gamma _{\text{0$\theta \theta $}}\right){}^2} = \frac{1}{18} \sqrt{\frac{9 \left(4 \Delta ^{5/2} \xi \epsilon +\kappa  \xi ^2 \epsilon ^2\right)^2+16 \kappa ^2 \xi ^4 \epsilon ^4}{\Delta ^6}} \approx \frac{\kappa  \xi^2 \epsilon^2}{6 \Delta ^{3}} + \frac{2 \xi \eps}{3 \sqrt{\Delta}}  > 0 $$
+Two equations converge well since $\gamma _{\text{0$\theta \theta $}}+\gamma _{\text{0xx}}-\gamma_s \approx \frac{4\xi \eps}{3\sqrt{\Delta}} + \frac{\kappa\xi^2\eps^2}{9\Delta^3} > 0$. Take the limit $\kappa \to 0$, $\gamma_s \to \gamma_{0xx} = \gamma_{0\theta\theta}/2$. So $v_x$, $v_\theta$ would return to $v_i(0) e^{-\gamma_i t}$ as $\kappa \to 0$.
+
+Note that second-order correction of $\kappa$ has been introduced indirectly owing to $\gamma_s$; to be exact, $\gamma_{0\theta x} \gamma_{0x\theta} = \gamma_{0\theta x1} \gamma_{0x\theta1} \propto \kappa^2$. Therefore, the result after the inverse Laplace transform would be quite complicated, and we could hardly furnish a concise inverse transform including $\wtd{\delta F_i}$. Suppose that $v_x = v_{x0} + v_{x1}$ and $v_\theta = v_{\theta0} + v_{\theta1}$, where the index 1 refers to the term depending on $\kappa$; thus $\wtd{v_x} &= \wtd{v_{x0}} + \wtd{v_{x1}}$, and $\wtd{v_\theta} &= \wtd{v_{\theta0}} + \wtd{v_{\theta1}} 
+$. Also, $\dlt F_x = \dlt F_{x0} + \dlt F_{x1}$, and $\dlt F_\tta = \dlt F_{\tta0} + \dlt F_{\tta1}$. Similar for coefficients $\gamma_{0ij} = \gamma_{0ij0} + \gamma_{0ij1}$, $\gamma_{0ij0}=0$ if $ i\neq j$; while $M^{-1}_{ij} = M^{-1}_{ij0} + M^{-1}_{ij1}$, $M^{-1}_{ij0} = 0$ if $i \neq j$. So we expand the Laplace transform to first-order correction of $\kappa$ as the following expressions:
+\eq{ \agn{
+s(\wtd{v_{x0}} + \wtd{v_{x1}}) - v_x(0) &= -(\gamma_{0xx0} + \gamma_{0xx1}) (\wtd{v_{x0}} + \wtd{v_{x1}}) - (\cancel{\gamma_{0x\theta0}} + \gamma_{0x\theta1})(\wtd{v_{\theta0}} + \cancel{\wtd{v_{\theta1}}}) \\ % rang 1-1
+&\fives + (M^{-1}_{xx0} + M^{-1}_{xx1}) \llp \wtd{\delta F_{x0}} + \wtd{\dlt F_{x1}} \rrp + (\cancel{M^{-1}_{x\theta0}} + M^{-1}_{x\theta1}) \llp \wtd{\delta F_{\theta0}} + \cancel{\wtd{\dlt F_{\tta1}} } \rrp \\ % rang 1-2
+s(\wtd{v_{\theta0}} + \wtd{v_{\theta1}}) - v_\theta(0) &= -(\cancel{\gamma_{0\theta x0}} + \gamma_{0\theta x1}) (\wtd{v_{x0}} + \cancel{\wtd{v_{x1}}}) - (\gamma_{0\theta\theta0} + \gamma_{0\theta\theta1})(\wtd{v_{\theta0}} + \wtd{v_{\theta1}}) \\ % rang 2-1
+&\fives + (\cancel{M^{-1}_{\theta x0}} + M^{-1}_{\theta x1}) \llp \wtd{\delta F_{x0}} + \cancel{ \wtd{\dlt F_{x1}} } \rrp + (M^{-1}_{\theta\theta0} + M^{-1}_{\theta\theta1}) \llp \wtd{\delta F_{\theta0}} + \wtd{\dlt F_{\tta1}} \rrp \\ % rang 2-2
+}}
+Recall
+$$ \agn{
+s \wtd{v_{x0}} - v_x(0) &= -\gamma_{0xx0} \wtd{v_{x0}} + M^{-1}_{xx0} \wtd{\delta F_{x0}} \\ % rang 1
+s \wtd{v_{\theta0}} - v_\theta(0) &= -\gamma_{0\theta\theta0} \wtd{v_{\theta0}} + M^{-1}_{\theta\theta0} \wtd{\delta F_{\tta0}}  % rang 2
+} $$
+After eliminate zero-order and second-order terms, we have
+\eq{ \agn{
+(s + \gamma_{0xx0}) \wtd{v_{x1}} &= - \gamma_{0xx1} \wtd{v_{x0}} - \gamma_{0x\theta1} \wtd{v_{\theta0}} + M^{-1}_{xx1} \wtd{\delta F_{x0}} + M^{-1}_{x\theta1} \wtd{\delta F_{\theta0}} + M^{-1}_{xx0} \wtd{\dlt F_{x1}} \\ % rang 1
+(s + \gamma_{0\theta\theta0}) \wtd{v_{\theta1}} &= - \gamma_{0\theta x1} \wtd{v_{x0}} - \gamma_{0\theta\theta1} \wtd{v_{\theta0}} + M^{-1}_{\theta x1} \wtd{\delta F_{x0}} + M^{-1}_{\theta\theta1} \wtd{\delta F_{\theta0}} + M^{-1}_{\tta\tta0} \wtd{\dlt F_{\tta1}} % rang 2
+}}
+or as the equivalent
+\eq{ \agn{
+\wtd{v_{x1}} =& \frac{1}{s + \gamma_{0xx0}} \times \\ % rang 1-1
+& \left\{ - \frac{\gamma_{0xx1}}{s + \gamma_{0xx0}} \left[ v_x(0) + M^{-1}_{xx0} \wtd{\delta F_{x0}} \right] - \frac{\gamma_{0x\theta1}}{s + \gamma_{0\theta\theta0}} \lls v_\theta(0) + M^{-1}_{\theta\theta0} \wtd{\delta F_{\theta0}} \rrs + M^{-1}_{xx1} \wtd{\delta F_{x0}} + M^{-1}_{x\theta1} \wtd{\delta F_{\theta0}} + M^{-1}_{xx0} \wtd{\dlt F_{x1}} \right\} \\ % rang 1-2
+\wtd{v_{\theta1}} =& \frac{1}{s + \gamma_{0\theta\theta0}} \times \\ % rang 2-1
+& \left\{ - \frac{\gamma_{0\theta x1}}{s + \gamma_{0xx0}} \left[ v_x(0) + M^{-1}_{xx0} \wtd{\delta F_{x0}} \right] - \frac{\gamma_{0\theta\theta1}}{s + \gamma_{0\theta\theta0}} \lls v_\theta(0) + M^{-1}_{\theta\theta0} \wtd{\delta F_{\theta0}} \rrs + M^{-1}_{\theta x1} \wtd{\delta F_{x0}} + M^{-1}_{\theta\theta1} \wtd{\delta F_{\theta0}} + M^{-1}_{\tta\tta0} \wtd{\dlt F_{\tta1}} \right\} % rang 2-2
+}}
+After the inverse Laplace transform, it yields
+\eq{ \agn{
+v_{x1}(t) &= - v_x(0) \gamma _{0,\text{xx1}} t e^{- \gamma _{0,\text{xx0}} t} + \frac{v_{\theta }(0) \gamma _{0,\text{x$\theta $1}} }{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp \\ % rang 1-1
+& \fives - \gamma_{0,xx1} \int_0^t \mrm{d} \tau (t-\tau) e^{-\gamma_{0,xx0}(t-\tau)} M^{-1}_{xx0} \delta F_{x0}(\tau) \\ % rang 1-2
+& \fives + \frac{\gamma_{0,x\theta1}}{\gamma_{0,\theta\theta0}-\gamma_{0,xx0}} \int_0^t \mrm{d} \tau \llp e^{-\gamma_{0,\theta\theta0}(t-\tau)} - e^{-\gamma_{0,xx0}(t-\tau)} \rrp  M^{-1}_{\theta\theta0} \delta F_{\theta0}(\tau) \\ % rang 1-3
+& \fives + \int_0^t \mrm{d}\tau e^{-\gamma_{0,xx0}(t-\tau)} \lls M^{-1}_{xx1} \delta F_{x0}(\tau) + M^{-1}_{x\theta1} \delta F_{\theta0}(\tau) + M^{-1}_{xx0} \dlt F_{x1}(\tau) \rrs % rang 1-4
+}}
+\eq{ \agn{
+v_{\tta1}(t) &= - v_{\theta }(0) \gamma _{0,\text{$\theta \theta $1}} t e^{- \gamma _{0,\text{$\theta \theta $0}} t} + \frac{v_x(0) \gamma _{0,\text{$\theta $x1}}}{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp \\ % rang 2-1
+& \fives + \frac{\gamma_{0,\tta x1}}{\gamma_{0,\tta\tta0} - \gamma_{0,xx0}} \int_0^t \mrm{d}\tau  \llp e^{-\gamma_{0,\theta\tta0}(t-\tau)} - e^{-\gamma_{0,xx0}(t-\tau)} \rrp M^{-1}_{xx0} \delta F_{x0}(\tau) \\ % rang 2-2
+& \fives - \gamma_{0,\tta\tta1} \int_0^t \mrm{d}\tau (t-\tau) e^{-\gamma_{0,\tta\tta0}(t-\tau)} M^{-1}_{\tta\tta0} \delta F_{\tta0}(\tau) \\ % rang 2-3
+& \fives + \int_0^t \mrm{d}\tau e^{-\gamma_{0,\tta\tta0}(t-\tau)} \lls M^{-1}_{\tta x 1} \delta F_{x0}(\tau) + M^{-1}_{\tta\tta1} \delta F_{\theta0}(\tau) + M^{-1}_{\tta\tta0} \dlt F_{\tta1}(\tau)  \rrs % rang 2-4
+}}
+
+Finally, we suppose $\llang v_i(t_1) \delta F_j(t_2) \rrang \equiv 0$ for the calculations toward $\llang v_i^2(t) \rrang$:
+$$ \agn{
+\llang v_x^2(t) \rrang &= \llang \lls v_{x0}(t) + v_{x1}(t) \rrs^2 \rrang = \llang v_{x0}^2(t) + 2 v_{x0}(t) v_{x1}(t) + v_{x1}^2(t) \rrang = \llang v_{x0}^2(t) \rrang + 2 \llang v_{x0}(t) v_{x1}(t) \rrang + \cancel{\llang v_{x1}^2(t) \rrang} \\ % rang 0
+&= \llang v_x^2(0) \rrang e^{-2\gamma_{0,xx0}t} + \frac{k_B T}{m_x} \llp 1 - e^{-2 \gamma_{0,xx0}t} \rrp \\ % rang 1-1
+& \fives + 2e^{-\gma_{0,xx0}t} \lls \llang v_x^2(0) \rrang \frac{\gamma_{0,\tta x1}}{\gamma_{0,xx0} - \gamma_{0,\tta\tta0}} \llp e^{-\gma_{0,xx0}t} - e^{-\gma_{0,\tta\tta0}t} \rrp - \llang v_x(0) v_\tta(0) \rrang \gma_{0,\tta\tta1} t e^{-\gma_{0,\tta\tta0}t} \rrs \\ % rang 1-2
+& \fives + 2 \llang \int_0^t \mrm{d}\tau_1 \frac{\dlt F_{x0}(\tau_1)}{m_x} e^{-\gma_{0,xx0} (t-\tau_1)} \lls -\gma_{0,xx1} \int_0^t \mrm{d}\tau_2 (t-\tau_2) e^{-\gma_{0,xx0}(t-\tau_2)} M^{-1}_{xx0} \dlt F_{x0}(\tau_2) \rrd \rrd \\ % rang 1-3
+& \tens \lld \lld  + \int_0^t \mrm{d}\tau_2 e^{-\gma_{0,xx0}(t-\tau_2)} \llp M^{-1}_{xx1} \dlt F_{x0}(\tau_2) + M^{-1}_{xx0} \dlt F_{x1}(\tau_2) \rrp \rrs \rrang \\ % rang 1-4
+&= \llang v_x^2(0) \rrang e^{-2\gamma_{0,xx0}t} + \frac{k_B T}{m_x} \llp 1 - e^{-2 \gamma_{0,xx0}t} \rrp \\ % rang 2-1
+& \fives + 2e^{-\gma_{0,xx0}t} \lls \llang v_x^2(0) \rrang \frac{\gamma_{0,\tta x1}}{\gamma_{0,xx0} - \gamma_{0,\tta\tta0}} \llp e^{-\gma_{0,xx0}t} - e^{-\gma_{0,\tta\tta0}t} \rrp - \llang v_x(0) v_\tta(0) \rrang \gma_{0,\tta\tta1} t e^{-\gma_{0,\tta\tta0}t} \rrs \\ % rang 2-2
+& \fives + 2 k_B T \lls -\gma_{0,xx1} M^{-1}_{xx0} \frac{e^{-2 \gma_{0,xx0} t} \llp -1 + e^{2 \gma_{0,xx0} t} - 2 \gma_{0,xx0} t \rrp}{2 \gma_{0,xx0}}+ \llp 2 \gma_{0,xx0} M^{-1}_{xx1} + \frac{\bt K_x}{m_x} M^{-1}_{xx0} \rrp \frac{1 - e^{-2 \gma_{0,xx0} t}}{2 \gma_{0,xx0}} \rrs  % rang 2-3
+} $$
+with $\lla \dlt F_{x0}(\tau_1) \dlt F_{x1}(\tau_2) \rra = K_x \cdot \dlt(\tau_1 - \tau_2)$. So at long time limit $t \to \infty$, the MSD converge to 
+$$ \agn{
+\lla v_x^2(t) \rra &= \frac{k_B T}{m_x} + 2 k_B T \llp \frac{- \gma_{0,xx1} M^{-1}_{xx0}}{2 \gma_{0,xx0}} + M^{-1}_{xx1} + \frac{\bt K_x}{m_x} \frac{M^{-1}_{xx0}}{2 \gma_{0,xx0}} \rrp = \frac{k_B T}{m_x} \\ % rang 1
+K_x &= k_B T m_x \llp \gma_{0,xx1} - 2 m_x M^{-1}_{xx1} \gma_{0,xx0} \rrp % rang 2
+} $$
+$$ \agn{
+& \lla \dlt F_x(\tau_1) \dlt F_x(\tau_2) \rra \approx \lla \dlt F_{x0}(\tau_1) \dlt F_{x0}(\tau_2) \rra + 2 \lla \dlt F_{x0}(\tau_1) \dlt F_{x1}(\tau_2) \rra \\ % rang 1
+&= 2 k_B T m_x \gma_{0,xx0} \dlt(\tau_1 - \tau_2) + 2 K_x \dlt(\tau_1 - \tau_2) = 2 k_B T m_x \dlt(\tau_1 - \tau_2) \llp \gma_{0,xx0} + \gma_{0,xx1} - 2 m_x M^{-1}_{xx1} \gma_{0,xx0} \rrp
+} $$
+Note $\gma_{0,xx} = \frac{2\xi\eps}{3\sqrt{\Delta}} + \frac{\kpa \xi^2 \eps^2}{18 \Delta^3}$, $M^{-1}_{xx1} = \frac{\kxi \eps}{12 \Delta^{5/2} m_x}$. 
+$$ \gma_{0,xx0} + \gma_{0,xx1} - 2 m_x M^{-1}_{xx1} \gma_{0,xx0} = \frac{2\xi\eps}{3\sqrt{\Delta}} + \frac{\kpa \xi^2 \eps^2}{18 \Delta^3} - 2 \times \frac{\kxi \eps}{12 \Delta^{5/2}} \times \frac{2\xi\eps}{3\sqrt{\Delta}} = \frac{2\xi\eps}{3\sqrt{\Delta}} - \frac{\kpa \xi^2 \eps^2}{18 \Delta^3} $$
+Similar to the modified noise correlator on $z$, we obtain again a concise result:
+\eq{ \lla \dlt F_x(\tau_1) \dlt F_x(\tau_2) \rra = 2 k_B T m_x \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{0,xx0} - \gma_{0,xx1} \rrp }
+
+
+
+
+$$ \agn{
+\llang v_\tta^2(t) \rrang &= \llang \lls v_{\tta0}(t) + v_{\tta1}(t) \rrs^2 \rrang = \llang v_{\tta0}^2(t) + 2 v_{\tta0}(t) v_{\tta1}(t) + v_{\tta1}^2(t) \rrang = \llang v_{\tta0}^2(t) \rrang + 2 \llang v_{\tta0}(t) v_{\tta1}(t) \rrang + \cancel{\llang v_{\tta1}^2(t) \rrang} \\ % rang 0
+&= \lla v_\tta^2(0) \rra e^{-2 \gma_{0,\tta\tta0}t} + \frac{k_B T}{m_\tta} \llp 1 - e^{-2 \gma_{0,\tta\tta0}t} \rrp \\ % rang 1-1
+& \fives + 2 e^{-2 \gma_{0,\tta\tta0}t} \lls - \lla v_\tta^2(0) \rra \gma_{0,\tta\tta1} t e^{- \gma_{0,\tta\tta0}t} + \frac{\lla v_\tta(0) v_x(0) \rra \gma_{0,\tta x1}}{\gma_{0,xx0} - \gma_{0,\tta\tta0}} \llp e^{- \gma_{0,xx0}t} - e^{- \gma_{0,\tta\tta0}t} \rrp \rrs \\ % rang 1-2
+& \fives + \lla \int_0^t \mrm{d}\tau_1 \frac{\delta F_{\tta0}(\tau_1)}{m_\tta} e^{-\gma_{0,\tta\tta0}(t-\tau_1)} \cdot \llc \int_0^t \mrm{d}\tau_2 e^{-\gma_{0,\tta\tta0}(t-\tau_2)} \delta F_\tta(\tau_2) \lls M^{-1}_{\tta\tta1} -\gma_{0,\tta\tta1} (t-\tau_2) e^{-\gma_{0,\tta\tta0} (t-\tau_2)} M^{-1}_{\tta\tta0} \rrs \rrc \rra \\ % rang 1-3
+& \fives + \lla \int_0^t \mrm{d}\tau_1 \frac{\delta F_{\tta0}(\tau_1)}{m_\tta} e^{-\gma_{0,\tta\tta0}(t-\tau_1)} \int_0^t \mrm{d}\tau_2 e^{-\gma_{0,\tta\tta0}(t-\tau_2)} M^{-1}_{\tta\tta0}\delta F_{\tta1}(\tau_2)  \rra \\
+&= \lla v_\tta^2(0) \rra e^{-2 \gma_{0,\tta\tta0}t} + \frac{k_B T}{m_\tta} \llp 1 - e^{-2 \gma_{0,\tta\tta0}t} \rrp \\ % rang 2-1
+& \fives + 2 e^{-2 \gma_{0,\tta\tta0}t} \lls - \lla v_\tta^2(0) \rra \gma_{0,\tta\tta1} t e^{- \gma_{0,\tta\tta0}t} + \frac{\lla v_\tta(0) v_x(0) \rra \gma_{0,\tta x1}}{\gma_{0,xx0} - \gma_{0,\tta\tta0}} \llp e^{- \gma_{0,xx0}t} - e^{- \gma_{0,\tta\tta0}t} \rrp \rrs \\ % rang 2-2
+& \fives + 2 k_B T \lls \llp M^{-1}_{\tta\tta1} + \frac{\bt K_\tta M^{-1}_{\tta\tta0}}{2 m_\tta \gma_{0,\tta\tta0}} \rrp \llp 1 - e^{-2 \gma_{0,\tta\tta0} t} \rrp - \frac{\gma_{0,\tta\tta1} M^{-1}_{\tta\tta0}}{2\gma_{0,\tta\tta0}} e^{-2 \gma_{0,\tta\tta0} t} \llp -1 + e^{2 \gma_{0,\tta\tta0} t} - 2t \gma_{0,\tta\tta0} \rrp \rrs  % rang 2-3
+} $$
+with $\lla \dlt F_{\tta0}(\tau_1) \dlt F_{\tta1}(\tau_2) \rra = K_\tta \cdot \dlt(\tau_1 - \tau_2)$. So at long time limit $t \to \infty$, the MSD converge to 
+$$ \agn{
+\lla v_\tta^2(t) \rra &= \frac{k_B T}{m_\tta} + 2 k_B T \llp \frac{- \gma_{0,\tta\tta1} M^{-1}_{\tta\tta0}}{2 \gma_{0,\tta\tta0}} + M^{-1}_{\tta\tta1} + \frac{\bt K_\tta}{m_\tta} \frac{M^{-1}_{\tta\tta0}}{2 \gma_{0,\tta\tta0}} \rrp = \frac{k_B T}{m_\tta} \\ % rang 1
+K_\tta &= k_B T m_\tta \llp \gma_{0,\tta\tta1} - 2 m_\tta M^{-1}_{\tta\tta1} \gma_{0,\tta\tta0} \rrp % rang 2
+} $$
+$$ \agn{
+& \lla \dlt F_\tta(\tau_1) \dlt F_\tta(\tau_2) \rra \approx \lla \dlt F_{\tta0}(\tau_1) \dlt F_{\tta0}(\tau_2) \rra + 2 \lla \dlt F_{\tta0}(\tau_1) \dlt F_{\tta1}(\tau_2) \rra \\ % rang 1
+&= 2 k_B T m_\tta \gma_{0,\tta\tta0} \dlt(\tau_1 - \tau_2) + 2 K_\tta \dlt(\tau_1 - \tau_2) = 2 k_B T m_\tta \dlt(\tau_1 - \tau_2) \llp \gma_{0,\tta\tta0} + \gma_{0,\tta\tta1} - 2 m_\tta M^{-1}_{\tta\tta1} \gma_{0,\tta\tta0} \rrp
+} $$
+Note $\gma_{0,\tta\tta} = \frac{4\xi\eps}{3 \sqrt{\Delta}} + \frac{2\kpa \xi^2 \eps^2}{9 \Delta^3}$, $M^{-1}_{\tta\tta1} = \frac{\kxi\eps}{6 \Delta^{5/2} m_\tta}$.
+$$ \gma_{0,\tta\tta0} + \gma_{0,\tta\tta1} - 2 m_\tta M^{-1}_{\tta\tta1} \gma_{0,\tta\tta0} = \frac{4\xi\eps}{3 \sqrt{\Delta}} + \frac{2\kpa \xi^2 \eps^2}{9 \Delta^3} - 2 \times \frac{\kxi\eps}{6 \Delta^{5/2}} \times \frac{4\xi\eps}{3 \sqrt{\Delta}} = \frac{4\xi\eps}{3 \sqrt{\Delta}} - \frac{2\kpa \xi^2 \eps^2}{9 \Delta^3} $$
+Similar again:
+\eq{ \lla \dlt F_\tta(\tau_1) \dlt F_\tta(\tau_2) \rra = 2 k_B T m_\tta \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{0,\tta\tta0} - \gma_{0,\tta\tta1} \rrp }
+
+
+
+

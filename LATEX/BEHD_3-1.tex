@@ -1,0 +1,33 @@
+\ssc{Discretisation algorithm}
+\label{Discretisation algorithm}
+
+\tit{J. Phys. Chem. B, 2014, 118, 6466-6474, one article about Discrete-Time Langevin Integration. For multiple dimensions, see its Support Information:}\\
+https://pubs.acs.org/doi/suppl/10.1021/jp411770f/suppl\_file/jp411770f\_si\_001.pdf
+
+Consider a Langevin equation
+$$ dv = \frac{f(t)}{m} dt - \gamma v dt + \sqrt{\frac{2\gamma}{\beta m}} dW(t) $$
+we have 
+\begin{itemize}
+  \item Ornstein-Uehlenbeck operator for stochastic thermalization: $\scr{L}_o = -\gamma \pder{v} v - \frac{\gamma}{\beta m} \pdv[2]{}{x}$
+  \item Deterministic Newtonian evolutions: $\scr{L}_v = \frac{f}{m}$, $\scr{L}_r = v \pder{r}$
+  \item Hamiltonian: $\exp(\scr{L}_h \Delta t) \scr{H}(n) = \scr{H}(n+1)$
+\end{itemize}
+where $n$ is the time step index and $t=n\Delta t$.
+
+For this operator splitting, a single update step that advances the simulation clock by $\Delta t$ is given explicitly by
+$$ \agn{
+& \bbf{v}\left( n+ \frac{1}{4}\right) = \sqrt{a} \cdot \bbf{v}(n) + \left[ \frac{1}{\beta} (\bbf{1} - \bbf{a}) \cdot \bbf{m}^{-1} \right]^{1/2} \cdot \bbf{N}^{+} (n) \\
+& \fives \bbf{v} \left( n+ \frac{1}{2}\right) = \bbf{v} \left( n+ \frac{1}{4}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{m}^{-1} \cdot \bbf{f}(n) \\
+& \fives \fives \bbf{r} \left( n+ \frac{1}{2}\right) = \bbf{r}(n) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{v} \left( n+ \frac{1}{2}\right) \\
+& \fives \fives \fives \scr{H}(n) \to \scr{H}(n+1) \\
+& \fives \fives \bbf{r} \left( n+1\right) = \bbf{r} \left( n+ \frac{1}{2}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{v} \left( n+ \frac{1}{2}\right) \\
+& \fives v\left( n+ \frac{3}{4}\right) = v\left( n+ \frac{1}{2}\right) + \frac{\Delta t}{2} \bbf{b} \cdot \bbf{m}^{-1} \cdot \bbf{f}(n+1) \\
+& \bbf{v}\left( n+1 \right) = \sqrt{a} \cdot \bbf{v}\left( n+ \frac{3}{4}\right) + \left[ \frac{1}{\beta} (\bbf{1} - \bbf{a}) \cdot \bbf{m}^{-1} \right]^{1/2} \cdot \bbf{N}^{-} (n+1) \\
+} $$
+where $a_{ij} = \delta_{ij} \exp(-\gamma_i \Delta t)$, $\scr{N}^\pm$ are independent normally distributed random variables with zero mean and unit variance, $b_{ij} = \delta_{ij} \sqrt{\frac{2}{\gamma_i \Delta t} \tanh \frac{\gamma_i \Delta t}{2}}$
+
+
+We follow the Box–Muller transform to generate normally distributed random variables. This method uses two independent random numbers $U$ and $V$ distributed uniformly on $(0,1)$. Then the two random variables $X$ and $Y$ 
+$$ X = \sqrt{-2\ln U} \cos(2\pi V) \tens Y = \sqrt{-2\ln U} \sin(2\pi V) $$
+will both have the standard normal distribution, and will be independent. %This formulation arises because for a bivariate normal random vector (X, Y) the squared norm X2 + Y2 will have the chi-squared distribution with two degrees of freedom, which is an easily generated exponential random variable corresponding to the quantity −2ln(U) in these equations; and the angle is distributed uniformly around the circle, chosen by the random variable V.
+

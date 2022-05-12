@@ -1,0 +1,172 @@
+\ssc{Friction matrix $\gamma_{\ab}$ with unit mass}
+\label{gamma}
+In this part, we would renew coefficients for the motion in 3D ($\Delta, X, \Theta$). Based on the previous subsection, we could repeat the calculation by Fokker-Planck operator, finding the similar results with additional terms about $\Theta$.
+
+For the sake of convenience, we re-write Thomas'  differential equations (see subsection \ref{ssc:Thomas}) with $\dot{v}_i$, (and $X$ refers to $X_G$)
+\beq \bgn
+-U_Z = \dot{v}_\Delta = \ddot\Delta &= F_\Delta (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_\Delta) \\ % rang 1
+-U_X = \dot{v}_X = \ddot{X} &= F_X (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_X,\dot{v}_\Theta)  \\ % rang 2
+-U_\Theta = \dot{v}_\Theta = \ddot\Theta &= F_\Theta (\Delta,v_\Delta,v_X,v_\Theta,\dot{v}_X,\dot{v}_\Theta)  % rang 3
+\end{align} \label{Yilin.1} \eeq
+However, we'd like to derive equations for each $\dot{v}$ only depending on $\Delta$ and $v$, without $\dot{v}$. %namely 
+%In 3D system, we have independent coordinates $\Delta,v_\Delta,v_{X},v_\Theta$. 
+%\beq \dot{v}_i = F_i + TF^{drift}_i + \eta_i \eeq
+%where $F_i$ would originate from external potential. 
+Therefore, we have to find the proper expression for each $\dot{v}_i$. 
+
+Consider the second derivative in the eq. \ref{Salez2015.51}, 
+\beq \ddot{\Delta} + a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_5 \frac{\ddot\Delta}{\Delta^{7/2}} + a_6 = 0 \label{Yilin.2} \eeq
+\beq \ddot\Delta = \left( a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_6 \right) \times \frac{-1}{1 + a_5 / \Delta^{7/2}} \label{Yilin.3} \eeq
+We know that $a_1 = \xi$, $a_2 = \frac{21\kappa\xi}{4}$, $a_3 = -\frac{\kappa\xi}{4}$, $a_4 = \frac{\kappa\xi}{2}$, $a_5 = -\frac{15\kappa\xi}{8}$, $a_6 = \cos(\alpha=0) = 1$. After simple calculation, we could obtain $\dot{v}_\Delta$ ($\dot{v}_z$) namely $\ddot\Delta$
+
+
+%Fokker-Planck eq.
+%$$ T \sum_{\alpha\beta} \pder{Y_\alpha} \left[ \gamma_{\alpha\beta} \pder{Y_\beta} P \right] + \pder{Y_\alpha} \left[ -F_\alpha P \right] = \pder[P]{t} = 0 $$
+%the matrix $\gamma_{\alpha\beta}$ is symmetric and thus there are 10 independent elements.
+%$$ \dot{Y}_\alpha = \left[ F_\alpha + T \pder{Y_\beta} \gamma_{\beta\alpha} \right] + \sqrt{2T} \eta_\alpha $$
+%where the white noise $\eta_\alpha$ satisfies
+%$$ \llang \eta_\alpha(t) \eta_\beta(t^\prime) \rrang = \delta(t-t^\prime) \gamma_{\alpha\beta}(t) $$
+
+
+%\beq \ddot{X}_G + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sqrt\Delta} + \frac{\kappa \varepsilon \xi}{6} \left[ \frac{19}{4} \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} - \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot\Theta - \ddot{X}_G}{\Delta^{5/2}} \right] - \sqrt{\frac{\varepsilon}{2}} \sin\alpha = 0 \label{Salez2015.50} \eeq
+
+
+\beq -\dot{v}_\Delta = U_z = \noindent\(\frac{8 \Delta ^{9/2}+2 \xi  \left(-\Delta  \kappa  v_X^2+4 \Delta ^3 v_z+21 \kappa  v_z^2+2 \Delta  \kappa  v_X v_{\theta }-\Delta  \kappa v_{\theta }^2\right)}{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi }\) \label{Yilin.4} \eeq %\end{doublespace}
+
+Similarly, we write the eqs \ref{Salez2015.50} and \ref{Salez2015.52} as
+\beq \textcolor{red}{\ddot{X}} + b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + b_6 = 0 \label{Yilin.5} \eeq
+\beq \textcolor{blue}{\ddot{\Theta}} + c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 = 0 \label{Yilin.6} \eeq
+with all coefficients we need: $b_1 = \frac{2\veps\xi}{3}$, $b_2 = \frac{19\kappa\xi\veps}{24}$, $b_3 = - \frac{\kappa\xi\veps}{6}$, $b_4 = \frac{\kappa\xi\veps}{12}$, $b_5 = - \frac{\kappa\xi\veps}{12}$, $b_6 = \sin(\alpha = 0) = 0$; and $c_1 = \frac{4\veps\xi}{3}$, $c_2 = \frac{19\kappa\xi\veps}{12}$, $c_3 = - \frac{\kappa\xi\veps}{3}$, $c_4 = \frac{\kappa\xi\veps}{6}$, $c_5 = - \frac{\kappa\xi\veps}{6}$, $c_6 = 0$. For this system of linear equations, the coefficient matrix has full rank.
+$$ \left( \begin{array}{cc} 1 + (b_5) & (b_4) \\(c_4) & 1+(c_5)\end{array} \right) \left(\begin{array}{cc}\ddot{X} \\ \ddot\Theta  \end{array}\right) = \left(\begin{array}{cc} (b_1+b_2+b_3+b_6) \\ (c_1+c_2+c_3+c_6) \end{array}\right) $$
+Then we could solve $\ddot{X}=\dot{v}_X$ and $\ddot\Theta = \dot{v}_\Theta$ directly %mark
+%\beq \ddot{\Delta} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\kappa\xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\ddot\Delta}{\Delta^{7/2}} \right] + \cos\alpha = 0  \label{Salez2015.51} \eeq
+%\beq \ddot{\Theta} + \frac{4\veps\xi}{3} \frac{\dot\Theta}{\sqrt\Delta} + \frac{\kappa \veps \xi}{3} \left[ \frac{19}{4} \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} - \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \frac{\ddot{X}_G - \ddot\Theta}{\Delta^{5/2}} \right] = 0 \label{Salez2015.52} \eeq
+\beq \bgn
+&- \dot{v}_X = U_X = \\
+& \noindent\(\frac{\epsilon  \xi  \left(\kappa  \left(16 \Delta ^3 \epsilon  \xi +\left(-24 \Delta ^{5/2}+23 \epsilon  \kappa  \xi \right) v_z\right)
+v_{\theta }+v_X \left(-4 \epsilon  \kappa ^2 \xi  v_z+\left(6 \Delta ^{5/2}-\epsilon  \kappa  \xi \right) \left(16 \Delta ^3+19 \kappa  v_{\theta
+}\right)\right)\right)}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)}\)
+\end{align} \label{Yilin.7} \eeq
+\beq \bgn
+& - \dot{v}_\Theta = U_\Theta = \\
+& \noindent\(\frac{\epsilon  \xi  \left(\left(16 \Delta ^3 \left(12 \Delta ^{5/2}-\epsilon  \kappa  \xi \right)+\kappa  \left(228 \Delta ^{5/2}-23
+\epsilon  \kappa  \xi \right) v_z\right) v_{\theta }+\kappa  v_X \left(\left(-48 \Delta ^{5/2}+4 \epsilon  \kappa  \xi \right) v_z+\epsilon  \xi
+ \left(16 \Delta ^3+19 \kappa  v_{\theta }\right)\right)\right)}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)}\)
+\end{align} \label{Yilin.8} \eeq
+
+Compare with the eq. \ref{Yilin.1}, we finally remove the second derivatives inside each expression
+\beq \bgn
+\dot{v}_\Delta &= F_\Delta (\Delta,v_\Delta,v_X,v_\Theta)  \\ % rang 1
+\dot{v}_X &= F_X (\Delta,v_\Delta,v_X,v_\Theta) \\ % rang 2
+\dot{v}_\Theta &= F_\Theta (\Delta,v_\Delta,v_X,v_\Theta) % rang 3
+\end{align} \label{Yilin.9} \eeq
+See eqs \ref{David.5} $\sim$ \ref{David.9}, we could extract these $\lambda_{\alpha\beta}$ and $\Gamma_{\alpha\beta\beta}$ by
+\beq \lambda_{\alpha\beta} = \rm{Coefficient}[ U_\alpha , v_\beta ] - \rm{Coefficient}[ U_\alpha , v_\beta v_\gamma ] \times v_\gamma \label{Yilin.10} \eeq
+\beq \Gamma_{\alpha\beta\beta} = \rm{Coefficient}[ U_\alpha , v_\beta v_\beta ] \label{Yilin.11} \eeq
+As for $\Gamma_{\alpha\beta\gamma}$, we should resolve them with the constraint $\Gamma_{\alpha\beta\gamma} = \Gamma_{\beta\alpha\gamma}$ by
+\beq 2\Lambda_{\alpha\beta\gamma} = \rm{Coefficient}[ U_\alpha , v_\beta v_\gamma ] = \Gamma_{\alpha\beta\gamma} + \Gamma_{\alpha\gamma\beta} \label{Yilin.12} \eeq
+
+After some calculations verified by \textit{Mathematica}, we list all $\lambda_{\alpha\beta}$ 
+
+\beq \begin{align}
+\lambda_{\text{zz}} &= \noindent\(\frac{8 \Delta ^2 \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }\) \\
+\lambda_{\text{xx}} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }\) \\
+\lambda_{\theta \theta} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-12 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }\)
+\end{align} \label{Yilin.13} \eeq
+
+\beq \lambda_{x\theta} = \lambda_{\theta x} = \noindent\(\frac{4 \epsilon ^2 \kappa  \xi ^2}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }\) \label{Yilin.14} \eeq
+\beq \lambda_{zx} = \lambda_{xz} = \lambda_{z\theta} = \lambda_{\theta z} = 0 \label{Yilin.15} \eeq
+
+and then $\Gamma_{\alpha\beta\gamma}$
+\beq \bgn
+\Gamma _{\text{zzz}} &= \noindent\(\frac{42 \kappa  \xi }{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi }\) \\
+\Gamma _{\text{xzx}} = \Gamma _{\text{zxx}} &= \noindent\(\frac{2 \kappa  \xi }{-8 \Delta ^{7/2}+15 \kappa  \xi }\) \\
+\Gamma _{\text{$\theta z \theta $}} = \Gamma _{\text{z$\theta \theta $}} &= \noindent\(\frac{2 \kappa  \xi }{-8 \Delta ^{7/2}+15 \kappa  \xi }\)
+\end{align} \label{Yilin.16} \eeq
+\eq{\agn{
+\Gamma_{zxz} = \Gamma_{zzx} = \Gamma_{zz\theta} = \Gamma_{z\theta z} &= 0 \\
+\Gamma_{xzz} = \Gamma_{xxx} = \Gamma_{\theta zz} = \Gamma_{\theta\theta\theta} &= 0 \\
+\Gamma_{\theta xx} = \Gamma_{x \theta x} = \Gamma_{x \theta\theta} = \Gamma_{\theta x \theta} &= 0 
+}}
+%\beq \Gamma_{zxz} = \Gamma_{zzx} = \Gamma_{zz\theta} = \Gamma_{z\theta z} = 0 \label{Yilin.17} \eeq
+%\beq \Gamma_{xzz} = \Gamma_{xxx} = \Gamma_{\theta zz} = \Gamma_{\theta\theta\theta} = 0 \label{Yilin.18} \eeq
+%\beq \Gamma_{\theta xx} = \Gamma_{x \theta x} = \Gamma_{x \theta\theta} = \Gamma_{\theta x \theta} = 0 \label{Yilin.19} \eeq
+
+\beq \bgn
+\Gamma _{\text{xxz}}&= \frac{1}{9} \kappa  \xi  \left(\frac{18}{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{\epsilon ^2 \kappa  \xi }{-4 \Delta ^6+\Delta ^{7/2} \epsilon \kappa  \xi }\right) \\
+\Gamma _{\text{xx$\theta $}}&= \frac{19 \epsilon  \kappa  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{-144 \Delta ^6+36 \Delta ^{7/2} \epsilon  \kappa \xi } \\
+\Gamma _{\text{$\theta \theta $x}}&= \frac{19 \epsilon ^2 \kappa ^2 \xi ^2}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)} \\
+\Gamma _{\text{$\theta \theta $z}}&= \frac{\epsilon  \kappa  \xi  \left(-228 \Delta ^{5/2}+23 \epsilon  \kappa  \xi \right)}{-144 \Delta ^6+36 \Delta ^{7/2} \epsilon  \kappa \xi }
+\end{align} \label{Yilin.20} \eeq
+
+\beq \bgn
+\Gamma _{\text{zx$\theta $}}=\Gamma _{\text{xz$\theta $}}=& -\frac{25}{18 \Delta }-\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2 \kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50 \Delta ^{3/2}}{36 \Delta ^{5/2}-9 \epsilon  \kappa  \xi } \\
+\Gamma _{\text{z$\theta $x}}=\Gamma _{\text{$\theta $zx}}=& \frac{25}{18 \Delta }+\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2 \kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50 \Delta ^{3/2}}{9 \left(-4 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)} \\
+\Gamma _{\text{x$\theta $z}}=\Gamma _{\text{$\theta $xz}}=& \frac{2}{15}-\frac{1}{2 \Delta }-\frac{3 \epsilon  \kappa  \xi }{8 \Delta ^{7/2}}+\frac{16}{15 \left(-8+\frac{15 \kappa  \xi }{\Delta^{7/2}}\right)}+\frac{1}{2 \Delta -\frac{\epsilon  \kappa  \xi }{2 \Delta ^{3/2}}}
+\end{align} \label{Yilin.21} \eeq
+
+
+Note that there would be the spurious drift force, which originates from the derivative of $\gamma_{\alpha\beta}$, equal to $\pder[\gamma_{\alpha\beta}]{v_\beta} = \Gamma_{\alpha\beta\beta}$. We could easily obtain non-zero components:
+\eq{ \agn{
+\pder[\gamma_{zz}]{v_z} &= \Gamma_{zzz} = \frac{42 \kappa  \xi }{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi } \approx \frac{21 \kappa  \xi }{4 \Delta ^{9/2}}+\frac{315 \kappa ^2 \xi ^2}{32 \Delta ^8} \\ 
+\pder[\gamma_{zx}]{v_x} &= \Gamma_{zxx} = \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
+\pder[\gamma_{z\theta}]{v_\theta} &= \Gamma_{z\theta\theta} = \frac{2 \kappa  \xi }{15 \kappa  \xi -8 \Delta ^{7/2}} \approx -\frac{\kappa  \xi }{4 \Delta ^{7/2}}-\frac{15 \kappa ^2 \xi ^2}{32 \Delta ^7} \\
+}}
+Other $\Gamma_{\alpha\beta\beta}$ are all equal to 0. Thus there is only a spurious force on $\Delta$ direction.
+
+
+Since $\gamma_{\alpha\beta} = \lambda_{\alpha\beta} + \Gamma_{\alpha\beta\gamma} V_\gamma$, we have 
+
+
+\beq \bgn
+\gamma_{zz} &= \noindent\(\frac{8 \Delta ^2 \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{42 \kappa  \xi  v_z}{8 \Delta ^{9/2}-15 \Delta  \kappa  \xi }\) \\
+&= \noindent\(\frac{\xi }{\Delta ^{3/2}}+\left(\frac{15 \xi ^2}{8 \Delta ^5}+\frac{21 \xi  v_z}{4 \Delta ^{9/2}}\right) \kappa +\left(\frac{225 \xi
+^3}{64 \Delta ^{17/2}}+\frac{315 \xi ^2 v_z}{32 \Delta ^8}\right) \kappa ^2+O[\kappa ]^3\)
+\end{align} \label{Yilin.22} \eeq
+
+
+\beq \bgn
+\gamma_{zx} = \gamma_{xz} &= \noindent\(\frac{2 \kappa  \xi  v_X}{-8 \Delta ^{7/2}+15 \kappa  \xi }+\left(-\frac{25}{18 \Delta }-\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2
+\kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50 \Delta ^{3/2}}{36 \Delta ^{5/2}-9 \epsilon  \kappa  \xi }\right) v_{\theta }\) \\
+&= \noindent\(-\frac{\left(\xi  \left(3 v_X-3 v_{\theta }-\epsilon  v_{\theta }\right)\right) \kappa }{12 \Delta ^{7/2}}+\frac{5 \xi ^2 \left(-27 v_X+27
+v_{\theta }+5 \Delta  \epsilon ^2 v_{\theta }\right) \kappa ^2}{288 \Delta ^7}+O[\kappa ]^3\)
+\end{align} \label{Yilin.23} \eeq
+
+
+\beq \bgn
+\gamma_{z\theta} = \gamma_{\theta z} &=\noindent\(\left(\frac{25}{18 \Delta }+\frac{19 \epsilon  \kappa  \xi }{72 \Delta ^{7/2}}+\frac{2 \kappa  \xi }{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{50
+\Delta ^{3/2}}{9 \left(-4 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}\right) v_X+\frac{2 \kappa  \xi  v_{\theta }}{-8 \Delta ^{7/2}+15 \kappa  \xi
+}\) \\
+&= \noindent\(-\frac{\left(\xi  \left(-3 v_X+\epsilon  v_X+3 v_{\theta }\right)\right) \kappa }{12 \Delta ^{7/2}}-\frac{5 \left(\xi ^2 \left(-27 v_X+5
+\Delta  \epsilon ^2 v_X+27 v_{\theta }\right)\right) \kappa ^2}{288 \Delta ^7}+O[\kappa ]^3\)
+\end{align} \label{Yilin.24} \eeq
+
+
+\beq \bgn
+\gamma_{xx} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }+\frac{1}{9}
+\kappa  \xi  \left(\frac{18}{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{\epsilon ^2 \kappa  \xi }{-4 \Delta ^6+\Delta ^{7/2} \epsilon  \kappa  \xi }\right)
+v_z+\frac{19 \epsilon  \kappa  \xi  \left(-6 \Delta ^{5/2}+\epsilon  \kappa  \xi \right) v_{\theta }}{-144 \Delta ^6+36 \Delta ^{7/2} \epsilon  \kappa
+ \xi }\) \\
+&= \noindent\(\frac{2 \epsilon  \xi }{3 \sqrt{\Delta }}+\frac{\left(4 \sqrt{\Delta } \epsilon ^2 \xi ^2+18 \xi  v_z+57 \epsilon  \xi  v_{\theta }\right)
+\kappa }{72 \Delta ^{7/2}}+\left(\frac{\epsilon ^3 \xi ^3}{72 \Delta ^{11/2}}-\frac{\left(-135+8 \Delta  \epsilon ^2\right) \xi ^2 v_z}{288 \Delta
+^7}+\frac{19 \epsilon ^2 \xi ^2 v_{\theta }}{288 \Delta ^6}\right) \kappa ^2+O[\kappa ]^3\)
+\end{align} \label{Yilin.25} \eeq
+
+
+\beq \bgn
+\gamma_{\theta\theta} &= \noindent\(-\frac{4 \epsilon  \xi  \left(-12 \Delta ^{5/2}+\epsilon  \kappa  \xi \right)}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }+\frac{19
+\epsilon ^2 \kappa ^2 \xi ^2 v_X}{36 \left(4 \Delta ^6-\Delta ^{7/2} \epsilon  \kappa  \xi \right)}+\kappa  \xi  \left(\frac{23 \epsilon }{36 \Delta
+^{7/2}}+\frac{2}{8 \Delta ^{7/2}-15 \kappa  \xi }+\frac{34 \epsilon }{36 \Delta ^{7/2}-9 \Delta  \epsilon  \kappa  \xi }\right) v_z\) \\
+&= \noindent\(\frac{4 \epsilon  \xi }{3 \sqrt{\Delta }}+\left(\frac{2 \epsilon ^2 \xi ^2}{9 \Delta ^3}+\frac{(3+19 \epsilon ) \xi  v_z}{12 \Delta ^{7/2}}\right)
+\kappa +\left(\frac{\epsilon ^3 \xi ^3}{18 \Delta ^{11/2}}+\frac{19 \epsilon ^2 \xi ^2 v_X}{144 \Delta ^6}+\frac{\left(135+68 \Delta  \epsilon ^2\right)
+\xi ^2 v_z}{288 \Delta ^7}\right) \kappa ^2+O[\kappa ]^3\)
+\end{align} \label{Yilin.26} \eeq
+
+
+\beq \bgn
+\gamma_{x\theta} = \gamma_{\theta x} &= \noindent\(\frac{4 \epsilon ^2 \kappa  \xi ^2}{36 \Delta ^3-9 \sqrt{\Delta } \epsilon  \kappa  \xi }+\left(\frac{2}{15}-\frac{1}{2 \Delta }-\frac{3
+\epsilon  \kappa  \xi }{8 \Delta ^{7/2}}+\frac{16}{15 \left(-8+\frac{15 \kappa  \xi }{\Delta ^{7/2}}\right)}+\frac{1}{2 \Delta -\frac{\epsilon  \kappa
+ \xi }{2 \Delta ^{3/2}}}\right) v_z\) \\
+&= \noindent\(\left(\frac{\epsilon ^2 \xi ^2}{9 \Delta ^3}-\frac{(\xi +\epsilon  \xi ) v_z}{4 \Delta ^{7/2}}\right) \kappa +\left(\frac{\epsilon ^3
+\xi ^3}{36 \Delta ^{11/2}}+\frac{\left(-15+\Delta  \epsilon ^2\right) \xi ^2 v_z}{32 \Delta ^7}\right) \kappa ^2+O[\kappa ]^3\)
+\end{align} \label{Yilin.27} \eeq

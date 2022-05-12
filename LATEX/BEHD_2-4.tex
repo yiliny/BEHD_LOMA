@@ -1,0 +1,94 @@
+\ssc{Mean square displacement}
+
+Since there is no correlation between $v_i(t)$ and $\delta F_j(t)$, $\llang v_i(t_1) \delta F_j(t_2) \rrang = 0$. Note $m_x \llang v_x^2(0) \rrang / 2 = k_B T / 2$, $m_\tta \llang v_\tta^2(0) \rrang / 2 = k_B T /2$, we suppose $\llang v_x(0) v_\tta(0) \rrang = \llang v_\tta(0) v_x(0) \rrang = k_B T / m_{x\tta}$.
+$$ \agn{
+\llang v_x(0) v_x(t) \rrang &= \llang v_x(0) \lls v_{x0}(t) + v_{x1}(t) \rrs \rrang = \llang v_x(0) v_{x0}(t) \rrang + \llang v_x(0) v_{x1}(t) \rrang \\ % rang 1-0
+&= \llang v_x^2(0) \rrang e^{-\gamma_{0,xx0}t} \llp 1 - \gamma_{0,xx1} t \rrp + \llang v_x(0) v_\tta(0) \rrang \frac{ \gamma _{0,\text{x$\theta $1}} }{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp \\ % rang 1-1
+&= \frac{k_B T}{m_x} e^{-\gamma_{0,xx0}t} \llp 1 - \gamma_{0,xx1} t \rrp + \frac{k_B T}{m_{x\tta}} \frac{ \gamma _{0,\text{x$\theta $1}} }{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp \\ % rang 1-2
+\llang v_\tta(0) v_\tta(t) \rrang &= \llang v_\tta(0) \lls v_{\tta0}(t) + v_{\tta1}(t) \rrs \rrang = \llang v_\tta(0) v_{\tta0}(t) \rrang + \llang v_\tta(0) v_{\tta1}(t) \rrang \\ % rang 2-0
+&= \llang v_\tta^2(0) \rrang e^{-\gamma_{0,\tta\tta0} t} \llp 1 - \gamma_{0,\tta\tta1} t \rrp + \llang v_\tta(0) v_x(0) \rrang \frac{ \gamma _{0,\text{$\theta $x1}}}{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp \\ % rang 2-1
+&= \frac{k_B T}{m_\tta} e^{-\gamma_{0,\tta\tta0} t} \llp 1 - \gamma_{0,\tta\tta1} t \rrp + \frac{k_B T}{m_{x\tta}} \frac{ \gamma _{0,\text{$\theta $x1}}}{\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}} \llp e^{- \gamma _{0,\text{xx0}} t} - e^{- \gamma _{0,\text{$\theta \theta $0}} t} \rrp
+}$$
+
+$$ \llang \Delta r_x^2(t) \rrang = \llang \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 v_x(\tau_1) v_x(\tau_2) \rrang \tens \llang \Delta r_\tta^2(t) \rrang = \llang \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 v_\tta(\tau_1) v_\tta(\tau_2) \rrang $$
+We have the derivatives
+$$ \agn{
+& \dv[]{}{t} \llang \Delta r_x^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_x(0) v_x(\tau) \rrang = 2 k_B T \times \\ % rang 1
+& \llp \frac{1-e^{-t \gamma _{0,\text{xx0}}}}{m_x \gamma _{0,\text{xx0}}} - \frac{\gamma _{0,\text{xx1}} \left(1-e^{-t \gamma _{0,\text{xx0}}} \left(t \gamma _{0,\text{xx0}}+1\right)\right)}{m_x \gamma _{0,\text{xx0}}^2} + \frac{\gamma_{0,x\tta1}}{m_{x\tta} (\gamma_{0,xx0} - \gamma_{0,\tta\tta0})} \llp \frac{1-e^{-\gamma_{0,xx0} t}}{\gamma_{0,xx0}} - \frac{1 - e^{-\gamma_{0,\tta\tta0} t}}{\gamma_{0,\tta\tta0}} \rrp \rrp \\ % rang 2
+} $$
+$$ \agn{
+& \dv[]{}{t} \llang \Delta r_\tta^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_\tta(0) v_\tta(\tau) \rrang = 2 k_B T \times \\
+& \llp \frac{1-e^{-t \gamma _{0,\tta\tta0}}}{m_\tta \gamma _{0,\tta\tta0}} - \frac{\gamma _{0,\tta\tta1} \left(1-e^{-t \gamma _{0,\tta\tta0}} \left(t \gamma _{0,\tta\tta0}+1\right)\right)}{m_x \gamma _{0,\tta\tta0}^2} + \frac{\gamma_{0,\tta x1}}{m_{x\tta} (\gamma_{0,xx0} - \gamma_{0,\tta\tta0})} \llp \frac{1-e^{-\gamma_{0,xx0} t}}{\gamma_{0,xx0}} - \frac{1 - e^{-\gamma_{0,\tta\tta0} t}}{\gamma_{0,\tta\tta0}} \rrp \rrp
+} $$
+Then the second integration for $\llang \Delta r_i^2 (t) \rrang$
+$$ \agn{
+&\llang \Delta r_x^2(t) \rrang = \llang \Delta r_x^2(0) \rrang + \\ % rang 1
+& k_B T \left(\frac{\frac{e^{-t \gamma _{0,\text{xx0}}}-1}{\gamma _{0,\text{xx0}}}+t}{m_x \gamma _{0,\text{xx0}}} + \frac{\gamma _{0,\text{x$\theta $1}} \left(\frac{e^{-t \gamma _{0,\text{xx0}}}-1}{\gamma _{0,\text{xx0}}}+t\right)}{\gamma _{0,\text{xx0}} m_{x\tta} \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} - \frac{\gamma _{0,\text{x$\theta $1}} \left(\frac{e^{-t \gamma _{0,\text{$\theta \theta $0}}}-1}{\gamma _{0,\text{$\theta \theta $0}}}+t\right)}{\gamma _{0,\text{$\theta \theta $0}} m_{x\tta} \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} - \frac{\gamma _{0,\text{xx1}} \left(t-\frac{2-e^{-t \gamma _{0,\text{xx0}}} \left(t \gamma _{0,\text{xx0}}+2\right)}{\gamma _{0,\text{xx0}}}\right)}{m_x \gamma _{0,\text{xx0}}^2}\right) \\ % rang 2
+&\approx \frac{t^2 T k_B}{m_x}-\frac{t^3 \left(T k_B \left(m_x \gamma _{0,\text{x$\theta $1}}+m_{\text{x$\theta $}} \left(\gamma _{0,\text{xx0}}+\gamma _{0,\text{xx1}}\right)\right)\right)}{3 \left(m_x m_{\text{x$\theta $}}\right)} + O\left(t^3\right)% rang 3
+} $$
+%%%
+$$ \agn{
+&\llang \Delta r_\tta^2(t) \rrang = \llang \Delta r_\tta^2(0) \rrang + \\ % rang 1
+& k_B T \llp \frac{\frac{e^{-t\gamma_{0,\tta\tta0}} - 1}{\gamma_{0,\tta\tta0}} + t}{m_\tta \gamma_{0,\tta\tta0}} + \frac{\gamma _{0,\text{$\theta $x1}} \left(\frac{e^{-t \gamma _{0,\text{xx0}}}-1}{\gamma _{0,\text{xx0}}}+t\right)}{\gamma _{0,\text{xx0}} m_{x\tta} \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} - \frac{\gamma _{0,\text{$\theta $x1}} \left(\frac{e^{-t \gamma _{0,\text{$\theta \theta $0}}}-1}{\gamma _{0,\text{$\theta \theta $0}}}+t\right)}{\gamma _{0,\text{$\theta \theta $0}} m_{x\tta} \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} - \frac{\gamma_{0,\tta\tta1} \llp t - \frac{2 - e^{-t \gamma_{0,\tta\tta0}} (t+ \gamma_{0,\tta\tta0} +2)}{\gamma_{0,\tta\tta0}} }{m_\tta \gamma_{0,\tta\tta0}^2} \rrp \\ % rang 2
+&\approx \frac{t^2 T k_B}{m_{\theta }}-\frac{t^3 \left(T k_B \left(m_{\theta } \gamma _{0,\text{$\theta $x1}}+m_{\text{x$\theta $}} \left(\gamma _{0,\text{$\theta \theta $0}}+\gamma _{0,\text{$\theta \theta $1}}\right)\right)\right)}{3 \left(m_{\theta } m_{\text{x$\theta $}}\right)} + O\left(t^3\right) % rang 3
+} $$
+
+In the end, we would like to cross mean "square" displacement between $x$ and $\tta$.
+$$ \lla \Delta r_x(t) \cdot \Delta r_\tta(t) \rra = \int_0^t \lls \dv[]{}{t} \lla \Delta r_x(\tau) \cdot \Delta r_\tta(\tau) \rra \rrs \mrm{d}\tau + \lla \Delta r_x(0) \cdot \Delta r_\tta(0) \rra $$
+Since
+$$ \Delta r_x(t) = \int_0^t v_x(\tau) \mrm{d}\tau \tens \Delta r_\tta(t) = \int_0^t v_\tta(\tau) \mrm{d}\tau $$
+$$ \agn{
+\dv[]{}{t} \lla \Delta r_x(t) \cdot \Delta r_\tta(t) \rra &= \dv[]{}{t} \lla \int_0^t v_x(\tau) \mrm{d}\tau \cdot \int_0^t v_\tta(\tau) \mrm{d}\tau \rra = \dv[]{}{t} \lls \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 \lla v_x(\tau_1) v_\tta(\tau_2) \rra \rrs \\ % rang 1
+&= \int_0^t \lla v_x(t) v_\tta(\tau) \rra \mrm{d}\tau + \int_0^t \lla v_x(\tau) v_\tta(t) \rra \mrm{d}\tau % rang 2
+} $$
+we focus on cross velocity product average (always to 1-order of $\kpa$)
+$$ \agn{
+\lla v_x(\tau_1) v_\tta(\tau_2) \rra &= \lla \lls v_{x0}(\tau_1) + v_{x1}(\tau_1) \rrs \cdot \lls v_{\tta0}(\tau_2) + v_{\tta1}(\tau_2) \rrs \rra \\ % rang 1
+&= \lla v_{x0}(\tau_1) v_{\tta0}(\tau_2) \rra + \lla v_{x0}(\tau_1) v_{\tta1}(\tau_2) \rra + \lla v_{x1}(\tau_1) v_{\tta0}(\tau_2) \rra + \cancel{\lla v_{x1}(\tau_1) v_{\tta1}(\tau_2) \rra} % rang 2
+} $$
+We still pose that there's no cross correlation, $\lla \dlt F_x (\tau_1) \dlt F_\tta (\tau_2) \rra = 0$, $\lla v_i (\tau_1) \dlt F_j (\tau_2) \rra = 0$, we only consider the contribution from $\lla v_x^2(0) \rra$, $\lla v_\tta^2(0) \rra$, also $\lla v_x(0) v_\tta(0) \rra = \frac{k_B T}{m_{x\tta}}$ as we supposed previously. With the expressions, we could easily calculate each term:
+$$ \lla v_{x0} (\tau_1) v_{\tta0} (\tau_2) \rra = \lla v_x(0) v_\tta(0) \rra e^{-\gma_{0,xx0} \tau_1} e^{-\gma_{0,\tta\tta0} \tau_2} $$
+$$ \lla v_{x0} (\tau_1) v_{\tta1} (\tau_2) \rra = \lla v_x^2(0) \rra \frac{e^{-\gma_{0,xx0} \tau_1} \gma_{0,\tta x1}}{\gma_{0,xx0} - \gma_{0,\tta\tta0}} \llp e^{-\gma_{0,xx0} \tau_2} - e^{-\gma_{0,\tta\tta0} \tau_2} \rrp - \lla v_x(0) v_\tta(0) \rra \gma_{0,\tta\tta1} \tau_2 e^{-\gma_{0,xx0} \tau_1} e^{-\gma_{0,\tta\tta0} \tau_2} $$
+$$ \lla v_{x1}(\tau_1) v_{\tta0}(\tau_2) \rra = \lla v_\tta^2(0) \rra \frac{e^{-\gma_{0,\tta\tta0} \tau_2} \gma_{0,x\tta1}}{\gma_{0,xx0} - \gma_{0,\tta\tta0}} \llp e^{-\gma_{0,xx0} \tau_1} - e^{-\gma_{0,\tta\tta0} \tau_1} \rrp - \lla v_x(0) v_\tta(0) \rra \gma_{0,xx1} \tau_1 e^{-\gma_{0,xx0} \tau_1} e^{-\gma_{0,\tta\tta0} \tau_2} $$
+We jump the explicit calculation process, giving the final result directly:
+$$ \agn{ 
+& \lla \Delta r_x(t) \cdot \Delta r_\tta(t) \rra = \lla \Delta r_x(0) \cdot \Delta r_\tta(0) \rra \\ % rang 0
+& \fives + \frac{\gamma _{0,\text{$\theta $x1}} \left(e^{t \gamma _{0,\text{xx0}}}-1\right) e^{-t \left(\gamma _{0,\text{$\theta \theta $0}}+2 \gamma _{0,\text{xx0}}\right)} \left(\gamma _{0,\text{$\theta \theta $0}} e^{t \gamma _{0,\text{$\theta \theta $0}}} \left(e^{t \gamma _{0,\text{xx0}}}-1\right)-\gamma _{0,\text{xx0}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right) e^{t \gamma _{0,\text{xx0}}}\right)}{\gamma _{0,\text{$\theta \theta $0}} \gamma _{0,\text{xx0}}^2 \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} \lla v_x^2(0) \rra \\ % rang 1-1
+& \fives + \frac{\gamma _{0,\text{x$\theta $1}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right) e^{-t \left(2 \gamma _{0,\text{$\theta \theta $0}}+\gamma _{0,\text{xx0}}\right)} \left(\gamma _{0,\text{$\theta \theta $0}} e^{t \gamma _{0,\text{$\theta \theta $0}}} \left(e^{t \gamma _{0,\text{xx0}}}-1\right)-\gamma _{0,\text{xx0}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right) e^{t \gamma _{0,\text{xx0}}}\right)}{\gamma _{0,\text{$\theta \theta $0}}^2 \gamma _{0,\text{xx0}} \left(\gamma _{0,\text{xx0}}-\gamma _{0,\text{$\theta \theta $0}}\right)} \lla v_\tta^2(0) \rra \\ % rang 1-2
+& \fives + \frac{e^{-t \left(\gamma _{0,\text{$\theta \theta $0}}+\gamma _{0,\text{xx0}}\right)}}{\gamma _{0,\text{$\theta \theta $0}}^2 \gamma _{0,\text{xx0}}^2} \lla v_x(0) v_\tta(0) \rra \times \\ % rang 1-3-1
+& \tens \left[ \gamma _{0,\text{xx0}} \left(\gamma _{0,\text{$\theta \theta $0}} \left(\left(e^{t \gamma _{0,\text{xx0}}}-1\right) \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}+t \gamma _{0,\text{$\theta \theta $1}}-1\right)+t \gamma _{0,\text{xx1}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right)\right) \right. \right. \\ % rang 1-3-2
+& \tens \left. \left. - \gamma _{0,\text{$\theta \theta $1}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right) \left(e^{t \gamma _{0,\text{xx0}}}-1\right)\right)-\gamma _{0,\text{$\theta \theta $0}} \gamma _{0,\text{xx1}} \left(e^{t \gamma _{0,\text{$\theta \theta $0}}}-1\right) \left(e^{t \gamma _{0,\text{xx0}}}-1\right) \right] \\ % rang 1-3-3
+&\approx t^2 \lla v_x(0) v_\tta(0) \rra - \frac{1}{2} t^3 \left[ \lla v_x(0) v_\tta(0) \rra \llp \gma_{0,xx0} + \gma_{0,xx1} + \gma_{0,\tta\tta0} + \gma_{0,\tta\tta1} \rrp + \lla v_x^2(0) \rra \gamma _{0,\text{$\theta $x1}} + \lla v_{\theta }^2(0) \rra \gamma _{0,\text{x$\theta $1}} \right] \\ % rang 2
+& 
+}$$
+
+We could also exploit Kubo's relation toward the diffusion coefficient. Note that $D_x, D_\tta$ are both functions of $\Dlt$.
+$$ D_x = \int_0^\infty \lla v_x(0) v_x(t) \rra \mrm{d}t = \frac{k_B T}{\gamma _{0,\text{xx0}}^2} \left(\frac{\gamma _{0,\text{xx0}}-\gamma _{0,\text{xx1}}}{m_x}-\frac{\gamma _{0,\text{x$\theta $1}} \gamma _{0,\text{xx0}}}{m_{\text{x$\theta $}} \gamma _{0,\text{$\theta \theta $0}}}\right) $$
+
+$$ D_\tta = \int_0^\infty \lla v_\tta(0) v_\tta(t) \rra \mrm{d}t = \frac{k_B T}{\gamma _{0,\text{$\theta \theta $0}}^2} \left(\frac{\gamma _{0,\text{$\theta \theta $0}}-\gamma _{0,\text{$\theta \theta $1}}}{m_{\theta }}-\frac{\gamma _{0,\text{$\theta \theta $0}} \gamma _{0,\text{$\theta $x1}}}{m_{\text{x$\theta $}} \gamma _{0,\text{xx0}}}\right) $$
+
+
+
+We ignored the MSD along $z$ direction, since all $\gma$s depend on the height $\Delta$. Note $\gma_{0,zz0} = \frac{\xi}{\Delta^{3/2}}$, $\gma_{0,zz1} = \frac{15 \kpa \xi^2}{8 \Delta^4}$. In this case, the particle would furnish different diffusion coefficient at different height rather than a constant parameter, even though we could derive the expression of $\lla v_z(0) v_z(t) \rra$ and the following calculations. 
+$$ \lla v_z(0) v_z(t) \rra = \lla v_z(0) \lls v_{z0}(t) + v_{z1}(t) \rrs \rra = \lla v_z(0) v_{z0}(t) \rra + \lla v_z(0) v_{z1}(t) \rra = \lla v_z^2(0) \rra e^{-\gma_{0,zz0} t} \llp 1 - \gma_{0,zz1} t \rrp $$
+
+
+Therefore, we would like to seek a characteristic height $z^\ast$ in this case. Consider the diffusion coefficient $D_z$ as a function of $z,t$. 
+$$ D_z(\Dlt) = \int_0^\infty \lla v_z(0) v_z(t) \rra \llp \Dlt \rrp \mrm{d}t = \int_0^\infty \lla v_z^2(0) \rra \exp \llp - \frac{\xi}{\Dlt^{3/2}} t \rrp \cdot \llp 1 - \frac{15 \kpa \xi^2}{8 \Dlt^4} t \rrp \mrm{d}t $$
+$$ \lla D_z \rra = \frac{1}{z_+ - z_-} \int_{z_-}^{z_+} D_z(\Dlt) \mrm{d}\Dlt = \frac{1}{z_+ - z_-} \int_{z_-}^{z_+} \mrm{d}\Dlt \int_0^\infty \mrm{d}t  \lla v_z^2(0) \rra \exp \llp - \frac{\xi}{\Dlt^{3/2}} t \rrp \cdot \llp 1 - \frac{15 \kpa \xi^2}{8 \Dlt^4} t \rrp $$
+where $z_-, z_+$ refer to the minimum and maximum height. This average diffusion coefficient would just be corresponding to the value at a given position, namely the typical height $z^\ast$. 
+$$ \lla D_z \rra = D_z(z^\ast) $$
+
+
+
+% 二次积分，得到MSDx, MSDtheta
+% 速度平方，得到噪音振幅
+% 交叉速度关联函数
+% 交叉位移关联函数
+
+
+
+%$$ M_{3\times3} \cdot \dot{v}(t)_{3\times1} = -\gamma_{3\times3} \cdot v(t)_{3\times1} + \delta F_{3\times1} $$
+%$$ \dot{v}(t)_{3\times1} = -\gamma_{\rm{eff},3\times3} \cdot v(t)_{3\times1} + M^{-1}_{3\times3} \cdot \delta F_{3\times1} $$
+%$$ \widetilde{\dot{v}(t)_{3\times1}} = - \widetilde{ \gamma_{\rm{eff},3\times3} \cdot v(t)_{3\times1}} + \widetilde{M^{-1}_{3\times3} \cdot \delta F_{3\times1}} $$
+%we make Laplace transform as $\tilde{v} = \widetilde{v(t)}(s) = \int_0^\infty v(t) e^{-st} dt$

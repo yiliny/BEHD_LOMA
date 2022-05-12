@@ -1,0 +1,106 @@
+\ssc{Mass vector and effective friction matrix}
+We always regarded the mass as 1 in the previous parts, while it should be carefully distinguished later. For $z,x$ components, $m_\alpha = m = \pi r^2 \rho$ namely the mass of the column (per unit length). However, $m_\Theta = mr^2 /2$ refers to the moment of inertia. Taking that into account, we compare these two versions (Note we re-write $U_\alpha$ as $F_\alpha$ on the left side)
+
+\begin{center}
+\begin{tabular}{c|c}
+\hline
+$m_\alpha = 1$ & $m_\alpha = (m,m,mr^2/2)$ \\
+\hline
+%$dX_\alpha = V_\alpha dt$ & $\dot{x}_\alpha = v_\alpha \\
+$dV_\alpha = - F_\alpha dt - \nabla_\alpha \phi(\mathbf{X}) dt$ & $m_\alpha \cdot \dot{v}_\alpha = F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) - \nabla_\alpha \phi(\bbf{x})$ \\
+$F_\alpha = \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta} V_\beta + \Gamma_{\alpha\beta\gamma} V_\beta V_\gamma$ & $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $ \\
+$$ & $M_{\alpha\beta} = \delta_{\alpha\beta} \cdot m_\alpha - F_{2h\alpha\beta}(\bbf{x})$ \\
+$$ & $M_{\alpha\beta} \dot{v}_\beta = F_{1h\alpha}(\bbf{v},\bbf{x}) - \nabla_\alpha \phi(\bbf{x}) $ \\
+%$P_{eq} (\mathbf{X},\mathbf{V}) = \frac{1}{\bar{Z}} \exp \left( - \frac{\beta \mathbf{V}^2}{2} - \beta \phi(\mathbf{X}) \right)$ & $P_0 = \exp \left[ -\beta \sum_\alpha \frac{m_\alpha}{2} v_\alpha^2 - \beta \phi(\bbf{x}) \right] $ \\
+%$\frac{dV_\alpha}{dt} = -F_\alpha - \pder[\phi(\mathbf{X})]{X_\alpha} + T \pder[\gamma_{\alpha\beta}]{V_\beta} + \eta_\alpha(t)$ & $\dot{v}_\alpha (t) = M_{\alpha\beta}^{-1} \left[ F_{1h\beta} (\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) \right] + TU_\alpha + \eta_\alpha $ \\
+%$\pder[P]{t} = \pder{V_\alpha} \left[ T \gamma_{\alpha\beta} \pder[P]{V_\beta} + U_\alpha P + \pder[\phi]{X_\alpha} P \right] - \pder{X_\alpha} V_\alpha P$ & $\pder{v_\alpha} \left\{ T \gamma_{\alpha\beta} \pder[P]{v_\alpha} - \left[ M_{\alpha\beta}^{-1} \left( F_{1h\beta}(\bbf{v},\bbf{x}) - \nabla_\beta \phi(\bbf{x}) \right) - TU_\alpha \right] P \right\} - \pder{x_\alpha} (v_\alpha P)$ \\
+%$F_\alpha = \gamma_{\alpha\beta} V_\beta = \lambda_{\alpha\beta} V_\beta + \Gamma_{\alpha\beta\gamma} V_\beta V_\gamma$ & $\beta v_\alpha \nabla_\alpha \phi P + \nabla_\beta \phi(\bbf{x}) \pder{v_\alpha} \left[ M_{\alpha\beta}^{-1} P \right] = 0 $ \\
+\hline
+\end{tabular}
+\end{center}
+
+Since $F_{h\alpha}(\bbf{v},\dot{\bbf{v}},\bbf{x}) = F_{1h\alpha}(\bbf{v},\bbf{x}) + F_{2h\alpha\beta}(\bbf{x}) \dot{v}_\beta $, we could extract $F_{1h\alpha}(\bbf{v},\bbf{x})$ and $F_{2h\alpha\beta}(\bbf{x})$ by %Along the perpendicular direction, 
+\beq - \frac{F_{hZ}}{m_Z} = - \dot{v}_z = - \ddot{\Delta} = a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_5 \frac{\ddot\Delta}{\Delta^{7/2}} + a_6 \label{Yilin.34} \eeq
+thus
+\beq \bgn
+F_{1hZ} &= -m_Z \left( a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}} + a_6 \right) \\
+F_{2hZZ} &= - \frac{m_Z a_5}{\Delta^{7/2}} \tens F_{2hZX} = 0 \tens F_{2hZ\Theta} = 0
+\end{align} \label{Yilin.35} \eeq
+Similarly, there are cross terms for $X, \Theta$ components
+\beq - \frac{F_{hX}}{m_X} = - \dot{v}_x = - \textcolor{red}{\ddot{X}} = b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + b_6 \label{Yilin.36} \eeq
+\beq \bgn
+F_{1hX} &= -m_X \left( b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_6 \right) \\
+F_{2hXZ} &=0 \tens F_{2hXX} = - \frac{m_X b_5}{\Delta^{5/2}} \tens F_{2hX\Theta} = - \frac{m_X b_4}{\Delta^{5/2}}
+\end{align} \label{Yilin.37} \eeq
+and
+\beq - \frac{F_{h\Theta}}{m_\Theta} = - \dot{v}_\theta = - \textcolor{blue}{\ddot{\Theta}} = c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 \label{Yilin.38} \eeq
+\beq \bgn
+F_{1h\Theta} &= -m_\Theta \left( c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_6 \right) \\
+F_{2h\Theta Z} &=0 \tens F_{2h\Theta X} = - \frac{m_\Theta c_4}{\Delta^{5/2}} \tens F_{2h\Theta\Theta} = - \frac{m_\Theta c_5}{\Delta^{5/2}}
+\end{align} \label{Yilin.39} \eeq
+We pose that $M_{\alpha\beta} = \delta_{\alpha\beta} m_\alpha - F_{2h\alpha\beta}(\bbf{x})$, hence ($m_X = m, m_\Theta = m r^2/2$) 
+\beq \bgn
+M_{ZZ} &= m_Z + \frac{m_Z a_5}{\Delta^{5/2}} \\
+M_{XX} &= m_X + \frac{m_X b_5}{\Delta^{5/2}} \tens M_{X\Theta} = \frac{m_X b_4}{\Delta^{5/2}} \\
+M_{\Theta X} &= \frac{m_\Theta c_4}{\Delta^{5/2}} \tens M_{\Theta \Theta} = m_\Theta + \frac{m_\Theta c_5}{\Delta^{5/2}}
+\end{align} \label{Yilin.40} \eeq
+We know that $a_5 = -\frac{15\kappa\xi}{8}$, $b_4 = \frac{\kappa\xi\veps}{12}$, $b_5 = - \frac{\kappa\xi\veps}{12}$, $c_4 = \frac{\kappa\xi\veps}{6}$, $c_5 = - \frac{\kappa\xi\veps}{6}$, so
+\beq M = \left(
+\begin{array}{ccc}
+ m_z-\frac{15 \kappa  \xi  m_z}{8 \Delta ^{5/2}} & 0 & 0 \\
+ 0 & m_X-\frac{\kappa  \xi  \epsilon  m_X}{12 \Delta ^{5/2}} & \frac{\kappa  \xi  \epsilon  m_X}{12 \Delta ^{5/2}} \\
+ 0 & \frac{\kappa  \xi  \epsilon  m_{\theta }}{6 \Delta ^{5/2}} & m_{\theta }-\frac{\kappa  \xi  \epsilon  m_{\theta }}{6 \Delta ^{5/2}} \\
+\end{array}
+\right) \label{Yilin.41} \eeq
+and its inverse matrix 
+\beq M^{-1} = \left(
+\begin{array}{ccc}
+ \frac{1}{m_z-\frac{15 \kappa  \xi  m_z}{8 \Delta ^{5/2}}} & 0 & 0 \\
+ 0 & \frac{12 \Delta ^{5/2}-2 \kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_X-3 \kappa  \xi  \epsilon  m_X} & \frac{\kappa  \xi  \epsilon }{3 m_{\theta } \left(\kappa  \xi  \epsilon -4 \Delta ^{5/2}\right)} \\
+ 0 & \frac{2 \kappa  \xi  \epsilon }{3 m_X \left(\kappa  \xi  \epsilon -4 \Delta ^{5/2}\right)} & \frac{12 \Delta ^{5/2}-\kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_{\theta }-3 \kappa  \xi  \epsilon  m_{\theta }} \\
+\end{array}
+\right) \label{Yilin.42} \eeq
+with the approximation expressed by the series of $\kappa$:
+\beq M^{-1}_{app} \approx \left(
+\begin{array}{ccc}
+ \frac{1}{m_z}+\frac{15 \kappa  \xi }{8 \Delta ^{5/2} m_z}+\frac{225 \kappa ^2 \xi ^2}{64 \Delta ^5 m_z}   & 0 & 0 \\
+ 0 & \frac{1}{m_X}+\frac{\kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_X}+\frac{\kappa ^2 \xi ^2 \epsilon ^2}{48 \Delta ^5 m_X}   & -\frac{\kappa  (\xi  \epsilon )}{12 \left(\Delta ^{5/2} m_{\theta }\right)}-\frac{\kappa ^2 \left(\xi ^2 \epsilon ^2\right)}{48 \left(\Delta ^5 m_{\theta }\right)}   \\
+ 0 & -\frac{\kappa  (\xi  \epsilon )}{6 \left(\Delta ^{5/2} m_X\right)}-\frac{\kappa ^2 \left(\xi ^2 \epsilon ^2\right)}{24 \left(\Delta ^5 m_X\right)}   & \frac{1}{m_{\theta }}+\frac{\kappa  \xi  \epsilon }{6 \Delta ^{5/2} m_{\theta }}+\frac{\kappa ^2 \xi ^2 \epsilon ^2}{24 \Delta ^5 m_{\theta }}   \\
+\end{array}
+\right) \label{Yilin.43} \eeq
+Only taking the first-order correction, we could verify
+$$ M \cdot M^{-1}_{app} = \left( \begin{array}{ccc} 1-\frac{225 \kappa ^2 \xi ^2}{64 \Delta ^5} & 0 & 0 \\ 0 & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{48 \Delta ^5} & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_X}{48 \Delta ^5 m_{\theta }} \\ 0 & \frac{\kappa ^2 \xi ^2 \epsilon ^2 m_{\theta }}{24 \Delta ^5 m_X} & 1-\frac{\kappa ^2 \xi ^2 \epsilon ^2}{24 \Delta ^5} \\ \end{array} \right) \approx \left(\begin{array}{ccc}1. & 0 & 0 \\0 & 1. & 0. \\0 & 0. & 1.\end{array}\right)$$
+% Or taking the second-order term, we would get
+%$$ M \cdot M^{-1}_{app} = \left( \begin{array}{ccc} 1-\frac{3375 \kappa ^3 \xi ^3}{512 \Delta ^{15/2}} & 0 & 0 \\ 0 & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{192 \Delta ^{15/2}} & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_X}{192 \Delta ^{15/2} m_{\theta }} \\ 0 & \frac{\kappa ^3 \xi ^3 \epsilon ^3 m_{\theta }}{96 \Delta ^{15/2} m_X} & 1-\frac{\kappa ^3 \xi ^3 \epsilon ^3}{96 \Delta ^{15/2}} \\ \end{array} \right) \approx \left(\begin{array}{ccc}1 & 0 & 0 \\0 & 1 & 0 \\0 & 0 & 1\end{array}\right)$$
+
+
+
+
+
+We have obtained the $\gamma$ matrix in the subsection \ref{gamma}, without mass vector. Here we update the effective matrix $\gamma_\mrm{eff}$ with $M^{-1}$, starting from 
+$$ \begin{align}
+m_\al \cdot \dot{v}_\al &= F_\al (t) - m_\alpha \cdot \gamma_{\alpha\beta} v_\bt = \left[ F_{1\al}(\bbf{x}) + F_{2\ab}(\bbf{x}) \dot{v}_\bt \right] - m_\al \cdot \gamma_{\ab} v_\bt \\
+m_{\al} \cdot \dot{v}_\al &- F_{2\ab}(\bbf{x}) \dot{v}_\bt = \left( m_\al \cdot \delta_{\ab} - F_{2\ab}(\bbf{x}) \right) \dot{v}_\beta = F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \\
+\dot{v}_\bt &= \left( m_\al \cdot \delta_{\ab} - F_{2\ab}(\bbf{x}) \right)^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right) = M_{\ab}^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right)
+\end{align} $$
+Note that the $\gamma$ matrix above only contains terms about first derivatives %does not contain coefficients $(a/b/c)_{5/6}$
+$$ \agn{
+\gamma_{Z\beta} v_\beta &= a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_2 \frac{\dot{\Delta}^2}{\Delta^{9/2}} + a_3 \frac{\dot\Theta^2}{\Delta^{7/2}} + a_3 \frac{\dot{X}^2}{\Delta^{7/2}} + a_4 \frac{\dot\Theta \dot{X}}{\Delta^{7/2}}\\
+\gamma_{X\beta} v_\beta &= b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} \\
+\gamma_{\Theta\beta} v_\beta &= c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} 
+} $$
+To avoid the possible confusion, we write the original $\gamma$ as $\gamma^\ast$ below. Therefore, we have $\gamma_\mrm{eff}$, considering $dv = \frac{f(t)}{m} dt - \gamma v dt + \sqrt{\frac{2\gamma}{\beta m}} dW $
+\eq{\gamma_\mrm{eff} = M_{\ab}^{-1} \cdot \left(\begin{array}{ccc}m_Z & 0 & 0 \\0 & m_X & 0 \\0 & 0 & m_\Theta \end{array}\right) \cdot \gamma^\ast_{\ab} \label{Yilin.44} }
+Surprisingly, we recover almost the same $\gamma_{\ab}$ shown previously except $\gamma_{zz}$: (See eq. \ref{Yilin.22})
+\eq{ \agn{
+\gamma_{\mrm{eff},zz} &= \frac{\xi }{\Delta ^{3/2}} +\kappa  \left(\frac{15 \xi ^2}{8 \Delta ^4}+\frac{21 \xi  v_z}{4 \Delta ^{9/2}}\right) +O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},xx} &= \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(4 \sqrt{\Delta } \xi  \epsilon ^2+18 v_z+57 \epsilon  v_{\theta }\right)}{72 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},\theta\theta} &= \frac{4 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(8 \sqrt{\Delta } \xi  \epsilon ^2+57 \epsilon  v_z+9 v_z\right)}{36 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},xz} = \gamma_{\mrm{eff},zx} &= \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_X\right)}{12 \Delta ^{7/2}} + O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},\theta z} = \gamma_{\mrm{eff},z\theta} &= -\frac{\kappa \xi  \left(3 v_{\theta }+(\epsilon -3) v_X\right)}{12 \Delta ^{7/2}}+O\left(\kappa ^2\right) \\
+\gamma_{\mrm{eff},\theta x} = \gamma_{\mrm{eff},x\theta} &= -\frac{\kappa \xi  \left(16 \Delta ^3 \xi  \epsilon ^2+36 \Delta ^{5/2} (\epsilon +1) v_z\right)}{144 \Delta ^6}+O\left(\kappa ^2\right)
+}}
+
+
+
+

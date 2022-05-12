@@ -1,0 +1,42 @@
+\ssc{Theoretical fundamentals}
+
+\tit{Here are prerequisites used in the following parts, including Gibbs-Boltzmann distribution, Langevin equation, Fokker-Planck equation...}
+
+\parag{Gibbs-Boltzmann distribution} The Boltzmann distribution is a probability distribution that gives the probability of a certain state as a function of that state's energy and temperature of the system to which the distribution is applied. It is given as
+$$ p_i = \frac{\exp(-\beta \veps_i)}{\sum_{j=1}^M \exp(-\beta \veps_j)} $$
+
+\parag{Langevin equation}  %In physics, a Langevin equation (named after Paul Langevin) is a stochastic differential equation describing how a system evolves when subjected to a combination of deterministic and fluctuating ("random") forces. The dependent variables in a Langevin equation typically are collective (macroscopic) variables changing only slowly in comparison to the other (microscopic) variables of the system. The fast (microscopic) variables are responsible for the stochastic nature of the Langevin equation. One application is to Brownian motion, which models the fluctuating motion of a small particle in a fluid.
+
+The original Langevin equation describes Brownian motion, the apparently random movement of a particle in a fluid due to collisions with molecules of the fliud, 
+$$ m \frac{dv}{dt} = - \xi v + \delta F $$
+where $v$ is the velocity of the particle, and $m$ is the mass. The force acting on the particle is written as a sum of a viscous force proportional to the particles's velocity, and a noise term $\delta F$ representing the effect of the collisions with the molecules of the fluid. The force $\delta F$ has a Gaussian probability distribution with correlation function $ \llang \delta F_i(t) \delta F_j(t^\prime) \rrang = 2 \xi k_B T \delta_{ij} \delta(t-t^\prime)$
+
+There are two common choices of discretization: the Itô and the Stratonovich conventions. Discretization of the Langevin equation:
+$$ \frac{x_{t+\Delta} - x_t}{\Delta} = -V^\prime(x_t) + \xi_t $$
+with an associated discretization of the correlations:
+$$ \llang f\left[x(t)\right] \rrang \to \llang f(x_t) \rrang \fives \llang f\left[x(t)\right] \xi(t) \rrang \to \llang f(x_t)\xi_t \rrang \fives \llang f\left[x(t)\right] \dot{x}(t) \rrang \to \llang f(x_t) \frac{x_{t+\Delta} - x_t}{\Delta} \rrang $$
+which leads to \textbf{Itô's chain rule}:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime\left[x(t)\right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+
+
+\parag{Fokker-Planck equation} In one spatial dimension $x$, for an Itô process driven by the standard Wiener process $W_t$ and described by the stochastic differential equation (SDE)
+$$ dX_t = \mu(X_t,t) dt + \sigma(X_t,t) dW_t $$
+with drift $\mu(X_t,t)$ and diffusion coefficient $D(X_t,t) = \sigma^2(X_t,t)/2$, the Fokker-Planck equation for the probability density $p(x,t)$ of the random variable $X_t$ is
+$$ \pder{t} p(x,t) = - \pder{x} \left[ \mu(x,t) p(x,t) \right] + \pdv[2]{}{x} \left[ D(x,t) p(x,t) \right] $$
+\uu{\tit{Derivation from the over-damped Langevin equation}}\\
+Let $\bb{P}(x,t)$ be the probability density density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
+$$ \dot{x}(t) = -V^\prime(x) + \xi (t) $$
+if $f$ is a function, we have:
+$$ \frac{d}{dt} \llang f\left[ x(t) \right] \rrang = \frac{d}{dt} \int \bb{P}(x,t) f(x) dx = \int \pder[\bb{P}(x,t)]{t} f(x) dx $$
+but using Itô's chain rule:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+with Langevin's equation
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \left\{ - V^\prime \left[ x(t) \right] + \xi(t) \right\} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+since $\llang f^\prime \left[ x(t) \right] \xi(t) \rrang = 0$, we have
+$$ \frac{d}{dt} \llang f \left[ x(t) \right] \rrang = \int \left[ \frac{df(x)}{dx} \left( - \frac{dV(x)}{dx} \right) + T \frac{d^2 f(x)}{dx^2} \right] \bb{P}(x,t) dx $$
+performing an integration by parts, and using that $\bb{P}(x,t)$ is a probability density vanishing at $x\to\infty$:
+$$ \int \pder[\bb{P}(x,t)]{t} f(x) dx = \int \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) f(x) dx $$
+this is true for any function $f$, thus
+$$ \boxed{ \pder[\bb{P}(x,t)]{t} = \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) } $$
+It could be written as $\partial_t \bb{P}(x,t) = - H_{FP} \bb{P}(x,t)$ with $H_{FP}$ the Fokker-Planck operator shown above.
+%We try to solve $\partial_t \bb{P}(x,t) = 0$. A good guess is the Gibbs-Boltzmann probability density, 
