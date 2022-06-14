@@ -1,5 +1,5 @@
 %!TEX program = pdflatex
-\documentclass[article,12pt]{elegantpaper}
+\documentclass[article,11pt]{elegantpaper}
 \usepackage{physics}
 \usepackage{amsthm,amsmath,amssymb}
 \usepackage{mathrsfs}
@@ -8,11 +8,17 @@
 \usepackage{ulem} %波浪线, 双下划线
 
 
+\usepackage{titlesec}
+\titleformat{\section}[block]{\color{}\Large\bfseries\filcenter}{}{1em}{}
+\titleformat{\subsection}[hang]{\bfseries\filcenter}{}{1em}{}
+\setcounter{secnumdepth}{0}
+
+
 \usepackage{xcolor}
-\usepackage{sectsty}
-\definecolor{ChimieBlue}{rgb}{0.282,0.514,0.6}
-\sectionfont{\color{ChimieBlue}}
-\subsectionfont{\color{ChimieBlue}}
+%\usepackage{sectsty}
+%\definecolor{ChimieBlue}{rgb}{0.282,0.514,0.6}
+%\sectionfont{\color{ChimieBlue}}
+%\subsectionfont{\color{ChimieBlue}}
 %\subsubsectionfont{\color{ChimieBlue}}
 
 
@@ -24,26 +30,35 @@
 \begin{document}
 \maketitle
 
+\subsection{SITUATION OF THE PROBLEM}
+
+To simulate the 3D Brownian motion near the soft surface, we have to solve Langevin equation numerically, depending on the reference «\tit{J. Phys. Chem. B} 2014, 118, 6466». 
+$$ \mrm{d}v = \frac{f(t)}{m} \mrm{d}t - \gamma v \mrm{d}t + \sqrt{\frac{2\gamma}{\beta m}} \mrm{d}W(t) $$
+However, there would be negative variables related to $\gamma$ shown in square root, leading to undesired results during the calculation.
+
+Therefore, we wish to consider a rather simple case only with one variable $\theta$, namely the rotation angle, for the sake of the possible analytical solution of the noise correlator $\eta$. Suppose that we have a differential equation below:
+\eq{m \ddot{\theta} = -\lambda \dot\theta - k \theta + \eta^\ast }  
+where $\eta^\ast = m \eta$ refers to the white noise. If we have $\gamma = \lambda / m$, and $\omega_0^2 = k/m$, then
+\eq{ \dv[2]{\theta}{t} + \gamma \dv{\theta}{t} + \omega_0^2 \theta = \eta }
 
 
-We wish to consider a simple case only with one variable $\theta$. Suppose that we have the differential equation below:
-\eq{m \ddot{\theta} = -\lambda \dot\theta - k \theta + \eta}  
-where $\eta$ refers to the white noise. If we have $\gamma = \lambda / m$ and $\omega_0^2 = k/m$, then
-\eq{ \dv[2]{\theta}{t} + \gamma \dv{\theta}{t} + \omega_0^2 \theta = \eta}
-After the Fourier transform $\hat\theta(\omega) = \int_{-\infty}^{+\infty} \theta(t) e^{-i\omega t} \mrm{d} t$, we obtain
+
+\ssc{INTEGRAL TRANSFORM}
+
+Consider the Fourier transform $\hat\theta(\omega) = \int_{-\infty}^{+\infty} \theta(t) e^{-i\omega t} \mrm{d} t$. Since the Fourier transformation of the $n$-th derivative $f^{(n)}$ is given by $ \widehat{f^{(n)}} (\omega) = \cal{F}$ $\dv[n]{}{t} f(t) = (i \omega)^n \hat{f}(\omega)$, we obtain 
 \eq{ -\omega^2 \hat\theta(\omega) + i\gamma\omega \hat\theta(\omega) + \omega_0^2 \hat\theta(\omega) = \hat\eta(\omega) }
-thus we solve
+Thus we solve
 \eq{ \hat\theta(\omega) = \frac{\hat\eta(\omega)}{\omega_0^2 - \omega^2 + i\gamma\omega} }
-By the inverse Fourier transform $\theta(t)= \frac{1}{2\pi} \int_{-\infty}^{+\infty} \hat\theta(\omega) e^{i\omega t} \mrm{d}\omega$, we have the solution as
+After the inverse Fourier transform $\theta(t)= \frac{1}{2\pi} \int_{-\infty}^{+\infty} \hat\theta(\omega) e^{i\omega t} \mrm{d}\omega$, we have the solution as
 \eq{\theta(t) = \frac{1}{2\pi} \int_{-\infty}^{+\infty} \frac{\hat\eta(\omega)}{\omega_0^2 - \omega^2 + i\gamma\omega} e^{i\omega t} \mrm{d}\omega }
 
-If we know the initial condition, for example, $\theta(0) = \phi$, $\dot\theta(0) = \psi$. We could exploit the Laplace transform $\tilde\theta(s) = \int_0^\infty \theta(t) e^{-st} dt$, getting
+If we know the initial condition, for example, $\theta(0) = \phi$, $\dot\theta(0) = \psi$. We could exploit the Laplace transform $\tilde\theta(s) = \int_0^\infty \theta(t) e^{-st} \mrm{d}t$, with the property $\widetilde{\theta^\prime}(t) = s\tilde\theta(s) - \theta(0)$, getting
 \eq{ \left[ s^2 \tilde\theta(s) - s\phi - \psi \right] + \gamma \left[ s\tilde\theta(s) - \phi \right] + \omega_0^2 \tilde\theta(s) = \tilde\eta(s) }
-thus (we write $\gamma = 2\gamma^\ast$ for the sake of convenience)
+Thus we solve %(we write $\gamma = 2\gamma^\ast$ for the sake of convenience)
 \eq{ \agn{ 
 \tilde\theta(s) &= \frac{s\phi + (2\gamma^\ast \phi + \psi) + \tilde\eta(s)}{s^2 + 2\gamma^\ast s + \omega_0^2} \\
 &= \frac{\phi (s + \gamma^\ast)}{(s+\gamma^\ast)^2 + R} + \frac{\gamma^\ast \phi + \psi}{(s + \gamma^\ast)^2 + R} + \frac{\tilde\eta(s)}{(s+\gamma^\ast)^2 + R} }}
-where $R = \omega_0^2 - (\gamma^\ast)^2$. There would be three cases:
+where $\gamma^\ast = \gamma/2$ and $R = \omega_0^2 - (\gamma^\ast)^2$. There would be three cases depending on the value of $R$:
 \begin{itemize}
   \item If $R>0$, then we pose $R=a^2$ and $a=\sqrt{\omega_0^2 - (\gamma^\ast)^2}$. After the inverse Laplace transform, we obtain 
   \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi \cos(at) + \frac{\gamma^\ast \phi + \psi}{a} \sin(at) \right] + \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau }
@@ -51,55 +66,99 @@ where $R = \omega_0^2 - (\gamma^\ast)^2$. There would be three cases:
   \item If $R=0$, then $a=0$ and we have
   \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi + (\gamma^\ast \phi + \psi) t \right] + \int_0^t \eta(\tau) (t - \tau) e^{-\gamma^\ast (t-\tau)} \mrm{d}\tau }
   
-  \item If $R<0$, then we pose $R=-b^2$ and $b = \sqrt{(\gamma^\ast)^2 - \omega_0^2}$. Due to the imaginary part, $\sin \to \sinh$ and $\cos \to \cosh$
+  \item If $R<0$, then we pose $R=-b^2$ and $b = \sqrt{(\gamma^\ast)^2 - \omega_0^2}$. Due to the imaginary part, we replace $\sin \to \sinh$, $\cos \to \cosh$, $a \to b$
   \eq{ \theta(t) = e^{-\gamma^\ast t} \left[ \phi \cosh(bt) + \frac{\gamma^\ast \phi + \psi}{b} \sinh(bt) \right] + \frac{1}{b} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sinh\left[ b(t-\tau) \right] \mrm{d}\tau }
 \end{itemize}
 
 
-\hline \ \\
-Suppose that $\phi = \psi = 0$, and $\llang \eta(t) \eta(t^\prime) \rrang = 2B \delta(t-t^\prime)$. Hence for the case $R>0$, we could see
+
+\ssc{CORRELATOR AS WHITE NOISE}
+Without loss of generality, we take $\phi = \psi = 0$.  Suppose that $\llang \eta^\ast(t) \eta^\ast(t^\prime) \rrang = 2B \delta(t-t^\prime)$, hence $\llang \eta(t) \eta(t^\prime) \rrang = \frac{2B}{m^2} \delta(t-t^\prime)$. For the case $R>0$, we could see
 $$ \theta(t) = \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau $$
 $$ \agn{
 \llang \theta^2(t) \rrang &= \frac{1}{a^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 e^{-\gamma^\ast (t-\tau_1)} \sin\left[ a(t-\tau_1) \right] e^{-\gamma^\ast (t-\tau_2)} \sin\left[ a(t-\tau_2) \right] \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
-&= \frac{1}{a^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sin^2 \left[ a(t-\tau_1) \right] \times 2B \\
-&= \frac{2B}{a^2} \times \frac{e^{-2 \gamma^\ast  t} \left(a^2 \left(e^{2 \gamma^\ast  t}-1\right)+\gamma^\ast ^2 \cos (2 a t)-a \gamma^\ast  \sin (2 a t)-\gamma^\ast ^2\right)}{4 \gamma^\ast  \left(a^2+\gamma^\ast ^2\right)} \\
-&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{a^2} \times \frac{a^2}{4a^2\gamma^\ast+4\gamma^\ast^3} = \frac{B}{2\gamma^\ast(\gamma^\ast^2 + a^2)} = \frac{B}{2 \gamma^\ast \omega_0^2} \sim k_B T
+&= \frac{1}{a^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sin^2 \left[ a(t-\tau_1) \right] \times \frac{2B}{m^2} \\
+&= \frac{2B}{m^2 a^2} \times \frac{e^{-2 \gamma^\ast  t} \left(a^2 \left(e^{2 \gamma^\ast  t}-1\right)+\gamma^\ast ^2 \cos (2 a t)-a \gamma^\ast  \sin (2 a t)-\gamma^\ast ^2\right)}{4 \gamma^\ast  \left(a^2+\gamma^\ast ^2\right)} \\ %\stackrel{t\to\infty}{\longrightarrow} 
+& \xrightarrow[a>0, \, \gamma^\ast>0]{t\to\infty} \frac{2B}{m^2 a^2} \times \frac{a^2}{4a^2\gamma^\ast+4\gamma^\ast^3} = \frac{B}{2\gamma^\ast(\gamma^\ast^2 + a^2)} = \frac{B}{2 m^2 \gamma^\ast \omega_0^2} = \frac{B}{\lambda k} \sim k_B T
 } $$
-thus we have $\boxed{B \sim 2 k_B T \gamma^\ast \omega_0^2}$
+thus we have $\boxed{B \sim k_B T \lambda k}$.
 
 For the case $R<0$, we have the similar result
 $$ \agn{
 \llang \theta^2(t) \rrang &= \frac{1}{b^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 e^{-\gamma^\ast (t-\tau_1)} \sinh\left[ b(t-\tau_1) \right] e^{-\gamma^\ast (t-\tau_2)} \sinh\left[ b(t-\tau_2) \right] \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
-&= \frac{1}{b^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sinh^2 \left[ b(t-\tau_1) \right] \times 2B \\
-&= \frac{2B}{b^2} \times \frac{e^{-2 \gamma^\ast  t} \left(b^2 \left(e^{2 \gamma^\ast  t}-1\right)-\gamma^\ast  (\gamma^\ast  \cosh (2 b t)+b \sinh (2 b t))+\gamma^\ast ^2\right)}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} \\
-&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{b^2} \times \frac{b^2}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} = \frac{B}{2\gamma^\ast(\gamma^\ast^2 - b^2)} = \frac{B}{2 \gamma^\ast \omega_0^2} \sim k_B T
+&= \frac{1}{b^2} \int_0^t d\tau_1 e^{-2\gamma^\ast (t-\tau_1)} \sinh^2 \left[ b(t-\tau_1) \right] \times \frac{2B}{m^2} \\
+&= \frac{2B}{m^2 b^2} \times \frac{e^{-2 \gamma^\ast  t} \left(b^2 \left(e^{2 \gamma^\ast  t}-1\right)-\gamma^\ast  (\gamma^\ast  \cosh (2 b t)+b \sinh (2 b t))+\gamma^\ast ^2\right)}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} \\
+& \xrightarrow[b>0, \, b<\gamma^\ast, \, \gamma^\ast>0]{t\to\infty} \frac{2B}{m^2 b^2} \times \frac{b^2}{4 \left(\gamma^\ast ^3-b^2 \gamma^\ast \right)} = \frac{B}{2m^2 \gamma^\ast(\gamma^\ast^2 - b^2)} = \frac{B}{2 m^2 \gamma^\ast \omega_0^2} = \frac{B}{\lambda k} \sim k_B T
 } $$
 
 
-Then we consider $\llang \dot\theta^2(t) \rrang$. For the case $R>0$, also with $\phi=\psi=0$
-$$ \agn{
+For the case $R>0$, also with $\phi=\psi=0$, we take Leibniz integral rule
+\eq{ \agn{
 \dot\theta(t) &= \dv{\theta(t)}{t} = \dv{}{t} \left\{ \frac{1}{a} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sin\left[ a(t-\tau) \right] \mrm{d}\tau \right\} \\
 %&= \frac{e^{\gamma^\ast  (-t)} \left(-\sin (a t) \left(\phi  \left(a^2+\gamma^\ast ^2\right)+\gamma^\ast  \psi \right)+e^{\gamma^\ast  t} \int_0^t \eta (\tau ) e^{\gamma^\ast  (\tau -t)} (a \cos (a (t-\tau ))-\gamma^\ast  \sin (a (t-\tau ))) \, d\tau +a \psi  \cos (a t)\right)}{a} \\
 &= \frac{1}{a} \int_0^t \eta (\tau ) e^{\gamma^\ast  (\tau -t)} (a \cos (a (t-\tau ))-\gamma^\ast  \sin (a (t-\tau ))) \, d\tau 
-}$$
-
+}}
+% Leibniz integral rule, for differentiation under the integral sign: https://en.wikipedia.org/wiki/Leibniz_integral_rule
+Then we consider $\llang \dot\theta^2(t) \rrang$.
 $$ \agn{
-\llang \dot\theta^2 \rrang &= \frac{1}{a^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 
+\llang \dot\theta^2 \rrang &= \frac{1}{a^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 \,
 e^{\gamma^\ast  (\tau_1 -t)} \left\{ a \cos \left[ a (t-\tau_1 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_1 ) \right] \right\} \\
 &\fives \times e^{\gamma^\ast  (\tau_2 -t)} \left\{ a \cos \left[ a (t-\tau_2 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_2 ) \right] \right\} \times \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
-&= \frac{1}{a^2} \int_0^t \mrm{d} \tau_1 e^{2 \gamma^\ast  (\tau_1 -t)} \left\{ a \cos \left[ a (t-\tau_1 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_1 ) \right] \right\}^2 \times 2B \\
-&= \frac{2B}{a^2} \times \frac{a^2-e^{-2 \gamma  t} \left(a^2-\gamma  (\gamma  \cos (2 a t)+a \sin (2 a t))+\gamma ^2\right)}{4 \gamma } \\
-&\stackrel{t\to\infty}{\longrightarrow} \frac{2B}{a^2} \times \frac{a^2}{4 \gamma } = \frac{B}{2\gamma} \sim k_B T
+&= \frac{1}{a^2} \int_0^t \mrm{d} \tau_1 \, e^{2 \gamma^\ast  (\tau_1 -t)} \left\{ a \cos \left[ a (t-\tau_1 ) \right]-\gamma^\ast  \sin \left[ a (t-\tau_1 ) \right] \right\}^2 \times \frac{2B}{m^2} \\
+&= \frac{2B}{m^2 a^2} \times \frac{a^2-e^{-2 \gamma^\ast  t} \left(a^2-\gamma^\ast  (\gamma^\ast  \cos (2 a t)+a \sin (2 a t))+\gamma^\ast ^2\right)}{4 \gamma^\ast } \\
+& \xrightarrow[a>0, \, \gamma^\ast>0]{t\to\infty} \frac{2B}{m^2 a^2} \times \frac{a^2}{4 \gamma^\ast } = \frac{B}{m^2 \gamma} \sim k_B T
+} $$
+
+If $R<0$, we have
+\eq{ \agn{
+\dot\theta(t) &= \dv{\theta(t)}{t} = \dv{}{t} \left\{ \frac{1}{b} \int_0^t \eta(\tau) e^{-\gamma^\ast (t-\tau)} \sinh\left[ b(t-\tau) \right] \mrm{d}\tau \right\} \\
+&= \frac{1}{b} \int_0^t \eta (\tau ) e^{\gamma^\ast  (\tau -t)} (b \cosh (b (t-\tau ))-\gamma^\ast  \sinh (b (t-\tau ))) \, d\tau 
+}}
+
+$$ \agn{
+\llang \dot\theta^2 \rrang &= \frac{1}{b^2} \int_0^t \mrm{d}\tau_1 \int_0^t \mrm{d}\tau_2 \,
+e^{\gamma^\ast  (\tau_1 -t)} \left\{ b \cosh \left[ b (t-\tau_1 ) \right] -\gamma^\ast  \sinh \left[ b (t-\tau_1 ) \right] \right\} \\
+&\fives \times e^{\gamma^\ast  (\tau_2 -t)} \left\{ b \cosh \left[ b (t-\tau_2 ) \right] -\gamma^\ast  \sinh \left[ b (t-\tau_2 ) \right] \right\} \times \llang \eta(\tau_1) \eta(\tau_2) \rrang \\
+&= \frac{1}{b^2} \int_0^t \mrm{d} \tau_1 \, e^{2 \gamma^\ast  (\tau_1 -t)} \left\{ b \cosh \left[ b (t-\tau_1 ) \right] -\gamma^\ast  \sinh \left[ b (t-\tau_1 ) \right] \right\}^2 \times \frac{2B}{m^2} \\
+&= \frac{2B}{b^2} \times \frac{e^{-2 \gamma^\ast  t} \left(b^2 \left(e^{2 \gamma^\ast  t}-1\right)-\gamma^\ast ^2 \cosh (2 b t)+b \gamma^\ast  \sinh (2 b t)+\gamma^\ast ^2\right)}{4 \gamma^\ast } \\
+& \xrightarrow[b>0, \, b<\gamma^\ast, \, \gamma^\ast>0]{t\to\infty} \frac{2B}{m^2 b^2} \times \frac{b^2}{4 \gamma^\ast } = \frac{B}{m^2 \gamma} \sim k_B T
 } $$
 
 
 
+\ssc{CORRELATOR AS COLORED NOISE}
 
+% In reality, there would be the colored noise such as 
+We would like to introduce the Lorentzian for the correlator.
+$$ \llang \eta(\tau_1) \eta(\tau_2) \rrang = \delta(\tau_1 - \tau_2) \cdot \frac{1}{\pi \Gamma} \frac{\Gamma^2}{(\tau_1 - w)^2 + \Gamma^2} $$
+Hence we should calculate the following integration: 
+$$ \agn{
+& \iint \mrm{d}\tau_1 \mrm{d}\tau_2 \, e^{-\gamma(t-\tau_1)} \cdot \sin\left[a(t-\tau_1)\right] \cdot e^{-\gamma(t-\tau_2)} \cdot \sin\left[a(t-\tau_2)\right] \cdot \frac{\delta(\tau_1 - \tau_2)}{\pi \Gamma} \frac{\Gamma^2}{(\tau_1 - w)^2 + \Gamma^2} \\
+=& \int \mrm{d}\tau \, e^{-2\gamma(t-\tau)} \cdot \sin\left[a(t-\tau)\right] \cdot \frac{1}{\pi \Gamma} \frac{\Gamma^2}{(\tau - w)^2 + \Gamma^2} \\
+=& - \frac{i}{8 \pi } e^{2 \gamma  (-5 i \Gamma -2 t+w)} \left(e^{-2 a (\Gamma +i (t+w))+8 i \gamma  \Gamma +2 \gamma  t} \left(e^{4 i a t} \text{Ei}(2 (a+i \gamma ) (\Gamma +i (w-\tau )))-e^{4 a \Gamma +4 i a t+4 i \gamma  \Gamma } \text{Ei}(2 i (a+i \gamma ) (w+i \Gamma -\tau )) \right. \right. \\
+& \fives \left.  +e^{4 a (\Gamma +i w)} \text{Ei}(2 (i a+\gamma ) (-w+i \Gamma +\tau ))-e^{4 i (a w+\gamma  \Gamma )} \text{Ei}(2 (i a+\gamma ) (-w-i \Gamma +\tau ))\right) \\
+&\fives \left. \left. +2 e^{2 \gamma  (t+6 i \Gamma )} \text{Ei}(-2 \gamma  (w+i \Gamma -\tau ))-2 e^{2 \gamma  (t+4 i \Gamma )} \text{Ei}(2 \gamma  (-w+i \Gamma +\tau ))\right)  \right\vert_0^t \\
+=& \frac{i}{8\pi} \exp (-2 (a (\Gamma +i (t+w))+\gamma  (i \Gamma +t-w))) \left(-e^{4 i a t} \left(\text{Ei}(2 (-i a+\gamma ) (t-w+i \Gamma ))-\text{Ei}(2 (a+i \gamma ) (i w+\Gamma )) \right. \right. \\
+&\fives \left. \left. + \, e^{4 \Gamma  (a+i \gamma )} \text{Ei}(2 i (a+i \gamma ) (w+i \Gamma ))\right)-e^{4 a (\Gamma +i w)} \text{Ei}(2 (i a+\gamma ) (t-w+i \Gamma )) \\
+& \fives -2 e^{2 a (\Gamma +i (t+w))} \left(-\text{Ei}(2 \gamma  (t-w+i \Gamma ))+e^{4 i \gamma  \Gamma } (\text{Ei}(2 \gamma  (t-w-i \Gamma ))-\text{Ei}(-2 \gamma  (w+i \Gamma )))+\text{Ei}(2 i \gamma  \Gamma -2 w \gamma )\right) \\
+& \fives + \, e^{4 a \Gamma +4 i a t+4 i \gamma  \Gamma } \text{Ei}(2 (-i a+\gamma ) (t-w-i \Gamma ))+e^{4 i (a w+\gamma  \Gamma )} \text{Ei}(2 (i a+\gamma ) (t-w-i \Gamma )) \\
+& \fives \left. - \, e^{4 i (a w+\gamma  \Gamma )} \text{Ei}(2 (a-i \gamma ) (\Gamma -i w))+e^{4 a (\Gamma +i w)} \text{Ei}(2 (i a+\gamma ) (i \Gamma -w))\right)
+}$$
+where Ei is the exponential integral. For real non-zero values of $x$
+$$ \text{Ei}(x) = - \int_{-x}^\infty \frac{e^{-t}}{t} \mrm{d}t  = \int_{-\infty}^x \frac{e^{t}}{t} \mrm{d}t $$
+For complex values of the argument, the definition becomes ambiguous due to branch points at $0$ and $\infty$. Instead of Ei, the following notation is used
+$$ E_1 (z) = \int_z^\infty \frac{e^{-t}}{t} \mrm{d}t \tens \left\vert \mrm{Arg} (z) \right\vert < \pi $$
+For positive values of $x$, we have $-E_1 (x) = \text{Ei} (-x) $. %For positive values of the real part of $z$,
+%$$ E_1 (z) = \int_1^\infty \frac{e^{-tz}}{t} \mrm{d}t  = \int_0^1 \frac{e^{-z/u}}{u} \mrm{d}u \tens \Re(z) \geqslant 0 $$
 
-
-
+%$$ \int_0^t \int_0^t \mrm{d}\tau_1 \mrm{d}\tau_2 \, e^{-\gamma(t-\tau)} \cdot \sin\left[a(t-\tau)\right] \cdot \frac{\Gamma^2}{\tau^2 + \Gamma^2} $$
 
 % $$ \dv{}{t} \llang \theta^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang \dot\theta(0) \dot\theta(\tau) \rrang = 0 $$
+
+%\hline
+%Consider a similar function $\ddot{x} + k\dot{x} + \omega^2 x = f(t)$. The characteristic equation $\lambda^2 + k\lambda + \omega^2 = 0$ has the following roots $\lambda_{1,2} = -\alpha \pm i\Omega$, where $\alpha = k/2$ and $\Omega = \sqrt{\omega^2 - k^2/4}$. Let us assume that the coefficient of friction $k$ is positive and small $(k^2 < 4\omega^2)$. Consider a harmonic external force $f(t) = \cos \nu t = \Re e^{i\nu t}$. If the coefficient of frictino $k$ is nonzero, then $i\nu$ cannot be a root of the characteristic equation (since $\lambda_{1,2}$ have nonzero real parts). Therefore the solution mnust be sought in the form $x = \Re C e^{i \nu t}$. Substituting into the equation, we find
+%$$ C = \frac{1}{\omega^2 - \nu^2 + k i \nu} $$
+%Let us write C in trigonometric form: $C=re^{i\theta}$. 
 
 
 \end{document}
