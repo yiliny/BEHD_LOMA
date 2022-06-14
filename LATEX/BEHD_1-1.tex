@@ -24,7 +24,7 @@ $$ dX_t = \mu(X_t,t) dt + \sigma(X_t,t) dW_t $$
 with drift $\mu(X_t,t)$ and diffusion coefficient $D(X_t,t) = \sigma^2(X_t,t)/2$, the Fokker-Planck equation for the probability density $p(x,t)$ of the random variable $X_t$ is
 $$ \pder{t} p(x,t) = - \pder{x} \left[ \mu(x,t) p(x,t) \right] + \pdv[2]{}{x} \left[ D(x,t) p(x,t) \right] $$
 \uu{\tit{Derivation from the over-damped Langevin equation}}\\
-Let $\bb{P}(x,t)$ be the probability density density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
+Let $\bb{P}(x,t)$ be the probability density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
 $$ \dot{x}(t) = -V^\prime(x) + \xi (t) $$
 if $f$ is a function, we have:
 $$ \frac{d}{dt} \llang f\left[ x(t) \right] \rrang = \frac{d}{dt} \int \bb{P}(x,t) f(x) dx = \int \pder[\bb{P}(x,t)]{t} f(x) dx $$
