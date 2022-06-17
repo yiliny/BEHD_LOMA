@@ -126,7 +126,7 @@
 \vskip10pt%
 {\raggedright\color{color1}\sffamily\fontsize{12}{16}\selectfont  \@Author\par}%
 \vskip10pt%
-{\raggedright\sffamily\ {\bf \sffamily\textsc{supervisor}:} \@Supervisor\ - {\textit \@Laboratory\par}}%
+{\raggedright\sffamily\ {\bf \sffamily\textsc{supervisors}:} \@Supervisor\ - {\textit \@Laboratory\par}}%
 \vskip18pt%
 \fcolorbox{color1}{white}{%
 \parbox{\textwidth-2\fboxsep-2\fboxrule}{\centering%

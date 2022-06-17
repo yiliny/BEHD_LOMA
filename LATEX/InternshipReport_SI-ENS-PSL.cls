@@ -119,14 +119,14 @@
 \begin{minipage}[t][][b]{0.4\textwidth}\raggedleft{
 \includegraphics[trim={25cm 5cm 0 5cm},clip,height=1.3cm]{plots/ENS_Dpt_Chemistry_Logo.png}
 \\ \vspace{0.5cm}
-\sffamily\bfseries\selectfont Internship report M1 -- \the\year %\@Year
+\sffamily\bfseries\selectfont Internship report M1 -- \the\year \\ \tit{Supporting Information} %\@Year
  }\end{minipage}\par}
 \vskip20pt%
 {\raggedright\color{color1}\sffamily\bfseries\fontsize{20}{25}\selectfont \@ReportTitle\par}%
 \vskip10pt%
 {\raggedright\color{color1}\sffamily\fontsize{12}{16}\selectfont  \@Author\par}%
 \vskip10pt%
-{\raggedright\sffamily\ {\bf \sffamily\textsc{supervisor}:} \@Supervisor\ - {\textit \@Laboratory\par}}%
+{\raggedright\sffamily\ {\bf \sffamily\textsc{supervisors}:} \@Supervisor\ - {\textit \@Laboratory\par}}%
 \vskip18pt%
 %\fcolorbox{color1}{white}{%
 %\parbox{\textwidth-2\fboxsep-2\fboxrule}{\centering%
