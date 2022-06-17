@@ -36,6 +36,10 @@
 \usetikzlibrary{graphs, positioning, quotes, shapes.geometric}
 
 
+%%%%% 加代码
+\usepackage{listings}
+
+
 
 %%%%% 页眉页脚
 \pagestyle{fancy}
@@ -61,7 +65,7 @@
 \ReportTitle{Brownian Motion near a Soft Surface \\ \tit{Supporting Information}} % Article title
 \Author{Yilin YE}
 \Supervisor{Yacine AMAROUCHENE, David DEAN, Thomas SALEZ}
-\Laboratory{Université de Bordeaux, CNRS, Laboratoire Ondes et Matière d'Aquitaine, UMR 5798, F-33405, Talence, France}
+\Laboratory{Univ. Bordeaux, CNRS, Laboratoire Ondes et Matière d'Aquitaine, UMR 5798, F-33400, Talence, France}
 
 %\Keywords{Brownian motion --- soft surface --- Langevin equation --- noise correlator --- Fokker-Planck equation} 
 %\Keywords{Keyword1 --- Keyword2 --- Keyword3 --- Keyword4 --- Keyword5} 
@@ -90,15 +94,130 @@
 %----------------------------------------------------------------------------------------
 
 
-%\section*{Introduction} % The \section*{} command stops section numbering
+\section*{Review: Langevin equation} % The \section*{} command stops section numbering
  %Here is the Supporting Information for the internship report "Brownian Motion near a Soft Surface".
+\ssc*{Friction is not enough}
+The force $\bbf{F}$ required to move this particle with the velocity $\bbf{v}$ in the fluid is $\bbf{F} = \zeta \bbf{v}$, with $\zeta$ as the friction coefficient. Stokes worked on that in 1850s, finding $\zeta = 6 \pi \eta r$. Thus, the equation of motion ($\gamma = \zeta / m$) reads:
+$$ m\dot{v} = -\zeta v \ \ \ \ \ \to \ \ \ \ \ \dot{v} = - \frac{\zeta}{m} v \ \ \ \ \ \to \ \ \ \ \ \dot{v} = -\gamma v \ \ \ \ \ \to \ \ \ \ \  v(t) = v(0) e^{-\gamma t} $$
+This result cannot explain Brown mechanism, since :
+\begin{itemize}
+  \item $v(t) \to 0$ if $t\to\infty$, but particles would not stop;
+  \item $\langle v^2 \rangle = \langle v^2(0) \rangle e^{-2\gamma t} \to 0$ if $t\to\infty$, but it should be $\frac{k_{\mrm{B}} T}{m}$;
+\end{itemize}
+
+Langevin equation is introduced with the random force $\dlt F$:
+$$ m \frac{dv}{dt} = -\zeta v + \delta F $$
+where the first term refers to systematic put of the environment influence, while the second term refers to the random put. 
+As for $\dlt F$, we pose that it shows
+%What can we write about $\delta F$?
+\begin{itemize}
+  \item random impacts with solvent molecules;
+  \item very sudden effect, no correlation in space and in time $\langle \delta F(t) \rangle = 0$
+  \item $\langle \delta F(t) \delta F(t') \rangle = 2B \delta \left( \left\vert t' - t \right\vert \right)$, furnished as Gaussian white noise
+\end{itemize}
+%or we write $\langle \delta F(t) \delta F(t') \rangle = 2B \delta \left( \left\vert t' - t \right\vert \right)$, furnished as Gaussian white noise.
+
+\ssc*{Solution of Langevin equation}
+Introduce the Laplace transform:
+$$ \tilde{f}(s) = \int_0^{+\infty} f(t) e^{-st} dt \ \ \ \ \ \ \ \ \ \ \tilde{f}'(s) = s \tilde{f}(s) - f(0) $$
+then we will use that to solve the Langevin equation
+$$ \frac{dv}{dt} = -\gamma v + \frac{\delta F}{m} \tens \Rightarrow \tens
+s\tilde{v}(s) - v(0) = -\gamma \tiled{v}(s) + \frac{\delta F(s)}{m} \tens \Rightarrow \tens
+\tilde{v}(s) = \frac{v(0)}{s+\gamma} + \frac{\delta \tilde{F}(s)}{m(s+\gamma)} $$
+We do the inverse Laplace transform according to $\mathscr{L}^{-1} \left\{ \tilde{F}(s) \tilde{G}(s) \right\} \to \int_0^t F(t-\tau) G(\tau) d\tau$, obtaining
+$$ v(t) = v(0) e^{-\gamma t} + \int_0^t dt' \frac{\delta F(t')}{m} \exp\left[-\gamma(t-t')\right] $$
+
+We verify that $\langle v(t) \rangle$ turns to 0, while $t \to \infty$
+$$ \langle v(t) \rangle = \langle v(0) \rangle e^{-\gamma t} + \int_0^t dt' \frac{\langle \delta F(t') \rangle}{m} \exp\left[-\gamma(t-t')\right] = \langle v(0) \rangle e^{-\gamma t} \to 0 $$
+As for $\langle v^2(t) \rangle$, we calculate as below:
+$$ \begin{align}
+\langle v^2(t) \rangle &= \langle v^2(0) \rangle e^{-2\gamma t} + 2 e^{-\gamma t} \int_0^t dt' \frac{\langle \delta F(t) v(0) \rangle}{m} e^{-\gamma (t-t')} + \int_0^t dt_1 \int_0^t dt_2 e^{-\gamma (t-t_1)} e^{-\gamma (t-t_2)} \frac{\langle \delta F(t_1) \delta F(t_2) \rangle}{m^2} \\ % rang 1
+%&= \langle v^2(0) \rangle e^{-2\gamma t} + \int_0^t dt_1 e^{-\gamma (t-t_1)} e^{-\gamma (t-t_2)} \frac{2B}{m^2} \\ % rang 2
+&= \langle v^2(0) \rangle e^{-2\gamma t} + \int_0^t dt_1 e^{-2\gamma (t-t_1)} \frac{2B}{m^2} = \langle v^2(0) \rangle e^{-2\gamma t} - \frac{1}{2\gamma} (e^{-2\gamma t} - 1) \times \frac{2B}{m^2} \\ % rang 3
+&= \langle v^2(0) \rangle e^{-2\gamma t} + \frac{B}{\zeta m} (1 - e^{-2\gamma t}) % rang 4
+\end{align} $$
+
+
+%\ssc*{Fluctuation dissipation theorem}
+At long time limit, it is supposed that $\langle v^2 (t) \rangle \to \frac{k_{\mrm{B}} T}{m}$, where $k_{\mrm{B}}$ is the Boltzmann constant, T is the temperature. Now we have $\langle v^2 (t) \rangle \to \frac{B}{\zeta m}$, leading to $B = k_{\mrm{B}} T \zeta$. Then, we have $\langle \delta F(0) \delta F(t) \rangle = 2k_{\mrm{B}} T \zeta \delta(t)$. Hence we obtain the fluctuation dissipation theorem:
+$$ \zeta = \frac{1}{k_{\mrm{B}} T} \int_0^\infty \langle \delta F(0) \delta F(t) \rangle dt $$
+
+
+\ssc*{Kubo and Stokes-Einstein relationship}
+Next, we are interested in MSD and the diffusion coefficient.
+Consider the following function of $v$ under a given temperature $T$:
+%$$ \langle v(0) v(t) \rangle = \langle v^2 (0) \rangle e^{-\gamma t} $$
+%but $\frac{1}{2} m \langle v^2 (0) \rangle = \frac{k_{\mrm{B}} T}{2}$, thus
+$$ \frac{1}{2} m \langle v^2 (0) \rangle = \frac{k_{\mrm{B}} T}{2} \tens \Rightarrow \tens \langle v(0) v(t) \rangle = \langle v^2 (0) \rangle e^{-\gamma t} = \frac{k_{\mrm{B}} T}{m} e^{-\gamma t} $$
+Thus, we can compute the displacement by:
+$$ \Delta x(t) &= \int_0^t v(\tau_1) d\tau_1 \tens \Rightarrow \tens
+\langle \Delta x^2 (t) \rangle &= \left\langle \int_0^t d\tau_1 \int_0^t d\tau_2 v(\tau_1) v(\tau_2) \right\rangle $$
+with its derivative as:
+$$ \frac{d}{dt} \langle \Delta x^2 (t) \rangle = 2 \int_0^t d\tau \langle v(0) v(\tau) \rangle = 2 \int_0^t dt' \langle v^2(0) \rangle e^{-\gamma t'} = \frac{2 \langle v^2(0) \rangle}{\gamma} \left( 1 - e^{-\gamma t} \right) = \frac{2 k_{\mrm{B}} T}{\zeta} \left( 1 - e^{-\gamma t} \right) $$
+% $$ \frac{d}{dt} \langle \Delta x^2 (t) \rangle = \frac{2 k_{\mrm{B}} T}{\zeta} \left( 1 - e^{-\gamma t} \right) $$
+We integrate a second time, leading to
+$$ \begin{align}
+\langle \Delta x^2 (t) \rangle &= \langle \Delta x^2 (0) \rangle + \frac{2 k_{\mrm{B}} T}{\zeta} \left[ t + \frac{1}{\gamma} \left( e^{-\gamma t} - 1 \right) \right] = 0 + \frac{2 k_{\mrm{B}} T}{\zeta} \left[ t + \frac{1}{\gamma} \left( e^{-\gamma t} - 1 \right) \right] \\ % rang 1
+& \xrightarrow[]{t \ll 1/\gamma} \frac{2 k_{\mrm{B}} T}{\zeta} \left[ t + \frac{1}{\gamma} (1 - \gamma t) \right] = \frac{k_{\mrm{B}} T \gamma}{\zeta} t^2 = \frac{k_{\mrm{B}} T}{m} t^2 \\ % rang 2
+& \xrightarrow[]{t \gg 1/\gamma} \frac{2 k_{\mrm{B}} T}{\zeta} (t + \frac{1}{\gamma}) = \frac{2 k_{\mrm{B}} T}{\zeta} t 
+\end{align} $$
+At short time, $\langle \Delta x^2 \rangle \propto t^2$, refers to ballistic regime. At long time, $\langle \Delta x^2 \rangle \propto t$, refers to diffusive regime.
+
+We can also recover Einstein's relation:
+$$ \lim_{t\to \infty} \frac{\langle \Delta x^2 \rangle}{2t} = \frac{k_{\mrm{B}} T}{\zeta} = D $$
+where $D$ refers to the diffusion coefficient. Or we express that by $\langle v(0) v(t) \rangle$:
+$$ \int_0^\infty \langle v(0) v(t) \rangle dt = \frac{k_{\mrm{B}} T}{\zeta} = D $$
+which is called Kubo relation.
+
+
+
+\ssc*{Towards Fokker-Planck equation}
+
+%\paragraph{External potential and we assume "free" diffusion}
+In reality, the molecule is always moving under a potential, with the force $\vec{F} = - \vec\nabla U$. Therefore, we modify the Langevin equation as
+$$ \frac{dp}{dt} = -\zeta \frac{p}{m} - U'(x) + \delta F $$
+In practice, it would be very complicated to solve the equation. For example, one issue is that $\langle F(x) \rangle$; it can only be solved in very specific case. An alternative consists in taking a probabilistic picture, and we can adopt a stochastic approach, leading to Fokker-Planck equation.
+
+
+There are two common choices of discretization: the Itô and the Stratonovich conventions. We employ the following discretization of the Langevin equation:
+$$ \frac{x_{t+\Delta} - x_t}{\Delta} = -V^\prime(x_t) + \xi_t $$
+with an associated discretization of the correlations:
+$$ \llang f\left[x(t)\right] \rrang \to \llang f(x_t) \rrang \fives \llang f\left[x(t)\right] \xi(t) \rrang \to \llang f(x_t)\xi_t \rrang \fives \llang f\left[x(t)\right] \dot{x}(t) \rrang \to \llang f(x_t) \frac{x_{t+\Delta} - x_t}{\Delta} \rrang $$
+which leads to \textbf{Itô's chain rule}:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime\left[x(t)\right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+
+
+%\parag{Fokker-Planck equation} 
+In one spatial dimension $x$, for an Itô process driven by the standard Wiener process $W_t$ and described by the stochastic differential equation (SDE)
+$$ dX_t = \mu(X_t,t) dt + \sigma(X_t,t) dW_t $$
+with drift $\mu(X_t,t)$ and diffusion coefficient $D(X_t,t) = \sigma^2(X_t,t)/2$, the Fokker-Planck equation for the probability density $p(x,t)$ of the random variable $X_t$ is
+$$ \pder{t} p(x,t) = - \pder{x} \left[ \mu(x,t) p(x,t) \right] + \pdv[2]{}{x} \left[ D(x,t) p(x,t) \right] $$
+
+%\uu{\tit{Derivation from the over-damped Langevin equation}}\\
+
+Let $\bb{P}(x,t)$ be the probability density function to find a particle in $\left[x, x + dx\right]$ at time $t$, and let $x$ satisfy:
+$$ \dot{x}(t) = -V^\prime(x) + \xi (t) $$
+if $f$ is a function, we have:
+$$ \frac{d}{dt} \llang f\left[ x(t) \right] \rrang = \frac{d}{dt} \int \bb{P}(x,t) f(x) dx = \int \pder[\bb{P}(x,t)]{t} f(x) dx $$
+but using Itô's chain rule:
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \frac{dx}{dt} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+with Langevin's equation
+$$ \frac{d}{dt} \llang f\left[x(t)\right] \rrang = \llang f^\prime \left[ x(t) \right] \left\{ - V^\prime \left[ x(t) \right] + \xi(t) \right\} \rrang + T \llang f^{\prime\prime} \left[ x(t) \right] \rrang $$
+since $\llang f^\prime \left[ x(t) \right] \xi(t) \rrang = 0$, we have
+$$ \frac{d}{dt} \llang f \left[ x(t) \right] \rrang = \int \left[ \frac{df(x)}{dx} \left( - \frac{dV(x)}{dx} \right) + T \frac{d^2 f(x)}{dx^2} \right] \bb{P}(x,t) dx $$
+performing an integration by parts, and using that $\bb{P}(x,t)$ is a probability density vanishing at $x\to\infty$:
+$$ \int \pder[\bb{P}(x,t)]{t} f(x) dx = \int \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) f(x) dx $$
+this is true for any function $f$, thus
+$$ \pder[\bb{P}(x,t)]{t} = \pder{x} \left[ \frac{dV(x)}{dx} + T \pder{x} \right] \bb{P}(x,t) $$
+It could be written as $\partial_t \bb{P}(x,t) = - H_{FP} \bb{P}(x,t)$ with $H_{FP}$ the Fokker-Planck operator shown above.
+%We try to solve $\partial_t \bb{P}(x,t) = 0$. A good guess is the Gibbs-Boltzmann probability density, 
 
 
 
 
 %------------------------------------------------
 
-\section*{Theoretical Analyses}
+\section*{Theoretical Analysis}
 
 \ssc*{Situation of the problem}
 
@@ -108,7 +227,7 @@ $$ \textcolor{red}{\ddot{X}_G} + \frac{2\varepsilon \xi}{3} \frac{\dot{X}_G}{\sq
 $$ \textcolor{green}{\ddot{\Delta}} + \xi \frac{\dot{\Delta}}{\Delta^{3/2}} + \frac{\textcolor{brown}{\kappa} \xi}{4} \left[ 21 \frac{\dot{\Delta}^2}{\Delta^{9/2}} - \frac{(\dot\Theta - \dot{X}_G)^2}{\Delta^{7/2}} - \frac{15}{2} \frac{\textcolor{green}{\ddot{\Delta}}}{\Delta^{7/2}} \right] + \cos\alpha = 0  $$
 
 $$ \textcolor{blue}{\ddot{\Theta}} + \frac{4\veps\xi}{3} \frac{\dot\Theta}{\sqrt\Delta} + \frac{\textcolor{brown}{\kappa} \veps \xi}{3} \left[ \frac{19}{4} \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} - \frac{\dot\Delta \dot{X}_G}{\Delta^{7/2}} + \frac{1}{2} \frac{\textcolor{red}{\ddot{X}_G} - \textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} \right] = 0  $$
-with $\alpha=0$ for a plan case.
+with $\alpha=0$ for a plan case. Hence, $\sin\al = 0$, and $\cos\alpha = 1$.
 
 
 For the convenience, we simplify all coefficients as:
@@ -117,8 +236,8 @@ $$ \textcolor{green}{\ddot{\Delta}} + a_1 \frac{\dot{\Delta}}{\Delta^{3/2}} + a_
 $$ \textcolor{red}{\ddot{X}_G} + b_1 \frac{\dot{X}}{\sqrt\Delta} + b_2  \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + b_3 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + b_4 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + b_5 \frac{\textcolor{red}{\ddot{X}_G}}{\Delta^{5/2}} + b_6 = 0 $$
 
 $$ \textcolor{blue}{\ddot{\Theta}} + c_1 \frac{\dot\Theta}{\sqrt\Delta} + c_2 \frac{\dot\Delta \dot\Theta}{\Delta^{7/2}} + c_3 \frac{\dot\Delta \dot{X}}{\Delta^{7/2}} + c_4 \frac{\textcolor{red}{\ddot{X}_G}}{\Delta^{5/2}} + c_5 \frac{\textcolor{blue}{\ddot{\Theta}}}{\Delta^{5/2}} + c_6 = 0 $$
-with coefficients: $a_1 = \xi$, $a_2 = \frac{21\kappa\xi}{4}$, $a_3 = -\frac{\kappa\xi}{4}$, $a_4 = \frac{\kappa\xi}{2}$, $a_5 = -\frac{15\kappa\xi}{8}$, $a_6 = \cos(\alpha=0) = 1$; 
-$b_1 = \frac{2\veps\xi}{3}$, $b_2 = \frac{19\kappa\xi\veps}{24}$, $b_3 = - \frac{\kappa\xi\veps}{6}$, $b_4 = \frac{\kappa\xi\veps}{12}$, $b_5 = - \frac{\kappa\xi\veps}{12}$, $b_6 = \sin(\alpha = 0) = 0$;
+with coefficients: $a_1 = \xi$, $a_2 = \frac{21\kappa\xi}{4}$, $a_3 = -\frac{\kappa\xi}{4}$, $a_4 = \frac{\kappa\xi}{2}$, $a_5 = -\frac{15\kappa\xi}{8}$, $a_6 = 1$; 
+$b_1 = \frac{2\veps\xi}{3}$, $b_2 = \frac{19\kappa\xi\veps}{24}$, $b_3 = - \frac{\kappa\xi\veps}{6}$, $b_4 = \frac{\kappa\xi\veps}{12}$, $b_5 = - \frac{\kappa\xi\veps}{12}$, $b_6 = 0$;
 and $c_1 = \frac{4\veps\xi}{3}$, $c_2 = \frac{19\kappa\xi\veps}{12}$, $c_3 = - \frac{\kappa\xi\veps}{3}$, $c_4 = \frac{\kappa\xi\veps}{6}$, $c_5 = - \frac{\kappa\xi\veps}{6}$, $c_6 = 0$. 
 In addition, we write $\textcolor{green}{\ddot{\Delta}}, \textcolor{red}{\ddot{X}_G}, \textcolor{blue}{\ddot{\Theta}}$ as $\dot{v}_z, \dot{v}_x, \dot{v}_\tta$, $\dot{\Dlt}, \dot{X}_G, \dot_{\Theta}$ as $v_z, v_x, v_\tta$, $\Dlt, X_G, \Theta$ as $r_z, r_x, r_\tta$.
 
@@ -128,9 +247,9 @@ In addition, we write $\textcolor{green}{\ddot{\Delta}}, \textcolor{red}{\ddot{X
 
 \ssc*{Effective friction matrix}
 \sss*{Mass matrix}
-Consider the deterministic equation with mass according to the equations of motion mentioned above:
-$$ m_\al \cdot \dot{v}_\al = \left[ F_{1\al}(\bbf{x}) + F_{2\ab}(\bbf{x}) \dot{v}_\bt \right] - m_\al \cdot \gamma_{\ab} v_\bt $$
-we have 
+Consider the following deterministic equation with mass according to the equations of motion mentioned above:
+$$ m_\al \cdot \dot{v}_\al = \left[ F_{1\al}(\bbf{x}) + F_{2\ab}(\bbf{x}) \cdot \dot{v}_\bt \right] - m_\al \cdot \gamma_{\ab} \cdot v_\bt $$
+so we have: 
 $$ F_{1z} = - m_z a_6 = - m_z \tens F_{1x} = - m_x b_6 = 0 \tens F_{1\tta} = - m_\tta c_6 = 0 $$
 
 $$ \agn{ &F_{2hzz} = - \frac{m_z a_5}{\Delta^{7/2}} \tens F_{2hzx} = 0 \tens F_{2hz\tta} = 0 \\
@@ -145,22 +264,16 @@ $$ M = \left(
  0 & m_x -\frac{\kappa  \xi  \epsilon  m_x}{12 \Delta ^{5/2}} & \frac{\kappa  \xi  \epsilon  m_x}{12 \Delta ^{5/2}} \\
  0 & \frac{\kappa  \xi  \epsilon  m_{\theta }}{6 \Delta ^{5/2}} & m_{\theta }-\frac{\kappa  \xi  \epsilon  m_{\theta }}{6 \Delta ^{5/2}} 
 \end{array} \right) $$
-with its inverse matrix 
+with its inverse matrix $M^{-1}$:
 $$ M^{-1} = \left(
 \begin{array}{ccc}
  \frac{1}{m_z-\frac{15 \kappa  \xi  m_z}{8 \Delta ^{5/2}}} & 0 & 0 \\
  0 & \frac{12 \Delta ^{5/2}-2 \kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_x-3 \kappa  \xi  \epsilon  m_x} & \frac{\kappa  \xi  \epsilon }{3 m_{\theta } \left(\kappa  \xi  \epsilon -4 \Delta ^{5/2}\right)} \\
  0 & \frac{2 \kappa  \xi  \epsilon }{3 m_x \left(\kappa  \xi  \epsilon -4 \Delta ^{5/2}\right)} & \frac{12 \Delta ^{5/2}-\kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_{\theta }-3 \kappa  \xi  \epsilon  m_{\theta }} \\
 \end{array}
-\right) $$
-The inverse matrix at first-order approximation of $\kappa$ shows
-$$ M^{-1} \approx \left(
-\begin{array}{ccc}
- \frac{1}{m_z}+\frac{15 \kappa  \xi }{8 \Delta ^{5/2} m_z} & 0 & 0 \\
- 0 & \frac{1}{m_x}+\frac{\kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_x} & -\frac{\kappa \xi  \epsilon}{12 \Delta ^{5/2} m_{\theta }} \\
- 0 & -\frac{\kappa \xi  \epsilon}{6 \Delta ^{5/2} m_x} & \frac{1}{m_{\theta }}+\frac{\kappa  \xi  \epsilon }{6 \Delta ^{5/2} m_{\theta }} 
-\end{array}
-\right) $$
+\right) \simeq \left( \begin{array}{ccc}  \frac{1}{m_z}+\frac{15 \kappa  \xi }{8 \Delta ^{5/2} m_z} & 0 & 0 \\  0 & \frac{1}{m_x}+\frac{\kappa  \xi  \epsilon }{12 \Delta ^{5/2} m_x} & -\frac{\kappa \xi  \epsilon}{12 \Delta ^{5/2} m_{\theta }} \\  0 & -\frac{\kappa \xi  \epsilon}{6 \Delta ^{5/2} m_x} & \frac{1}{m_{\theta }}+\frac{\kappa  \xi  \epsilon }{6 \Delta ^{5/2} m_{\theta }}  \end{array} \right) $$
+
+
 
 
 
@@ -172,18 +285,18 @@ $$ \pder[\bb{P}(q,t)]{t} = \pder{q} \left[ \frac{dW(q)}{dq} + T \pder{q} \right]
 
 
 Suppose that $\bbf{x}, \bbf{v}$ refer to the position and velocity, respectively. We consider the following deterministic equation
-$$ d \bbf{x} = \bbf{v} dt $$
-$$ d \bbf{v} = - \bbf{U} dt - \bbf{\nabla} \phi(\mathbf{x}) dt $$
-where $\phi(\bbf{x})$ is the external potential only including gravity. We assume that $\bbf{U}$ are generated by hydrodynamic interactions, which do not however affect the equilibrium Gibbs-Boltzmann distribution shown as
+$$ d \bbf{x} = \bbf{v} dt \tens \tens d \bbf{v} = - \bbf{U} dt - \bbf{\nabla} \phi(\mathbf{x}) dt $$
+where $\phi(\bbf{x})$ is the external potential. %only including gravity. 
+We assume that $\bbf{U}$ are generated by hydrodynamic interactions, which do not however affect the equilibrium Gibbs-Boltzmann distribution shown as
 $$ P_{eq} (\mathbf{x},\mathbf{v}) = \frac{1}{\bar{Z}} \exp \left( - \frac{\beta \mathbf{v}^2}{2} - \beta \phi(\mathbf{x}) \right) $$
-Note, $\pder[P]{x_\alpha} = P \left( -\beta \pder[\phi]{x_\alpha} \right)$, $\pder[P]{v_\alpha} = P \left( -\beta v_\alpha \right)$, and $\bt^{-1} = k_B T \overset{k_B = 1}{\longrightarrow} T$.
+Note, $\pder[P]{x_\alpha} = P \left( -\beta \pder[\phi]{x_\alpha} \right)$, $\pder[P]{v_\alpha} = P \left( -\beta v_\alpha \right)$, and $\bt^{-1} = k_{\mrm{B}} T \overset{k_{\mrm{B}} = 1}{\longrightarrow} T$.
 
 
 Exploit the Fokker-Planck equation on the distribution probability $P$ above as a function of time $t$. %$ \gamma_{\alpha\beta} = ?$
 $$ \agn{ 
 \pder[P]{t} &= \pder{v_\alpha} \left[ (U_\alpha + \nabla_\alpha \phi) P + T \pder[P]{v_\al} \right] + \pder{x_\alpha} \llp T \pder[P]{v_\al} \rrp \\ % rang 1
 &= \pder{v_\alpha} \left[ (U_\alpha + \nabla_\alpha \phi) P + T \pder[P]{v_\beta} \pder[v_\bt]{v_\al} \right] + \pder{x_\alpha} \left[ T \cdot P (- \bt v_\al) \right] \\ % rang 2
-&= \pder{v_\alpha} \left[ T \gamma_{\alpha\beta} \pder[P]{v_\beta} + U_\alpha P + \pder[\phi]{x_\alpha} P \right] - \pder{x_\alpha} \llp v_\alpha P \rrp % rang 3
+&= \pder{v_\alpha} \left[ T \gamma_{\alpha\beta} \cdot \pder[P]{v_\beta} + U_\alpha P + \pder[\phi]{x_\alpha} P \right] - \pder{x_\alpha} \llp v_\alpha P \rrp % rang 3
 }$$
 %$$ \bgn
 %\pder{x_\alpha} \left[ (U_\alpha + \nabla_\alpha \phi) P + T \gamma_{\alpha\beta} \pder[P]{v_\beta} \right] &= \pder{X_\alpha} \left[ \frac{dV}{dX_\alpha} P + T \pder{X_\alpha} P + T \pder{V_\alpha} P \right] \\
@@ -194,21 +307,20 @@ The last two terms would vanish since
 $$ \pder{v_\alpha} \left( \pder[\phi]{x_\alpha} P \right) = \cancel{ \left( \pder{v_\alpha} \pder[\phi]{x_\alpha} \right) } \cdot P + \pder[\phi]{x_\alpha} \cdot \pder[P]{v_\alpha} = \pder[\phi]{x_\alpha} \cdot P (-\beta v_\alpha) $$
 $$ \pder{x_\alpha} \llp v_\alpha P \rrp = \cancel{ \left( \pder[v_\alpha]{x_\alpha} \right) } P + v_\alpha \left( \pder[P]{x_\alpha} \right) = v_\alpha \cdot P \cdot \left( -\beta \pder[\phi]{x_\alpha} \right) $$
 So we have
-$$ \pder[P]{t} = \pder{v_\alpha} \llp T \gamma_{\alpha\beta} \pder[P]{v_\beta} + U_\alpha P \rrp = \pder{v_\alpha} \llp - \gamma_{\alpha\beta} v_\beta P + U_\alpha P \rrp $$
-Therefore, at equilibrium $\pder[P]{t} = 0$, we obtain the GB distribution for the steady state if 
-$$ U_\alpha = \gamma_{\alpha\beta} v_\beta $$
+$$ \pder[P]{t} = \pder{v_\alpha} \llp T \gamma_{\alpha\beta} \cdot \pder[P]{v_\beta} + U_\alpha P \rrp = \pder{v_\alpha} \llp - \gamma_{\alpha\beta} \cdot v_\beta P + U_\alpha P \rrp \tens \overset{\mrm{at \ equilibrium}}{\Rightarrow} \tens U_\alpha = \gamma_{\alpha\beta} \cdot v_\beta $$
+%Therefore, at equilibrium $\pder[P]{t} = 0$, we obtain the GB distribution for the steady state if 
+%$$ U_\alpha = \gamma_{\alpha\beta} \cdot v_\beta $$
 
 
 We have for small velocities that
-$$ U_\al = \gamma_{\alpha\beta} v_\beta = \lambda_{\alpha\beta}(\mathbf{x}) v_\beta + \Lambda_{\alpha\beta\gamma} (\mathbf{x}) v_\beta v_\gamma $$ 
+$$ U_\al = \gamma_{\alpha\beta} \cdot v_\beta = \lambda_{\alpha\beta}(\mathbf{x}) \cdot v_\beta + \Lambda_{\alpha\beta\gamma} (\mathbf{x}) \cdot v_\beta v_\gamma $$ 
 where the term $\lambda_{\alpha\beta}(\mathbf{x})$ is just the friction tensor without any elastic effects. Additional efforts should be taken on the second term by symmetry. We would like to have 
-$$ \gamma_{\alpha\beta} = \lambda_{\alpha\beta} + \gamma_{2\alpha\beta} \tens \gamma_{2\alpha\beta} = \Gamma_{\alpha\beta\gamma} v_\gamma $$
+$$ \gamma_{\alpha\beta} = \lambda_{\alpha\beta} + \gamma_{2\alpha\beta} \tens \gamma_{2\alpha\beta} = \Gamma_{\alpha\beta\gamma} \cdot v_\gamma $$
 Consequently, we have 
-$$ \Gamma_{\alpha\beta\gamma} (\mathbf{x}) v_\beta v_\gamma = \Lambda_{\alpha\beta\gamma} (\mathbf{x}) v_\beta v_\gamma $$
+$$ \Gamma_{\alpha\beta\gamma} (\mathbf{x}) \cdot v_\beta v_\gamma = \Lambda_{\alpha\beta\gamma} (\mathbf{x}) \cdot v_\beta v_\gamma $$
 Without loss of generality, we take 
-$$\Lambda_{\alpha\beta\gamma} = \Lambda_{\alpha\gamma\beta}$$
-which then gives 
-$$\Gamma_{\alpha\beta\gamma} + \Gamma_{\alpha\gamma\beta} = 2 \Lambda_{\alpha\beta\gamma}$$ 
+$$\Lambda_{\alpha\beta\gamma} = \Lambda_{\alpha\gamma\beta} \tens \Rightarrow \tens 
+\Gamma_{\alpha\beta\gamma} + \Gamma_{\alpha\gamma\beta} = 2 \Lambda_{\alpha\beta\gamma}$$ 
 In fact, velocity terms on different directions contribute equally for products, so 
 $$\Lambda_{\alpha\beta\gamma} = \Lambda_{\alpha\gamma\beta}$$
 Also, mutual interactions means that terms with $v_\al$ contribute equally toward $\gma_{\ab} v_\bt$, hence we obtain another constraint 
@@ -259,7 +371,7 @@ $$ \gma_{\ab} = \left(
 \end{array}
 \right)$$
 and its 1-order approximation of $\kpa$:
-$$ \gma_{\ab} \approx \left(
+$$ \gma_{\ab} \simeq \left(
 \begin{array}{ccc}
  \frac{\xi }{\Delta ^{3/2}}+\frac{21 \kappa  \xi  v_z}{4 \Delta ^{9/2}} & \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_x\right)}{12 \Delta ^{7/2}} & -\frac{\kappa  \left(\xi  \left(3 v_{\theta }+(\epsilon -3) v_x\right)\right)}{12 \Delta ^{7/2}} \\
  \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_x\right)}{12 \Delta ^{7/2}} & \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  (19 \epsilon +6) v_z}{24 \Delta ^{7/2}} & -\frac{\kappa  \left(\xi  (\epsilon +1) v_z\right)}{4 \Delta ^{7/2}} \\
@@ -272,18 +384,17 @@ $$ \gma_{\ab} \approx \left(
 
 \sss*{Effective friction matrix}
 Therefore, the deterministic equation turns to 
-$$ m_{\al} \cdot \dot{v}_\al &- F_{2\ab}(\bbf{x}) \dot{v}_\bt = M_{\ab} \dot{v}_\beta = F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta $$
-and then we could finally find the effective friction matrix as $\gamma_\mrm{eff} =  M_{\ab}^{-1} m_\al \cdot \gma_{\ab} v_\bt$ 
-$$ \dot{v}_\bt &= M_{\ab}^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right) $$
+$$ m_{\al} \cdot \dot{v}_\al &- F_{2\ab}(\bbf{x}) \cdot \dot{v}_\bt = M_{\ab} \cdot \dot{v}_\beta = F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} \cdot v_\beta \tens \Rightarrow \tens \dot{v}_\bt &= M_{\ab}^{-1} \left( F_{1\al}(\bbf{x}) - m_\al \cdot \gamma_{\ab} v_\beta \right) $$
+and then we could finally find the effective friction matrix as $\gamma_\mrm{eff} =  M_{\ab}^{-1} \cdot m_\al \cdot \gma_{\ab} \cdot v_\bt$ 
  $$ \gamma_\mrm{eff} = M_{\ab}^{-1} \cdot \left(\begin{array}{ccc}m_Z & 0 & 0 \\0 & m_X & 0 \\0 & 0 & m_\Theta \end{array}\right) \cdot \gamma_{\ab} $$
 with elements below:
 $$ \agn{
-\gamma_{\mrm{eff},zz} &\approx \frac{\xi }{\Delta ^{3/2}} +\kappa  \left(\frac{15 \xi ^2}{8 \Delta^4}+\frac{21 \xi v_z}{4 \Delta ^{9/2}}\right) \\ % rang 1
-\gamma_{\mrm{eff},xx} &\approx \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(4 \sqrt{\Delta } \xi  \epsilon^2 + 18 v_z + 57 \epsilon  v_z \right)}{72 \Delta ^{7/2}} \\ % rang 2
-\gamma_{\mrm{eff},\theta\theta} &\approx \frac{4 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(8 \sqrt{\Delta } \xi  \epsilon ^2+57 \epsilon  v_z+9 v_z\right)}{36 \Delta ^{7/2}} \\ % rang 3
-\gamma_{\mrm{eff},xz} &= \gamma_{\mrm{eff},zx} \approx \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_x \right)}{12 \Delta ^{7/2}}  \\ % rang 4
-\gamma_{\mrm{eff},\theta z} &= \gamma_{\mrm{eff},z\theta} \approx \frac{\kappa \xi  \left( (3 -\epsilon) v_x - 3 v_{\theta } \right)}{12 \Delta ^{7/2}} \\ % rang 5
-\gamma_{\mrm{eff},\theta x} &= \gamma_{\mrm{eff},x\theta} \approx -\frac{\kappa \xi  \left(16 \Delta ^3 \xi  \epsilon ^2+36 \Delta ^{5/2} (\epsilon +1) v_z\right)}{144 \Delta ^6} % rang 6
+\gamma_{\mrm{eff},zz} &\simeq \frac{\xi }{\Delta ^{3/2}} +\kappa  \left(\frac{15 \xi ^2}{8 \Delta^4}+\frac{21 \xi v_z}{4 \Delta ^{9/2}}\right) \\ % rang 1
+\gamma_{\mrm{eff},xx} &\simeq \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(4 \sqrt{\Delta } \xi  \epsilon^2 + 18 v_z + 57 \epsilon  v_z \right)}{72 \Delta ^{7/2}} \\ % rang 2
+\gamma_{\mrm{eff},\theta\theta} &\simeq \frac{4 \xi  \epsilon }{3 \sqrt{\Delta }}+\frac{\kappa  \xi  \left(8 \sqrt{\Delta } \xi  \epsilon ^2+57 \epsilon  v_z+9 v_z\right)}{36 \Delta ^{7/2}} \\ % rang 3
+\gamma_{\mrm{eff},xz} &= \gamma_{\mrm{eff},zx} \simeq \frac{\kappa  \xi  \left((\epsilon +3) v_{\theta }-3 v_x \right)}{12 \Delta ^{7/2}}  \\ % rang 4
+\gamma_{\mrm{eff},\theta z} &= \gamma_{\mrm{eff},z\theta} \simeq \frac{\kappa \xi  \left( (3 -\epsilon) v_x - 3 v_{\theta } \right)}{12 \Delta ^{7/2}} \\ % rang 5
+\gamma_{\mrm{eff},\theta x} &= \gamma_{\mrm{eff},x\theta} \simeq -\frac{\kappa \xi  \left(16 \Delta ^3 \xi  \epsilon ^2+36 \Delta ^{5/2} (\epsilon +1) v_z\right)}{144 \Delta ^6} % rang 6
 } $$
 
 
@@ -292,130 +403,157 @@ $$ \agn{
 
 
 \ssc*{Modified noise correlator amplitude} %\label{corr}
-After the effective friction matrix $\gamma_\rm{eff}$, we consider the random forces and their correlator amplitudes. For the 1D case in the bulk, we only need the square root of friction coefficient. Similarly, we could suppose that $\gamma_{\mrm{eff}} \approx \Psi + \kappa \Phi$, %where $\Psi$ is zero-order matrix of $\kpa $, while $\Phi $ the first-order one.
+%%% After the effective friction matrix $\gamma_\rm{eff}$, we consider the random forces and their correlator amplitudes. For the 1D case in the bulk, we only need the square root of friction coefficient. Similarly, we could suppose that 
+Suppose $\gamma_{\mrm{eff}} \simeq \Psi + \kappa \Phi$, %where $\Psi$ is zero-order matrix of $\kpa $, while $\Phi $ the first-order one.
 %$\Psi_i = \mrm{SeriesCoefficients} [\mrm{Series}[\gma_{\mrm{eff},ii},\{\kpa,0,0\} ], 0]$ \\
 %$\Phi_i = \mrm{SeriesCoefficients} [\mrm{Series}[\gma_{\mrm{eff},ij},\{\kpa,0,1\} ], 1]$ \\
-as well as $\gamma^{1/2}_\mrm{eff} \approx \psi + \kpa\chi$, then we have
-$$ \gamma_{\mrm{eff}} = \gamma_{\mrm{eff}}^{1/2}\gamma_{\mrm{eff}}^{1/2} = (\psi + \kappa\chi)(\psi + \kappa\chi) \approx \psi\psi + \kappa (\psi\chi + \chi\psi) $$
-so we resolve \(\psi_{ij} =\sqrt{\Psi_{ij} }\), and $\chi_{ij} = \frac{\Phi_{ij}}{\sqrt{\Psi_{ii}} + \sqrt{\Psi_{jj}}}$. 
+and $\gamma^{1/2}_\mrm{eff} \simeq \psi + \kpa\chi$, so
+$$ \gamma_{\mrm{eff}} = \gamma_{\mrm{eff}}^{1/2}\gamma_{\mrm{eff}}^{1/2} = (\psi + \kappa\chi)(\psi + \kappa\chi) \simeq \psi\psi + \kappa (\psi\chi + \chi\psi) = \Psi + \kappa \Phi $$
+As for 0-order matrix, $\Psi$ is a diagonal matrix, and so is $\psi$. 
+$$ \psi\psi = \Psi \tens \Rightarrow \tens \psi_{ij} =\sqrt{\Psi_{ij} } $$ 
+Besides, as a symmetric matrix, non-diagonal elements would only appear in $\Phi$, and then in $\chi$, resulting in $\psi\chi = \chi\psi$.
+$$ \psi\chi + \chi\psi = \Phi \tens \Rightarrow \tens \chi_{ij} = \frac{\Phi_{ij}}{\sqrt{\Psi_{ii}} + \sqrt{\Psi_{jj}}} $$
+
 %Consider the case without unit mass, we have to calculate the inverse mass matrix as an analogy of $\frac{1}{m}$, hences $\gamma_{\mrm{eff}}^{1/2} \to \llp \gamma_{\mrm{eff}} \cdot M^{-1} \rrp^{1/2}$ as an asymmetric matrix. Even though we could neglect the non-diagonal elements as the cross-correlated noise since $\kpa \ll 1$, we are still motivated to clarify these terms by proper treatment, such as the diagonalisation. However, we could hardly furnish a simple diagonalized matrix, numerical method would be expected. After extracting noise eigenvalues, we exploit the inverse base transform to furnish the exact contribution on each direction. Further discussion see subsection \ref{Discretisation algorithm}.
 
 
-The results seem plausible and enough with the first-order correction of $\kappa$. However, as for $\gamma_\rm{eff}$, several velocities have been included. In 1D case, we make Laplace and the its inverse transform for solutions, while here we have to consider that as a matrix equation
+%The results seem plausible and enough with the first-order correction of $\kappa$. However, as for $\gamma_\rm{eff}$, several velocities have been included. In 1D case, we make Laplace and the its inverse transform for solutions, while here we have to consider that as a matrix equation
+%%%%% Consider the Laplace transform with matix
 %$$ \dot{\bbf{v}}_{3\times1} = - \gamma_{\rm{eff},3\times3} \cdot \bbf{v}_{3\times1} + M^{-1}_{3\times3} \cdot \delta F_{3\times1} $$
 %and consider the corresponding Laplace transform
-$$ \widetilde{\dot{\bbf{v}}} = - \widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} + \widetilde{M^{-1} \cdot \bbf{\delta F}} $$
-Note, $\gamma_{\mrm{eff}}$ is not a constant matrix, which should be included inside the Laplace transform.
+%%%%% $$ \widetilde{\dot{\bbf{v}}} = - \widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} + \widetilde{M^{-1} \cdot \bbf{\delta F}} $$
+%%% Note, $\gamma_{\mrm{eff}}$ is not a constant matrix, which should be included inside the Laplace transform.
 %We could not extract this friction matrix outside the Laplace transform, while similar for $M^{-1}$. 
 %We try the Laplace transform directly on $-\widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}}$, obtaining
-
 %The Laplace transform of multiplication would be quite complex, since 
 %$$ \widetilde{f(t)g(t)}(p) = \frac{1}{2\pi i} \lim_{T \to \infty} \int_{c-iT}^{c+iT} \widetilde{f}(s) \widetilde{g}(p-s) ds $$ 
 %The integration is done along the vertical line $\Re(s)=c$ that lies entirely within the region of convergence of $\widetilde{f}$. For example, $f(t) = e^t$ does not possess a convergent Laplace integral if $\Re p>1$ or if $\Re p<1$. The strip of convergence has contracted to a line: the integral converges only where $\Re p=1$, and even then not exactly at $p=1$. We'd like to consider this part after getting the proper formula of $v_i$. For instance, if $f(t) = e^{-\gamma t}$ with $t>0$, we have the convergence strip if $\Re p > - \gamma$, which could be satisfied in our issue if we have a constant $\gamma$.
 
-
-Dissect $\gamma_\rm{eff}$ as $\gamma_{\rm{eff}} = \gamma_{0} + \gamma_{1}(\kpa) + \gamma_{1v}(\kpa,v_i)$, 
+Suppose $\gamma_{\rm{eff}} = \gamma_{0} + \gamma_{1}(\kpa) + \gamma_{1v}(\kpa,v_i)$, 
 $$ \gamma_0 = \left(\begin{array}{ccc} \frac{\xi }{\Delta ^{3/2}} & 0 & 0 \\0 & \frac{2 \xi  \epsilon }{3 \sqrt{\Delta }} & 0 \\0 & 0 & \frac{4\xi \eps}{3\sqrt{\Delta}}  \end{array}\right) \tens \gamma_1 = \left(\begin{array}{ccc} \frac{15 \kappa \xi ^2}{8 \Delta ^4} & 0 & 0 \\0 &  \frac{ \kappa  \xi^2  \epsilon ^2}{18 \Delta^3} & -\frac{\kappa \xi^2 \eps^2}{9 \Delta^3} \\0 & -\frac{\kappa \xi^2 \eps^2}{9 \Delta^3} &  \frac{2 \kappa \xi^2 \eps^2}{9 \Delta^3} \end{array}\right) $$
 $$ \gamma_{1v} = \left(\begin{array}{ccc} \frac{21 \kappa\xi v_z}{4 \Delta ^{9/2}} & \frac{\kxi  \left((\epsilon +3) v_{\theta }-3 v_x\right)}{12 \Delta ^{7/2}} & \frac{\kxi  \left( (3 - \epsilon) v_x - 3 v_{\theta} \right)}{12 \Delta ^{7/2}} \\ \frac{\kxi  \left((\epsilon +3) v_{\theta }-3 v_x\right)}{12 \Delta ^{7/2}} & \frac{\kappa\xi (6 + 19 \eps) v_z}{24 \Delta^{7/2}} & - \frac{\kappa \xi (\eps+1) v_z}{4 \sqrt{\Delta}} \\ \frac{\kxi  \left( (3 - \epsilon) v_x - 3 v_{\theta} \right)}{12 \Delta ^{7/2}} & - \frac{\kappa \xi (\eps+1) v_z}{4 \sqrt{\Delta}} & \frac{\kappa\xi (19 \eps + 3) v_z}{12 \Delta^{7/2}} \end{array}\right) $$
-where $\gamma_0$ is constant matrix, independent on $\kpa$; $\gma_1$ depends on $\kpa$; and $\gamma_{1v}$ depends on $\kpa$ and velocities $v_i$. 
-Hence we could separate the transform as $\widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} = \gamma_0 \cdot \widetilde{\bbf{v}} + \gamma_1 \cdot \widetilde{\bbf{v}} + \widetilde{\gamma_{1v} \cdot \bbf{v}}$. Since $\gma_0$ is a diagonal matrix, we write $\gma_{i0} = \gma_{i0}$ for the convenience. Also, we suppose that $\gamma_{1v,ij} = g_{ij\alpha} v_\alpha$, where $g_{ij\alpha}$ refers to the coefficient of $v_\alpha$ in $\gamma_{1v,ij}$, such as $g_{12x} = -\frac{\kxi v_x}{4 \Delta^{7/2}}$. A symmetric $\gamma_{\rm{eff}}$ results in symmetric $\gamma_0$ and $\gamma_1$, so is $g_{ij\alpha}$. 
+%Since $\gma_0$ is a diagonal matrix, we write $\gma_{i0} = \gma_{i0}$ for the convenience. 
+Also, we suppose that $\gamma_{1v,ij} = g_{ij\alpha} v_\alpha$, where $g_{ij\alpha}$ refers to the coefficient of $v_\alpha$ in $\gamma_{1v,ij}$. All non-zero elements are listed below: %, such as $g_{12x} = -\frac{\kxi v_x}{4 \Delta^{7/2}}$. 
+%A symmetric $\gamma_{\rm{eff}}$ results in symmetric $\gamma_0$ and $\gamma_1$, so is $g_{ij\alpha}$.
+$$ \begin{array}{ccc} 
+g_{11z} = \frac{21 \kxi}{4 \Delta ^{9/2}} & 
+g_{12x} = \frac{ - \kxi}{4 \Delta ^{7/2}} \fives g_{12\tta} = \frac{\kxi (\epsilon +3) }{12 \Delta ^{7/2}} & 
+g_{13x} = \frac{\kxi (3 - \epsilon)}{12 \Delta ^{7/2}} \fives  g_{13\tta} = \frac{ - \kxi }{4 \Delta ^{7/2}} \\ % rang 1
+g_{21x} = \frac{ - \kxi}{4 \Delta ^{7/2}} \fives g_{21\tta} = \frac{\kxi (\epsilon +3) }{12 \Delta ^{7/2}} & 
+g_{22z} = \frac{\kappa\xi (6 + 19 \eps) }{24 \Delta^{7/2}} & 
+g_{23z} = - \frac{\kappa \xi (\eps+1) }{4 \sqrt{\Delta}} \\ % rang 2
+g_{31x} = \frac{\kxi (3 - \epsilon)}{12 \Delta ^{7/2}} \fives  g_{31\tta} = \frac{ - \kxi }{4 \Delta ^{7/2}} &
+g_{32z} = - \frac{\kappa \xi (\eps+1)}{4 \sqrt{\Delta}} &
+g_{33z} = \frac{\kappa\xi (19 \eps + 3) v_z}{12 \Delta^{7/2}} \end{array} $$
+%Hence we could separate the transform as 
+%$$ \widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} = \gamma_0 \cdot \widetilde{\bbf{v}} + \gamma_1 \cdot \widetilde{\bbf{v}} + \widetilde{\gamma_{1v} \cdot \bbf{v}} $$
+ 
 
-It would be raisonnable to consider the perturbation on $\kpa$, for this elastic compliance parameter $\kappa \ll 1$ (about $10^{-4} \sim 10^{-3}$). We write $\bbf{v} = \bbf{v}_0 + \bbf{v}_1$, where the former is on 0 order while the latter 1 order. Similarly, the mass matrix and random forces would be treated in the same way.
-$$ \dot{\bbf{v}} &= \dot{\bbf{v}}_0 + \dot{\bbf{v}}_1 = - \gma_{\mrm{eff}} \cdot \bbf{v} + M^{-1} \cdot \bbf{\dlt F} = - (\gma_0 + \gma_1 + \gma_{1v}) \cdot (\bbf{v}_0 + \bbf{v}_1) + (M^{-1}_0 + M^{-1}_1) \cdot (\bbf{\dlt F}_0 + \bbf{\dlt F}_1 ) $$
-We only keep terms of 0 and 1 order of $\kpa$:
-$$ \dot{\bbf{v}}_0 = - \gma_0 \cdot \bbf{v}_0 + M^{-1}_0 \cdot \bbf{\dlt F}_0 $$
-$$ \dot{\bbf{v}}_1 = - \gma_0 \cdot \bbf{v}_1 - \gma_1 \cdot \bbf{v}_0 - \gma_{1v} \cdot \bbf{v}_0 + M^{-1}_0 \cdot \bbf{\dlt F}_1 + M^{-1}_1 \cdot \bbf{\dlt F}_0 $$
-After Laplace transform, we have
-$$ s \widetilde{\dot{\bbf{v}}}_0 - \bbf{v}(0) = - \gma_0 \cdot \wtd{\bbf{v}}_0 + M^{-1}_0 \cdot \wtd{\bbf{\dlt F}_0} $$
-$$ s \widetilde{\dot{\bbf{v}}}_1 = - \gma_0 \cdot \wtd{\bbf{v}}_1 - \gma_1 \cdot \wtd{\bbf{v}}_0 - \wtd{\gma_{1v} \cdot \bbf{v}_0} + M^{-1}_0 \cdot \wtd{\bbf{\dlt F}_1} + M^{-1}_1 \cdot \wtd{\bbf{\dlt F}_0} $$
-Note $\mathcal{L}_t\left[\int_0^t f(\tau ) g(t-\tau ) \, d\tau \right](s) = \left(\mathcal{L}_t[f(t)](s)\right) \left(\mathcal{L}_t[g(t)](s)\right)$. 0-order solutions are rather simple:
-$$ v_{i0}(t) = v_{i0}(0) e^{-\gma_{i0} t} + \int_0^t \mrm{d}\tau \frac{\delta F_{i0} (\tau)}{m_i} \exp\left[-\gma_{i0}(t-\tau)\right] $$
-Follow the same process we have done previously, we get the amplitude of noise correlator:
-$$ \llang \delta F_{i0} (\tau_1) \delta F_{j0} (\tau_2) \rrang = 2 k_B T m_i \gamma_{i0} \delta_{ij} \delta(\tau_1 - \tau_2) $$
-
-As for the 1-order correction $v_{i1}$, we have
+%Consider the Laplace transform with matrix
+%$$ \widetilde{\dot{\bbf{v}}} = - \widetilde{\gamma_{\rm{eff}} \cdot \bbf{v}} + \widetilde{M^{-1} \cdot \bbf{\delta F}} $$
+%Since $\kappa \ll 1$ (about $10^{-4} \sim 10^{-3}$), we consider 
+%and the perturbation theory on $\kpa$.
+%It would be raisonnable to consider the perturbation on $\kpa$, for this elastic compliance parameter $\kappa \ll 1$ (about $10^{-4} \sim 10^{-3}$). 
+We write $\bbf{v} = \bbf{v}_0 + \bbf{v}_1$, where the former is on 0 order while the latter 1 order. Similarly, $\dlt \bbf{F} = \dlt \bbf{F}_0 + \dlt \bbf{F}_1$, $M = M_0 + M_1$, $M^{-1} = \llp M^{-1} \rrp_0 + \llp M^{-1} \rrp_1$. We just write $\llp M^{-1} \rrp_i$ as $M^{-1}_i$ for the convenience. Note, $M^{-1}_{1,\ab} \neq 1 / M_{1,\ab}$. %The explicit Langevin equation with perturbation shows:
+% $$ \dot{\bbf{v}} &= \dot{\bbf{v}}_0 + \dot{\bbf{v}}_1 = - \gma_{\mrm{eff}} \cdot \bbf{v} + M^{-1} \cdot \bbf{\dlt F} = - (\gma_0 + \gma_1 + \gma_{1v}) \cdot (\bbf{v}_0 + \bbf{v}_1) + (M^{-1}_0 + M^{-1}_1) \cdot (\bbf{\dlt F}_0 + \bbf{\dlt F}_1 ) $$
+%with 0-order and 1-order terms:
+%$$ \dot{\bbf{v}}_0 = - \gma_0 \cdot \bbf{v}_0 + M^{-1}_0 \cdot \bbf{\dlt F}_0 $$
+%$$ \dot{\bbf{v}}_1 = - \gma_0 \cdot \bbf{v}_1 - \gma_1 \cdot \bbf{v}_0 - \gma_{1v} \cdot \bbf{v}_0 + M^{-1}_0 \cdot \bbf{\dlt F}_1 + M^{-1}_1 \cdot \bbf{\dlt F}_0 $$
+%After Laplace transform, we have
+%$$ s \widetilde{\dot{\bbf{v}}}_0 - \bbf{v}(0) = - \gma_0 \cdot \wtd{\bbf{v}}_0 + M^{-1}_0 \cdot \wtd{\bbf{\dlt F}_0} $$
+%$$ s \widetilde{\dot{\bbf{v}}}_1 = - \gma_0 \cdot \wtd{\bbf{v}}_1 - \gma_1 \cdot \wtd{\bbf{v}}_0 - \wtd{\gma_{1v} \cdot \bbf{v}_0} + M^{-1}_0 \cdot \wtd{\bbf{\dlt F}_1} + M^{-1}_1 \cdot \wtd{\bbf{\dlt F}_0} $$
+%Note $\mathcal{L}_t\left[\int_0^t f(\tau ) g(t-\tau ) \, d\tau \right](s) = \left(\mathcal{L}_t[f(t)](s)\right) \left(\mathcal{L}_t[g(t)](s)\right)$. 0-order solutions are rather simple:
+%$$ v_{i0}(t) = v_{i0}(0) e^{-\gma_{i0} t} + \int_0^t \mrm{d}\tau \frac{\delta F_{i0} (\tau)}{m_i} \exp\left[-\gma_{i0}(t-\tau)\right] $$
+%Follow the same process we have done previously, we get the amplitude of noise correlator:
+%$$ \llang \delta F_{i0} (\tau_1) \delta F_{j0} (\tau_2) \rrang = 2 k_{\mrm{B}} T m_i \gamma_{i0} \delta_{ij} \delta(\tau_1 - \tau_2) $$
+Focusing on the 1-order correction $v_{i1}$, we expand the matrix equation by Einstein sommation convention as
 $$ (s + \gma_{i0}) \wtd{v_{i1}} &= - \sum_j \gma_{1,ij} \wtd{v_{i0}} - \sum_j \sum_k g_{ijk}  (\wtd{v_{j0} \cdot v_{k0}}) + M^{-1}_{0i} \wtd{\dlt F_{i1}} + \sum_j M^{-1}_{1,ij} \wtd{\dlt F_{j0}} $$
-Laplace and its inverse transform have been calculated. To be clear, we decompose $\bbf{v}_1$ as
+with the following decomposition towards each term: %Laplace and its inverse transform have been calculated. To be clear, we decompose $\bbf{v}_1$ as
 $$ \bbf{v}_{1} = \bbf{v}_{gv} + \llp \bbf{v}_{vv} + \bbf{v}_{vf} + \bbf{v}_{fv} + \bbf{v}_{ff} \rrp + \bbf{v}_{fm} + \bbf{v}_{mf} $$
-with the following expressions along the direction $i$:
-
+$$ \wtd{v_{i,gv}} = \frac{1}{s + \gma_{i0}} \llp - \sum_j \gma_{1,ij} \wtd{v_{j0}} \rrp \tens \tens 
+\wtd{v_{i,fm}} = \frac{1}{s + \gma_{i0}} \llp M^{-1}_{0i} \wtd{\dlt F_{i1}} \rrp \tens \tens 
+\wtd{v_{i,mf}} = \frac{1}{s + \gma_{i0}} \llp \sum_j M^{-1}_{1,ij} \wtd{\dlt F_{j0}} \rrp $$
+$$ \wtd{v_{i,vv}} + \wtd{v_{i,vf}} + \wtd{v_{i,fv}} + \wtd{v_{i,ff}} = \frac{1}{s + \gma_{i0}} \lls - \sum_j \sum_k g_{ijk} (\wtd{v_{j0} \cdot v_{k0}}) \rrs $$
+We list all solutions along the direction $i$:
 $$  v_{i,gv} = \frac{\gma_{1,ij}}{\gma_{i0} - \gma_{j0}} \lls \llp e^{- \gma_{i0} t} - e^{-\gma_{j0} t} \rrp v_j (0) + \int_0^t \mrm{d}\tau \frac{\dlt F_{j0}(\tau)}{m_j} \lls e^{- \gma_{i0} (t-\tau)} - e^{-\gma_{j0} (t-\tau)} \rrs \rrs $$
+$$ v_{i,fm} = \int_0^t \mrm{d}\tau \frac{\dlt F_{i1} (\tau)}{m_i} e^{-\gma_{i0} (t-\tau)} \tens
+ v_{i,mf} = M^{-1}_{1,ij} \int_0^t \mrm{d}\tau \dlt F_{j0} (\tau) e^{-\gma_{i0} (t-\tau)} $$
 $$ v_{i,vv} = - g_{ijk} v_j (0) v_k (0) \cdot \frac{e^{-(\gma_{j0} + \gma_{k0}) t} - e^{-\gma_{i0} t}}{\gma_{i0} - \gma_{j0} - \gma_{k0}} $$
 $$ v_{i,fv} = - g_{ijk} v_k (0) \int_0^t \mrm{d}\tau \dlt F_{j0} (\tau) \frac{e^{-(\gma_{j0} + \gma_{k0}) (t-\tau)} - e^{-\gma_{i0} (t-\tau)}}{m_j \llp \gma_{i0} - \gma_{j0} - \gma_{k0} \rrp} $$
 $$ v_{i,vf} = - g_{ijk} v_j (0) \int_0^t \mrm{d}\tau \dlt F_{k0} (\tau) \frac{e^{-(\gma_{j0} + \gma_{k0}) (t-\tau)} - e^{-\gma_{i0} (t-\tau)}}{m_k \llp \gma_{i0} - \gma_{j0} - \gma_{k0} \rrp} $$
 $$ v_{i,ff} = - \frac{g_{ijk}}{m_j m_k} \int_0^t \mrm{d}\tau  \int_0^\tau \mrm{d}x \dlt F_{j0} (x) e^{-\gma_{j0} (\tau - x)}  \int_0^\tau \mrm{d}y \dlt F_{k0} (y) e^{-\gma_{k0} (\tau - y)} e^{- \gma_{i0} (t-\tau)} $$ 
-$$ v_{i,fm} = \int_0^t \mrm{d}\tau \frac{\dlt F_{i1} (\tau)}{m_i} e^{-\gma_{i0} (t-\tau)} \tens
- v_{i,mf} = M^{-1}_{1,ij} \int_0^t \mrm{d}\tau \dlt F_{j0} (\tau) e^{-\gma_{i0} (t-\tau)} $$
+
 
 %Generally, we ignore the correlation between velocities and random forces. 
-However, higher order correlation functions would be introduced due to $v_{vv}, v_{fv}, v_{vf}, v_{ff}$ while calculating noise correlator amplitudes and diffusion coefficients, such as $\lla v_i v_j v_k \rra$, $\lla v_i v_j \dlt F_{k0} \rra$, $\lla v_i \dlt F_{j0} \dlt F_{k0} \rra$, $\lla \dlt F_{i0} \dlt F_{j0} \dlt F_{k0} \rra$. In fact, we pose that there is no correlation between velocities and random forces $\lla v_i \dlt F_j \rra = 0$, as well as $\lla \dlt F_{i0} \rra = 0$. Therefore, we are inclined to neglect these odd-power terms below.
+%Generally, we would calculate MSD later, including the time average $\lla \bbf{v}_0 \bbf{v}_1 \rra$. There is $v_{i0} (0)$ and $\dlt F_{i0} (\tau)$ in the expression of $v_{i0}$, so we have to consider the time average involving these terms with others in $\bbf{v}_1$. However, higher order correlation functions would be introduced due to $\bbf{v}_{vv}, \bbf{v}_{fv}, \bbf{v}_{vf}, \bbf{v}_{ff}$, such as $\lla v_i v_j v_k \rra$, $\lla v_i v_j \dlt F_{k0} \rra$, $\lla v_i \dlt F_{j0} \dlt F_{k0} \rra$, $\lla \dlt F_{i0} \dlt F_{j0} \dlt F_{k0} \rra$. Such higher order correlation functions are relatively difficult to interpret and measure. Indeed, we always pose that there is no correlation between velocities and random forces $\lla v_i \cdot \dlt F_j \rra = 0$, meaning that terms with different variables would be zero. At the same time, $\lla \dlt F_{i0} \rra = 0$, so the odd-power terms turns to zero, too. Therefore, we are inclined to neglect all these four components in $\bbf{v}_1$ in the following calculations.
 
-Note, as for $\bbf{v}_{gv}$, %if $\gma_{i0} = \gma_{j0}$,
-$ \lim_{\gma_{i0} \to \gma_{j0}} \frac{e^{- \gma_{i0} t} - e^{-\gma_{j0} t}}{\gma_{i0} - \gma_{j0}} = - t e^{-\gma_{i0} t} $. With all coefficients known, we could resolve $\bbf{v}_1$. Then we take $v_{z1}(t)$ for instance for the following calculation.
 
-$$ v_{z1}(t) = - v_z(0) \gma_{1,zz} t e^{-\gma_{z0}t} + \int_0^t \mrm{d}\tau e^{-\gma_{z0} (t-\tau)} \llc \lls \frac{\delta F_{z1}(\tau)}{m_z} + M^{-1}_{zz1} \delta F_{z0}(\tau) \rrs - \gma_{1,zz} (t-\tau) \frac{\delta F_{z0}(\tau)}{m_z} \rrc $$
+%With all coefficients known, we could resolve $\bbf{v}_1$. Note, as for $\bbf{v}_{gv}$, 
+%$$ \lim_{\gma_{i0} \to \gma_{j0}} \frac{e^{- \gma_{i0} t} - e^{-\gma_{j0} t}}{\gma_{i0} - \gma_{j0}} = - t e^{-\gma_{i0} t} $$ 
+%Then we take $v_{z1}(t)$ for instance for the following calculation.
 
-Still, we consider the velocity square average up to 1-order $\kpa$:
-$$ \lla v_z^2(t) \rra = \lla \lls v_{z0}(t) + v_{z1}(t) \rrs^2 \rra \approx \lla v_{z0}^2(t) \rra + 2 \lla v_{z0}(t) v_{z1}(t) \rra $$
+%$$ v_{z1}(t) = - v_z(0) \gma_{1,zz} t e^{-\gma_{z0}t} + \int_0^t \mrm{d}\tau e^{-\gma_{z0} (t-\tau)} \llc \lls \frac{\delta F_{z1}(\tau)}{m_z} + M^{-1}_{zz1} \delta F_{z0}(\tau) \rrs - \gma_{1,zz} (t-\tau) \frac{\delta F_{z0}(\tau)}{m_z} \rrc $$
 
-Suppose there exists the correlation between 0-order and 1-order random force, $\lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra = K_z \cdot \delta(\tau_1 - \tau_2)$. So at long time limit $t \to \infty$, $\lla v_z^2(t) \rra$ would converge to
-$$ \lla v_z^2(t) \rra = k_B T \lls \frac{1}{m_z} + 2 \llp M^{-1}_{1,zz} - \frac{\gma_{1,zz}}{2 m_z \gma_{z0}} \rrp \rrs + \frac{K}{m_z^2 \gma_{z0}} $$ 
-Since $\lla v_z^2(t) \rra = \frac{k_B T}{m_z}$, we obtain the amplitude $K_z$
-$$ K_z &= k_B T m_z \llp \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp $$
-Hence the modified noise amplitude of $z$ up to 1-order correction turns to
-$$ \agn{
-& \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra \approx \lla \dlt F_{z0}(\tau_1) \dlt F_{z0}(\tau_2) \rra + 2 \lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra \\ % rang 2
-&= 2 k_B T m_z \gma_{z0} \dlt(\tau_1 - \tau_2) + 2 k_B T m_z \llp \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp \dlt(\tau_1 - \tau_2) \\ % rang 3
-&= 2 k_B T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp % rang 4
-} $$
-Note $M^{-1}_{1,zz} = \frac{15\kxi}{8 \Delta^{5/2} m_z}$, $\gma_{z0} + \gma_{1,zz} = \frac{\xi}{\Delta^{3/2}} + \frac{15 \kpa \xi^2}{8 \Delta^4}$, we calculate
-$$ \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} = \frac{\xi}{\Delta^{3/2}} - \frac{15 \kpa \xi^2}{8 \Delta^4} $$
-and then an amazingly concise result:
-$$ \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra = 2 k_B T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{z0} - \gma_{1,zz} \rrp $$
+%Still, we consider the velocity square average up to 1-order $\kpa$:
+%$$ \lla v_z^2(t) \rra = \lla \lls v_{z0}(t) + v_{z1}(t) \rrs^2 \rra \simeq \lla v_{z0}^2(t) \rra + 2 \lla v_{z0}(t) v_{z1}(t) \rra $$
+
+%Suppose there exists the correlation between 0-order and 1-order random force, $\lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra = K_z \cdot \delta(\tau_1 - \tau_2)$. So at long time limit $t \to \infty$, $\lla v_z^2(t) \rra$ would converge to
+%$$ \lla v_z^2(t) \rra = k_{\mrm{B}} T \lls \frac{1}{m_z} + 2 \llp M^{-1}_{1,zz} - \frac{\gma_{1,zz}}{2 m_z \gma_{z0}} \rrp \rrs + \frac{K}{m_z^2 \gma_{z0}} $$ 
+%Since $\lla v_z^2(t) \rra = \frac{k_{\mrm{B}} T}{m_z}$, we obtain the amplitude $K_z$
+%$$ K_z &= k_{\mrm{B}} T m_z \llp \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp $$
+
+As for the modified noise amplitude along $z$:
+%Hence the modified noise amplitude of $z$ up to 1-order correction turns to
+
+%$$ \agn{
+%& \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra \simeq \lla \dlt F_{z0}(\tau_1) \dlt F_{z0}(\tau_2) \rra + 2 \lla \dlt F_{z0}(\tau_1) \dlt F_{z1}(\tau_2) \rra \\ % rang 2
+%&= 2 k_{\mrm{B}} T m_z \gma_{z0} \dlt(\tau_1 - \tau_2) + 2 k_{\mrm{B}} T m_z \llp \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp \dlt(\tau_1 - \tau_2) \\ % rang 3
+%&= 2 k_{\mrm{B}} T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} \rrp % rang 4
+%} $$
+%Note $M^{-1}_{1,zz} = \frac{15\kxi}{8 \Delta^{5/2} m_z}$, $\gma_{z0} + \gma_{1,zz} = \frac{\xi}{\Delta^{3/2}} + \frac{15 \kpa \xi^2}{8 \Delta^4}$, we calculate
+%$$ \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} = \frac{\xi}{\Delta^{3/2}} - \frac{15 \kpa \xi^2}{8 \Delta^4} $$
+%and then an amazingly concise result:
+$$ \lla \dlt F_z(\tau_1) \dlt F_z(\tau_2) \rra = 2 k_{\mrm{B}} T m_z \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{z0} - \gma_{1,zz} \rrp $$
 which is always valid at 1-order correction. Since $\gma_{z0} = \frac{a_1}{\Delta^{3/2}}$, $\gma_{1,zz} = - \frac{a_1 a_5}{\Delta^4}$, $M^{-1}_{1,zz} = - \frac{a_5}{\Delta^{5/2} m_z}$, we verify
-$$ \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} = \frac{a_1}{\Delta ^{3/2}}+\frac{a_5 a_1}{\Delta ^4} = \gamma _{z0}-\gamma _{1,zz} $$
+$$ \gma_{z0} + \gma_{1,zz} - 2\gma_{z0} m_z M^{-1}_{1,zz} = \frac{a_1}{\Delta ^{3/2}}+\frac{a_5 a_1}{\Delta ^4} \equiv \gamma _{z0}-\gamma _{1,zz} $$
 
 Furthermore, we could repeat the same procedure for $v_{1x}$ and $v_{1\tta}$, deriving the modified noise correlator amplitudes $K_x$ and $K_\tta$. There are non-zero non-diagonal elements in $\gma_1$, so we get additional terms shown below:
 %Further treatment would be needed for other components due to non-zero non-diagonal elements $\gamma_{0x\theta} = \gamma_{0\theta x} \neq 0$. 
 
 
 $$ \agn{
-v_{x1}(t) &= - v_x(0) \gamma _{1,xx} t e^{- \gamma _{x0} t} + \frac{v_{\tta}(0) \gamma_{1,x\tta} }{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp \\ % rang 1-1
-& \fives - \gamma_{1,xx} \int_0^t \mrm{d} \tau (t-\tau) e^{-\gamma_{x0}(t-\tau)} \frac{\delta F_{x0}(\tau)}{m_x} \\ % rang 1-2
-& \fives + \frac{\gamma_{1,x\theta}}{\gamma_{\theta0}-\gamma_{x0}} \int_0^t \mrm{d} \tau \llp e^{-\gamma_{\theta0}(t-\tau)} - e^{-\gamma_{x0}(t-\tau)} \rrp \frac{\delta F_{\theta0}(\tau)}{m_\tta} \\ % rang 1-3
-& \fives + \int_0^t \mrm{d}\tau e^{-\gamma_{x0}(t-\tau)} \lls M^{-1}_{1,xx} \delta F_{x0}(\tau) + M^{-1}_{1,x\theta} \delta F_{\theta0}(\tau) + \frac{\dlt F_{x1}(\tau)}{m_x} \rrs % rang 1-4
+v_{x1}(t) &= - v_x(0) \gamma _{1,xx} t e^{- \gamma _{x0} t} + \frac{v_{\tta}(0) \gamma_{1,x\tta} }{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp  - \gamma_{1,xx} \int_0^t \mrm{d} \tau (t-\tau) e^{-\gamma_{x0}(t-\tau)} \frac{\delta F_{x0}(\tau)}{m_x} \\ % rang 1-2
+& \fives + \frac{\gamma_{1,x\theta}}{\gamma_{\theta0}-\gamma_{x0}} \int_0^t \mrm{d} \tau \llp e^{-\gamma_{\theta0}(t-\tau)} - e^{-\gamma_{x0}(t-\tau)} \rrp \frac{\delta F_{\theta0}(\tau)}{m_\tta}  + \int_0^t \mrm{d}\tau e^{-\gamma_{x0}(t-\tau)} \lls M^{-1}_{1,xx} \delta F_{x0}(\tau) + M^{-1}_{1,x\theta} \delta F_{\theta0}(\tau) + \frac{\dlt F_{x1}(\tau)}{m_x} \rrs % rang 1-4
 } $$
 $$ \agn{
-v_{\tta1}(t) &= - v_{\theta}(0) \gamma _{1,\tta\tta} t e^{- \gamma _{\tta0} t} + \frac{v_x(0) \gamma _{1,\tta x}}{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp \\ % rang 2-1
-& \fives + \frac{\gamma_{1,\tta x}}{\gamma_{\tta0} - \gamma_{x0}} \int_0^t \mrm{d}\tau  \llp e^{-\gamma_{\tta0}(t-\tau)} - e^{-\gamma_{x0}(t-\tau)} \rrp \frac{\delta F_{x0}(\tau)}{m_x} \\ % rang 2-2
-& \fives - \gamma_{1,\tta\tta} \int_0^t \mrm{d}\tau (t-\tau) e^{-\gamma_{\tta0}(t-\tau)} \frac{\delta F_{\tta0}(\tau)}{m_\tta} \\ % rang 2-3
-& \fives + \int_0^t \mrm{d}\tau e^{-\gamma_{\tta0}(t-\tau)} \lls M^{-1}_{1,\tta x} \delta F_{x0}(\tau) + M^{-1}_{1,\tta\tta} \delta F_{\theta0}(\tau) + \frac{\dlt F_{\tta1}(\tau)}{m_\tta}  \rrs % rang 2-4
+v_{\tta1}(t) &= - v_{\theta}(0) \gamma _{1,\tta\tta} t e^{- \gamma _{\tta0} t} + \frac{v_x(0) \gamma _{1,\tta x}}{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp  + \frac{\gamma_{1,\tta x}}{\gamma_{\tta0} - \gamma_{x0}} \int_0^t \mrm{d}\tau  \llp e^{-\gamma_{\tta0}(t-\tau)} - e^{-\gamma_{x0}(t-\tau)} \rrp \frac{\delta F_{x0}(\tau)}{m_x} \\ % rang 2-2
+& \fives - \gamma_{1,\tta\tta} \int_0^t \mrm{d}\tau (t-\tau) e^{-\gamma_{\tta0}(t-\tau)} \frac{\delta F_{\tta0}(\tau)}{m_\tta}  + \int_0^t \mrm{d}\tau e^{-\gamma_{\tta0}(t-\tau)} \lls M^{-1}_{1,\tta x} \delta F_{x0}(\tau) + M^{-1}_{1,\tta\tta} \delta F_{\theta0}(\tau) + \frac{\dlt F_{\tta1}(\tau)}{m_\tta}  \rrs % rang 2-4
 } $$
 
 
 Again, we suppose $\lla \dlt F_{x0}(\tau_1) \dlt F_{x1}(\tau_2) \rra = K_x \cdot \dlt(\tau_1 - \tau_2)$, and $\lla \dlt F_{\tta0}(\tau_1) \dlt F_{\tta1}(\tau_2) \rra = K_\tta \cdot \dlt(\tau_1 - \tau_2)$ for $\lla v_x^2 \rra$ and $\lla v_\tta^2 \rra$. At long time limit $t \to \infty$, they converge to:
-$$ \agn{ \lla v_x^2(t) \rra &= k_B T \lls \frac{1}{m_x} + 2 \llp M^{-1}_{1,xx} - \frac{\gma_{1,xx}}{2 m_x \gma_{x0}} \rrp \rrs + \frac{K}{m_x^2 \gma_{x0}} \\
-\lla v_\tta^2(t) \rra &= k_B T \lls \frac{1}{m_\tta} + 2 \llp M^{-1}_{1,\tta\tta} - \frac{\gma_{1,\tta\tta}}{2 m_\tta \gma_{x0}} \rrp \rrs + \frac{K}{m_\tta^2 \gma_{\tta0}} }$$ 
-Since they should be equal to $\frac{k_B T}{m_x}, \frac{k_B T}{m_\tta}$, respectively, we get:
-$$ \agn{
-K_x &= k_B T m_x \llp \gma_{1,xx} - 2 m_x M^{-1}_{1,xx} \gma_{x0} \rrp \\ % rang 1
-K_\tta &= k_B T m_\tta \llp \gma_{1,\tta\tta} - 2 m_\tta M^{-1}_{1,\tta\tta} \gma_{\tta0} \rrp % rang 2
-} $$
-Similar to the modified noise correlator on $z$, we obtain again concise results:
-$$ \agn{ \lla \dlt F_x(\tau_1) \dlt F_x(\tau_2) \rra &= 2 k_B T m_x \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{x0} - \gma_{1,xx} \rrp \\ % rang 1
-\lla \dlt F_\tta(\tau_1) \dlt F_\tta(\tau_2) \rra &= 2 k_B T m_\tta \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{\tta0} - \gma_{1,\tta\tta} \rrp } $$
+$$ \agn{ \lla v_x^2(t) \rra &= k_{\mrm{B}} T \lls \frac{1}{m_x} + 2 \llp M^{-1}_{1,xx} - \frac{\gma_{1,xx}}{2 m_x \gma_{x0}} \rrp \rrs + \frac{K_x}{m_x^2 \gma_{x0}} \\
+\lla v_\tta^2(t) \rra &= k_{\mrm{B}} T \lls \frac{1}{m_\tta} + 2 \llp M^{-1}_{1,\tta\tta} - \frac{\gma_{1,\tta\tta}}{2 m_\tta \gma_{x0}} \rrp \rrs + \frac{K_\tta}{m_\tta^2 \gma_{\tta0}} }$$ 
+Since they should be equal to $\frac{k_{\mrm{B}} T}{m_x}, \frac{k_{\mrm{B}} T}{m_\tta}$, respectively, we get:
+$$ K_x &= k_{\mrm{B}} T m_x \llp \gma_{1,xx} - 2 m_x M^{-1}_{1,xx} \gma_{x0} \rrp \tens \Rightarrow \tens
+\lla \dlt F_x(\tau_1) \dlt F_x(\tau_2) \rra &= 2 k_{\mrm{B}} T m_x \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{x0} - \gma_{1,xx} \rrp $$
+$$ K_\tta &= k_{\mrm{B}} T m_\tta \llp \gma_{1,\tta\tta} - 2 m_\tta M^{-1}_{1,\tta\tta} \gma_{\tta0} \rrp \tens \Rightarrow \tens
+\lla \dlt F_\tta(\tau_1) \dlt F_\tta(\tau_2) \rra &= 2 k_{\mrm{B}} T m_\tta \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{\tta0} - \gma_{1,\tta\tta} \rrp$$
+%Similar to the modified noise correlator on $z$, we obtain again concise results:
+%$$ \agn{ \lla \dlt F_x(\tau_1) \dlt F_x(\tau_2) \rra &= 2 k_{\mrm{B}} T m_x \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{x0} - \gma_{1,xx} \rrp \\ % rang 1
+%\lla \dlt F_\tta(\tau_1) \dlt F_\tta(\tau_2) \rra &= 2 k_{\mrm{B}} T m_\tta \dlt(\tau_1 - \tau_2) \cdot \llp \gma_{\tta0} - \gma_{1,\tta\tta} \rrp } $$
 
 
-
+\iffalse
 \ssc*{Mean square displacement}
-We have already obtained noise correlator amplitudes by $\lla v^2(t) \rra$. At the same time, we could also derive the mean square displacement (MSD) by $\lla v(0) v(t) \rra$. Reminder, there is no correlation between $v_i(t)$ and $\delta F_j(t)$, $\llang v_i(t_1) \delta F_j(t_2) \rrang = 0$. But we assume that $\llang v_x(0) v_\tta(0) \rrang = \llang v_\tta(0) v_x(0) \rrang = k_B T / m_{x\tta}$. And note $m_x \llang v_x^2(0) \rrang / 2 = k_B T / 2$, $m_\tta \llang v_\tta^2(0) \rrang / 2 = k_B T /2$.
+We have already obtained noise correlator amplitudes by $\lla v^2(t) \rra$. At the same time, we could also derive the mean square displacement (MSD) by $\lla v(0) v(t) \rra$. Reminder, there is no correlation between $v_i(t)$ and $\delta F_j(t)$, $\llang v_i(t_1) \delta F_j(t_2) \rrang = 0$. But we assume that $\llang v_x(0) v_\tta(0) \rrang = \llang v_\tta(0) v_x(0) \rrang = k_{\mrm{B}} T / m_{x\tta}$. And note $m_x \llang v_x^2(0) \rrang / 2 = k_{\mrm{B}} T / 2$, $m_\tta \llang v_\tta^2(0) \rrang / 2 = k_{\mrm{B}} T /2$.
 
 
 $$ \agn{
 & \llang v_x(0) v_x(t) \rrang = \llang v_x(0) \lls v_{x0}(t) + v_{x1}(t) \rrs \rrang = \llang v_x(0) v_{x0}(t) \rrang + \llang v_x(0) v_{x1}(t) \rrang \\ % rang 1-0
-&= \frac{k_B T}{m_x} e^{-\gamma_{x0}t} \llp 1 - \gamma_{1,xx} t \rrp + \frac{k_B T}{m_{x\tta}} \frac{ \gamma _{1,x\tta} }{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp \\ % rang 1-2
+&= \frac{k_{\mrm{B}} T}{m_x} e^{-\gamma_{x0}t} \llp 1 - \gamma_{1,xx} t \rrp + \frac{k_{\mrm{B}} T}{m_{x\tta}} \frac{ \gamma _{1,x\tta} }{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp \\ % rang 1-2
 & \llang v_\tta(0) v_\tta(t) \rrang = \llang v_\tta(0) \lls v_{\tta0}(t) + v_{\tta1}(t) \rrs \rrang = \llang v_\tta(0) v_{\tta0}(t) \rrang + \llang v_\tta(0) v_{\tta1}(t) \rrang \\ % rang 2-0
-&= \frac{k_B T}{m_\tta} e^{-\gamma_{\tta0} t} \llp 1 - \gamma_{1,\tta\tta} t \rrp + \frac{k_B T}{m_{x\tta}} \frac{ \gamma _{1,\tta x}}{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp
+&= \frac{k_{\mrm{B}} T}{m_\tta} e^{-\gamma_{\tta0} t} \llp 1 - \gamma_{1,\tta\tta} t \rrp + \frac{k_{\mrm{B}} T}{m_{x\tta}} \frac{ \gamma _{1,\tta x}}{\gamma _{x0}-\gamma _{\tta0}} \llp e^{- \gamma _{x0} t} - e^{- \gamma _{\tta0} t} \rrp
 }$$
 
 
@@ -423,36 +561,36 @@ Define MSD as $\llang \Delta r_i^2(t) \rrang = \llang \int_0^t \mrm{d}\tau_1 \in
 $$ \dv[]{}{t} \llang \Delta r_i^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_i(0) v_i(\tau) \rrang $$
 %We have the derivatives
 %$$ \agn{
-%& \dv[]{}{t} \llang \Delta r_x^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_x(0) v_x(\tau) \rrang = 2 k_B T \times \\ % rang 1
+%& \dv[]{}{t} \llang \Delta r_x^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_x(0) v_x(\tau) \rrang = 2 k_{\mrm{B}} T \times \\ % rang 1
 %& \llp \frac{1-e^{-t \gma_{x0}}}{m_x \gma_{x0}} - \frac{\gma_{1,xx} \left(1-e^{-t \gma_{x0}} \left(t \gma_{x0}+1\right)\right)}{m_x \gma_{x0}^2} + \frac{\gamma_{0,x\tta1}}{m_{x\tta} (\gamma_{0,xx0} - \gma_{\tta0})} \llp \frac{1-e^{-\gamma_{0,xx0} t}}{\gamma_{0,xx0}} - \frac{1 - e^{-\gma_{\tta0} t}}{\gma_{\tta0}} \rrp \rrp \\ % rang 2
 %} $$
 %$$ \agn{
-%& \dv[]{}{t} \llang \Delta r_\tta^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_\tta(0) v_\tta(\tau) \rrang = 2 k_B T \times \\
+%& \dv[]{}{t} \llang \Delta r_\tta^2(t) \rrang = 2 \int_0^t \mrm{d}\tau \llang v_\tta(0) v_\tta(\tau) \rrang = 2 k_{\mrm{B}} T \times \\
 %& \llp \frac{1-e^{-t \gamma _{0,\tta\tta0}}}{m_\tta \gamma _{0,\tta\tta0}} - \frac{\gamma _{0,\tta\tta1} \left(1-e^{-t \gamma _{0,\tta\tta0}} \left(t \gamma _{0,\tta\tta0}+1\right)\right)}{m_x \gamma _{0,\tta\tta0}^2} + \frac{\gamma_{0,\tta x1}}{m_{x\tta} (\gamma_{0,xx0} - \gma_{\tta0})} \llp \frac{1-e^{-\gamma_{0,xx0} t}}{\gamma_{0,xx0}} - \frac{1 - e^{-\gma_{\tta0} t}}{\gma_{\tta0}} \rrp \rrp
 %} $$
 After two integrations, we have $\llang \Delta r_i^2 (t) \rrang$
 
 $$ \agn{
-\llang \Delta r_x^2(t) \rrang &= \llang \Delta r_x^2(0) \rrang + k_B T \times \left(\frac{\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t}{m_x \gma_{x0}} + \frac{\gma_{1,x\tta} \left(\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t\right)}{\gma_{x0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,x\tta} \left(\frac{e^{-t \gma_{\tta0}}-1}{\gma_{\tta0}}+t\right)}{\gma_{\tta0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,xx} \left(t-\frac{2-e^{-t \gma_{x0}} \left(t \gma_{x0}+2\right)}{\gma_{x0}}\right)}{m_x \gma_{x0}^2}\right) \\ % rang 2
-&\overset{t\to0}{\approx} \llang \Delta r_x^2(0) \rrang + \frac{k_B T}{m_x} t^2 - \frac{\left(k_B T \left(m_x \gma_{1,x\tta}+m_{\text{x$\theta $}} \left(\gma_{x0}+\gma_{1,xx}\right)\right)\right)}{3 \left(m_x m_{\text{x$\theta $}}\right)} t^3 % rang 3
+\llang \Delta r_x^2(t) \rrang &= \llang \Delta r_x^2(0) \rrang + k_{\mrm{B}} T \times \left(\frac{\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t}{m_x \gma_{x0}} + \frac{\gma_{1,x\tta} \left(\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t\right)}{\gma_{x0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,x\tta} \left(\frac{e^{-t \gma_{\tta0}}-1}{\gma_{\tta0}}+t\right)}{\gma_{\tta0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,xx} \left(t-\frac{2-e^{-t \gma_{x0}} \left(t \gma_{x0}+2\right)}{\gma_{x0}}\right)}{m_x \gma_{x0}^2}\right) \\ % rang 2
+&\overset{t\to0}{\simeq} \llang \Delta r_x^2(0) \rrang + \frac{k_{\mrm{B}} T}{m_x} t^2 - \frac{\left(k_{\mrm{B}} T \left(m_x \gma_{1,x\tta}+m_{\text{x$\theta $}} \left(\gma_{x0}+\gma_{1,xx}\right)\right)\right)}{3 \left(m_x m_{\text{x$\theta $}}\right)} t^3 % rang 3
 } $$
 
 %%%
 $$ \agn{
-\llang \Delta r_\tta^2(t) \rrang &= \llang \Delta r_\tta^2(0) \rrang + k_B T \times \llp \frac{\frac{e^{-t\gma_{\tta0}} - 1}{\gma_{\tta0}} + t}{m_\tta \gma_{\tta0}} + \frac{\gma_{1,\tta x} \left(\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t\right)}{\gma_{x0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,\tta x} \left(\frac{e^{-t \gma_{\tta0}}-1}{\gma_{\tta0}}+t\right)}{\gma_{\tta0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,\tta\tta} \llp t - \frac{2 - e^{-t \gma_{\tta0}} (t \gma_{\tta0} +2)}{\gma_{\tta0}} \rrp}{m_\tta \gma_{\tta0}^2} \rrp \\ % rang 2
-&\overset{t\to0}{\approx} \llang \Delta r_\tta^2(0) \rrang + \frac{k_B T}{m_{\theta }} t^2  - \frac{ \left(k_B T \left(m_{\theta } \gma_{1,\tta x}+m_{\text{x$\theta $}} \left(\gma_{\tta0}+\gma_{1,\tta\tta}\right)\right)\right)}{3 \left(m_{\theta } m_{\text{x$\theta $}}\right)} t^3 % rang 3
+\llang \Delta r_\tta^2(t) \rrang &= \llang \Delta r_\tta^2(0) \rrang + k_{\mrm{B}} T \times \llp \frac{\frac{e^{-t\gma_{\tta0}} - 1}{\gma_{\tta0}} + t}{m_\tta \gma_{\tta0}} + \frac{\gma_{1,\tta x} \left(\frac{e^{-t \gma_{x0}}-1}{\gma_{x0}}+t\right)}{\gma_{x0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,\tta x} \left(\frac{e^{-t \gma_{\tta0}}-1}{\gma_{\tta0}}+t\right)}{\gma_{\tta0} m_{x\tta} \left(\gma_{x0}-\gma_{\tta0}\right)} - \frac{\gma_{1,\tta\tta} \llp t - \frac{2 - e^{-t \gma_{\tta0}} (t \gma_{\tta0} +2)}{\gma_{\tta0}} \rrp}{m_\tta \gma_{\tta0}^2} \rrp \\ % rang 2
+&\overset{t\to0}{\simeq} \llang \Delta r_\tta^2(0) \rrang + \frac{k_{\mrm{B}} T}{m_{\theta }} t^2  - \frac{ \left(k_{\mrm{B}} T \left(m_{\theta } \gma_{1,\tta x}+m_{\text{x$\theta $}} \left(\gma_{\tta0}+\gma_{1,\tta\tta}\right)\right)\right)}{3 \left(m_{\theta } m_{\text{x$\theta $}}\right)} t^3 % rang 3
 } $$
 
 
-Additionally, cross mean "square" displacement could also been derived between $x$ and $\tta$.
+Additionally, mean cross displacement could also been derived between $x$ and $\tta$.
 
 $$ \lla \Delta r_x(t) \cdot \Delta r_\tta(t) \rra = \int_0^t \lls \dv[]{}{t} \lla \Delta r_x(\tau) \cdot \Delta r_\tta(\tau) \rra \rrs \mrm{d}\tau + \lla \Delta r_x(0) \cdot \Delta r_\tta(0) \rra $$
 
 Since $\Delta r_x(t) = \int_0^t v_x(\tau) \mrm{d}\tau$, $\Delta r_\tta(t) = \int_0^t v_\tta(\tau) \mrm{d}\tau$, we have
 $$ \dv[]{}{t} \lla \Delta r_x(t) \cdot \Delta r_\tta(t) \rra = \int_0^t \lla v_x(t) v_\tta(\tau) \rra \mrm{d}\tau + \int_0^t \lla v_x(\tau) v_\tta(t) \rra \mrm{d}\tau  $$
 Consider cross velocity product average up to 1-order of $\kpa$:
-$$ \agn{ & \lla v_x(\tau_1) v_\tta(\tau_2) \rra \approx \\ & \fives \lla v_{x0}(\tau_1) v_{\tta0}(\tau_2) \rra + \lla v_{x0}(\tau_1) v_{\tta1}(\tau_2) \rra + \lla v_{x1}(\tau_1) v_{\tta0}(\tau_2) \rra }$$
-Only taking $\lla v_x^2(0) \rra$, $\lla v_\tta^2(0) \rra$, $\lla v_x(0) v_\tta(0) \rra = \frac{k_B T}{m_{x\tta}}$ mentioned previously into account, we insist that $\lla \dlt F_x (\tau_1) \dlt F_\tta (\tau_2) \rra = 0$, and $\lla v_i (\tau_1) \dlt F_j (\tau_2) \rra = 0$. Therefore, we could easily calculate each term:
+$$ \agn{ & \lla v_x(\tau_1) v_\tta(\tau_2) \rra \simeq \\ & \fives \lla v_{x0}(\tau_1) v_{\tta0}(\tau_2) \rra + \lla v_{x0}(\tau_1) v_{\tta1}(\tau_2) \rra + \lla v_{x1}(\tau_1) v_{\tta0}(\tau_2) \rra }$$
+Only taking $\lla v_x^2(0) \rra$, $\lla v_\tta^2(0) \rra$, $\lla v_x(0) v_\tta(0) \rra = \frac{k_{\mrm{B}} T}{m_{x\tta}}$ mentioned previously into account, we insist that $\lla \dlt F_x (\tau_1) \dlt F_\tta (\tau_2) \rra = 0$, and $\lla v_i (\tau_1) \dlt F_j (\tau_2) \rra = 0$. Therefore, we could easily calculate each term:
 
 $$ \agn{ &\lla v_{x0} (\tau_1) v_{\tta0} (\tau_2) \rra = \lla v_x(0) v_\tta(0) \rra e^{-\gma_{0x} \tau_1} e^{-\gma_{0\tta} \tau_2} \\
 & \lla v_{x0} (\tau_1) v_{\tta1} (\tau_2) \rra = \lla v_x^2(0) \rra \frac{e^{-\gma_{0x} \tau_1} \gma_{1,\tta x}}{\gma_{0x} - \gma_{0\tta}} \llp e^{-\gma_{0x} \tau_2} - e^{-\gma_{0\tta} \tau_2} \rrp - \lla v_x(0) v_\tta(0) \rra \gma_{1,\tta\tta} \tau_2 e^{-\gma_{0x} \tau_1} e^{-\gma_{0\tta} \tau_2} \\
@@ -469,7 +607,7 @@ $$ \agn{
 & \fives \left. \left. - \gma_{1,\tta\tta} \left(e^{t \gma_{\tta0}}-1\right) \left(e^{t \gma_{x0}}-1\right)\right)-\gma_{\tta0} \gma_{1,xx} \left(e^{t \gma_{\tta0}}-1\right) \left(e^{t \gma_{x0}}-1\right) \right] % rang 1-3-3
 }$$
 
-
+\fi
 
 
 
@@ -494,9 +632,13 @@ We set $N_{\mrm{max}} = 60000$ for the following numerical simulations. Besides,
 
 \sss*{Dimensionless variables}
 In order to non-dimensionalize the problem, we follow the variables used in \cite{JFM2015}:
-$$ \dlt = \Dlt \cdot r \eps \fives x_G = X_G \cdot r \sqrt{2\eps} \fives \tta = \Theta \cdot \sqrt{2\eps} $$
+$$ \dlt = \Dlt \cdot r \eps \tens 
+x_G = X_G \cdot r \sqrt{2\eps} \tens 
+\tta = \Theta \cdot \sqrt{2\eps} $$
 Introduce $t = T \cdot r \sqrt{2\eps} / c$, where $c$ is the maximum velocity for free fall particles. So the velocities in reality would be replaced by those shown in our equations of motion:
-$$ v_\Dlt = \frac{v_z}{c} \cdot \sqrt{\frac{2}{\eps}} \tens v_X = \frac{v_x}{c} \tens v_\Theta = \frac{v_\tta r}{c} $$
+$$ v_\Dlt = \frac{v_z}{c} \cdot \sqrt{\frac{2}{\eps}} \tens 
+v_X = \frac{v_x}{c} \tens 
+v_\Theta = \frac{v_\tta r}{c} $$
 where $c$ is a free fall velocity scale constant
 $$ c = \sqrt{2 g r \rho^\ast / \rho} $$
 and $\rho^\ast = \rho_{\mrm{sty}} - \rho_{\mrm{sol}}$, $\rho = \rho_{\mrm{sol}} = 1.00$ g/cm$^3$, $\rho_{\mrm{sty}} = 1.06$ g/cm$^3$.
@@ -505,7 +647,7 @@ $$ \dot{v}_\Dlt = \dot{v}_z \cdot \frac{2r}{c^2} \tens \dot{v}_X = \dot{v}_x \cd
 
 %$$ F_\Dlt = \frac{F_z}{c} \cdot \sqrt{\frac{2}{\eps}} \tens F_X = \frac{F_x}{c} \tens F_\Theta = \frac{F_\tta r}{c} $$
 
-
+If we write $\widehat{\dlt F}$ as the non-dimensional variables, we can find 
 $$ \lla \widehat{\dlt F_{z}}(\tau_1) \cdot \widehat{\dlt F_{z}}(\tau_2) \rra = \lla \dlt F_{z}(\tau_1) \cdot \dlt F_{z}(\tau_2) \rra \times \frac{2}{c^2 \eps} $$
 
 $$ \lla \widehat{\dlt F_{x}}(\tau_1) \cdot \widehat{\dlt F_{x}}(\tau_2) \rra = \lla \dlt F_{x}(\tau_1) \cdot \dlt F_{x}(\tau_2) \rra \times \frac{1}{c^2} $$
@@ -534,7 +676,7 @@ with initial condition $X_0 = x_0$, where $W_t$ stands for the Wiener process, a
 
 
 %The Euler-Maruyama scheme is straightforwardly applied to
-%$$ \agn{ U(t+\Dlt t) &= U(t) + \llp - \frac{\xi(R(t))}{m} (U(t) - v(R(t))) + \frac{1}{m} F_{\mrm{ext}}(R(t),t) \rrp \Dlt t \\ &\fives + \sqrt{\frac{2\xi(R(t)) k_B T}{m^2}} \Dlt W(\Dlt t) \\
+%$$ \agn{ U(t+\Dlt t) &= U(t) + \llp - \frac{\xi(R(t))}{m} (U(t) - v(R(t))) + \frac{1}{m} F_{\mrm{ext}}(R(t),t) \rrp \Dlt t \\ &\fives + \sqrt{\frac{2\xi(R(t)) k_{\mrm{B}} T}{m^2}} \Dlt W(\Dlt t) \\
 % R(t+\Dlt t) &= R(t) + U(t) \Dlt t } $$
 
 
@@ -606,6 +748,342 @@ D. A. Sivak, J. D. Chodera, and G. E. Crooks, {\it J. Phys. Chem. B} {\bf 2014},
 
 \end{thebibliography}
 %----------------------------------------------------------------------------------------
+
+
+
+
+\section*{Simulation codes}
+
+Below are the codes we used for the numerical simulations. The first file ``para.h" stores common variables, while the second file ``BEHD\_YYE.f90" is the main program.
+
+
+\footnotesize
+\begin{lstlisting}[language=h, caption=para.h]
+real*8 rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt
+common/para/rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt
+
+
+real*8 noise(3,2),Minv(3,3),gmaeff(3,3,3)
+common/calcul/noise,Minv,gmaeff
+!! "noise" noise = random force; 3: z/x/Θ; 2: Box-Muller method
+!! "Minv" effective mass matrix inverse; 3,3: matrix index
+!! "gmaeff" effective friction matrix; 3: gamma0/gamma1/gamma1v; 3,3: matrix index
+\end{lstlisting}
+
+
+
+
+
+
+\begin{lstlisting}[language=Fortran, caption=BEHD\_YYE.f90]
+!!!!! Yilin YE @ Jun. 2022
+!!!!! EHD + Brownian motion
+!!!!! Based on 1412.0162
+!!!!! ONLY ONE VARIABLE «z»
+
+!!!!! Here WAS a file based on the technique shown in the article 
+!!!!! J. Phys. Chem. B 2014, 118, 6466−6474
+!!!!! See ""Support Information"" for the Multi-dimensional case
+
+!!!!! Here is a file based on the Euler–Maruyama method.
+!!!!! without different gamma values for frictions and noises.
+
+
+Program main
+    use MATHS
+    implicit none    
+    integer :: Nmax=5000*12 !! Define the maximum number of steps
+    !real*8,parameter :: pi=3.14159265358979d0 !! constant
+    !complex*16,parameter :: Im=(0.d0,1.0d0)    !! imaginary unit
+    integer i,j,k,l,dtmax !! loop variables
+    real*8 :: time_begin,time_end !! define variables to record time consumed
+    real*8,external :: rectgauss    
+    
+    include "para.h"    
+    !real*8 :: p12,v14,v24,v34 !! old intermediate variables.
+    !real*8 :: coefa(6),coefb(6),coefc(6) !! coefficients for equations of motion
+    real*8 :: masse(3),amplitude(3,3),fext(3),tratio,msdanax,msdanat
+    !real*8 :: spuriousforce !! spuriousforce, & 3 components z/x/Θ
+    real*8,allocatable :: position(:,:),velocity(:,:),force(:) !! define arrays for position/velocity/force
+    real*8,allocatable :: msdx(:),msdt(:),sumx(:),sumt(:),Dcoefx(:),Dcoeft(:)
+    !! Must decalre all allocatable variables in advance.
+    allocate(position(3,Nmax)); allocate(velocity(3,Nmax)); allocate(force(Nmax))
+    allocate(msdx(Nmax)); allocate(msdt(Nmax)); allocate(sumx(Nmax)); allocate(sumt(Nmax));
+    allocate(Dcoefx(Nmax)); allocate(Dcoeft(Nmax))
+    
+    call cpu_time(time_begin)
+    open(unit=31,file="random_number_test.txt")
+    open(unit=32,file="positions.txt")
+    open(unit=33,file="velocitys.txt")
+    open(unit=34,file="forces.txt")
+    !open(unit=35,file="inter_Euler_Maruyama.txt")
+    open(unit=36,file="Mass_Matrix_Inverse.txt")
+    open(unit=371,file="gamma0.txt")
+    open(unit=372,file="gamma1.txt")
+    open(unit=373,file="gamma1v.txt")
+    open(unit=381,file="MSD.txt")
+
+    61 format(2x,'Time Step',15x,'Noise z',15x,'Noise x',15x,'Noise Θ')
+    62 format(2x,'Time Step',12x,'Position z/∆',12x,'Position x',12x,'Angle Θ')
+    63 format(2x,'Time Step',12x,'Veloctiy z',15x,'Velocity x',15x,'Velocity Θ')
+    64 format(2x,'Time Step',12x,'Force z',12x,'Noise z',12x,'Noise x',12x,'Noise Θ')
+    !65 format(2x,'Time Step',12x,'γ coeff',12x,'a=exp(-γ.∆t)',12x,'b=sqrt(tanh(gt2)/gt2)',12x,'M inverse')
+    66 format(2x,'Time Step',12x,'M_zz',12x,'M_xx',12x,'M_xΘ',12x,'M_Θx',12x,'M_ΘΘ')
+    67 format(2x,'Time Step',10x,'γv_zz',10x,'γv_xx',10x,'γv_ΘΘ',10x,'γv_zx',10x,'γv_zΘ',10x,'γv_xΘ')
+    68 format(2x,'Time Step',9x,'sum x**2',9x,'<∆x**2>',9x,'D_x',9x,'sum Θ**2',9x,'<∆Θ**2>',9x,'D_t')
+    write(31,61); write(32,62); write(33,63); write(34,64); !write(35,65)
+    write(36,66); write(371,67); write(372,67); write(373,67); write(381,68)
+    
+    
+    71 format(f10.4,3(5X,ES18.8)) !! format for file(31)=random_number_test.txt
+    72 format(f10.4,3(5X,ES18.8)) !! format for file(32)=position_z.txt
+    73 format(f10.4,3(5X,ES20.6)) !! format for file(33)=velocity_z.txt
+    74 format(f10.4,4(5X,ES15.6)) !! format for file(34)=force_z.txt
+    !75 format(f10.1,4(5X,ES20.10)) !! format for file(35)=intermediates.txt
+    76 format(f10.4,5(5X,ES15.6)) !! format for file(36)=Mass_Matrix_Inverse.txt
+    77 format(f8.4,6(5X,ES12.4)) !! format for file(371/372/373)
+    78 format(f10.4,6(5X,ES10.3)) !! format for file(38-)
+    99 format('It spent',f8.2,' seconds for the whole program.')
+    
+
+    rayon = 1.5d-6; rhosty = 1.06e3; rhosol = 1.00e3; grav = 9.80665d0
+    mass = pi*rayon**2*rhosty; mz = mass; mx = mass; mt = mass*rayon**2/2; masse(1)=mz; masse(2)=mx; masse(3)=mt
+    temp = 298.0d0; k_B = 1.38064852d-23; beta = 1.d0/(k_B*temp)
+    clight = sqrt(2.d0*grav*rayon*(1.0d0-rhosol/rhosty))
+
+    kappa = 1.0d-4; eps = 0.1d0; xi = 0.1d0; kxi = kappa*xi; kxe = kappa*xi*eps
+    !coefa(1)=xi;  coefa(2)=21.d0*kxi/4.d0; coefa(3)=-kxi/4.d0; coefa(4)=kxi/2.d0; coefa(5)=-15.d0*kxi/8.d0; coefa(6)=1.d0
+    !coefb(1)=2.d0/3.d0*eps*xi;  coefb(2)=19.d0*kxe/24.d0; coefb(3)=-kxe/6.d0; coefb(4)=kxe/12.d0; coefb(5)=-kxe/12.d0; coefb(6)=0.d0
+    !coefc(1)=4.d0/3.d0*eps*xi;  coefc(2)=19.d0*kxe/12.d0; coefc(3)=-kxe/3.d0; coefc(4)=kxe/6.0d0; coefc(5)=-kxe/6.0d0; coefc(6)=0.d0
+    
+    !! Time gap for each step, t = T * r * sqrt(2*eps) / clight. Here we pose dt ~ ∆T
+    tratio = 1.0d0 / (20.0d0*10)
+    dt = 1.0d-3*clight/(rayon*sqrt(2.0d0*eps)) * tratio
+
+    !! Initiation 
+    position=0.0d0; velocity=0.0d0; force=0.0d0; amplitude=0.0d0
+    gmaeff=0.0d0; Minv=0.0d0; fext=0.0d0
+    
+    position(1,1)=1.0d0; position(2,1)=0.0d0; position(3,1)=0.0d0
+    !p12=0.0d0; v14=0.0d0; v24=0.0d0; v34=0.0d0
+
+    do i=1,Nmax-1
+        noise = normaldist(0.0d0,1.0d0,3)
+        !do j=1,3
+        !    noise(j,1) = noise(j,1)*rectGauss(noise(j,1),2.d0)
+        !end do
+        write(31,71) i*tratio,noise(1,1),noise(2,1),noise(3,1)
+
+        do j=1,3
+            do k=1,3
+                do l=1,3
+                    call updategamma(gmaeff(j,k,l),j,k,l,position(1,i),velocity(1,i),velocity(2,i),velocity(3,i))
+                end do
+                call updateMinverse(Minv(j,k),position(1,i),j,k)
+            end do
+            amplitude(j,j) = sqrt(2.0d0*(gmaeff(1,j,j) - gmaeff(2,j,j))/(beta*masse(j)))
+        end do
+
+
+        call updateforce(fext(1),position(1,i))
+        velocity(:,i+1) = velocity(:,i) + &
+        &fext(:) - MATMUL((gmaeff(1,:,:)+gmaeff(2,:,:)+gmaeff(3,:,:)),velocity(:,i)) + MATMUL(amplitude(:,:),noise(:,1))
+        velocity(:,i) = velocity(:,i) / clight
+        position(:,i+1) = position(:,i) + velocity(:,i) * dt
+        !position(1,i+1) = position(1,1)
+
+        Dcoefx(i) = (gmaeff(1,2,2) - gmaeff(2,2,2))/(beta*mx*gmaeff(1,2,2)**2)
+        Dcoeft(i) = (gmaeff(1,3,3) - gmaeff(2,3,3))/(beta*mt*gmaeff(1,3,3)**2)
+
+        write(32,72) i*tratio,position(1,i),position(2,i),position(3,i)
+        write(33,73) i*tratio,velocity(1,i),velocity(2,i),velocity(3,i)
+        write(34,74) i*tratio,force(i), amplitude(1,1)*noise(1,1), amplitude(2,2)*noise(2,1), amplitude(3,3)*noise(3,1)
+        !write(35,75) i*tratio,gamma,intma,intmb,Minv
+        write(36,76) i*tratio,Minv(1,1),Minv(2,2),Minv(1,2),Minv(2,1),Minv(2,2)
+        write(371,77) i*tratio,gmaeff(1,1,1),gmaeff(1,2,2),gmaeff(1,3,3),gmaeff(1,1,2),gmaeff(1,1,3),gmaeff(1,2,3)
+        write(372,77) i*tratio,gmaeff(2,1,1),gmaeff(2,2,2),gmaeff(2,3,3),gmaeff(2,1,2),gmaeff(2,1,3),gmaeff(2,2,3)
+        write(373,77) i*tratio,gmaeff(3,1,1),gmaeff(3,2,2),gmaeff(3,3,3),gmaeff(3,1,2),gmaeff(3,1,3),gmaeff(3,2,3)
+
+    end do
+
+
+    !! MSD
+    dtmax=1000*20
+    do i=1,dtmax !! ∆t?
+        sumx(i) = 0.0d0; sumt(i) = 0.0d0
+        do j=1,Nmax-dtmax
+            msdx(j) = (position(2,j) - position(2,i+j))**2
+            sumx(i) = sumx(i) + msdx(j)
+
+            msdt(j) = (position(3,j) - position(3,i+j))**2
+            sumt(i) = sumt(i) + msdt(j)
+        end do
+        msdanax = 0.0d0; msdanat = 0.0d0
+        write(381,78) i*tratio, sumx(i), sumx(i)/j, Dcoefx(i)*i*1.0d0, sumt(i), sumt(i)/j, Dcoeft(i)*i*1.0d0
+    end do
+
+
+    deallocate(velocity); deallocate(position); deallocate(force) 
+    deallocate(msdx); deallocate(msdt); deallocate(sumx); deallocate(sumt); deallocate(Dcoefx); deallocate(Dcoeft)
+    close(31); close(32); close(33); close(34); close(35); close(36); close(371); close(372); close(373); close(381)
+    call cpu_time(time_end)
+    write(*,99) time_end-time_begin
+    !write(*,*) 'clight = ',clight
+
+end Program main
+
+
+!*** Here is the module to furnish NORMAL DISTRIBUTION, namely the white noises.
+!!! Reference: https://www.cxyzjd.com/article/za36mize/78948490
+!!! Reference: https://en.wikipedia.org/wiki/Box–Muller_transfo
+MODULE MATHS
+    implicit none
+    real(kind=8),parameter :: pi=4.0d0*atan(1.0d0),twopi=2.0d0*pi
+    CONTAINS
+    function normaldist(mean,std,n) result(r)
+        implicit none
+        real(kind=8),intent(in) :: mean,std
+        integer,intent(in) :: n
+        real(kind=8) :: r(n,2)
+        real(kind=8),dimension(n,2) :: zeta
+        !call random_seed()
+        call random_number(zeta)
+        r(:,1) = dsqrt(-2.0d0*log(zeta(:,1)))*cos(twopi*zeta(:,2))
+        r(:,2) = dsqrt(-2.0d0*log(zeta(:,1)))*sin(twopi*zeta(:,2))
+        r = mean + std * r
+    end function normaldist
+END MODULE MATHS
+
+
+!*** Here is the function to calculate the gamma (matrix)
+real*8 function gammavalue(no,i,j,z,vz,vx,vt)
+    implicit none
+    include "para.h"
+    integer :: no,i,j !! no: gamma No.?; i/j: matrix index
+    real*8 :: z,vz,vx,vt
+    real*8 :: zroot
+    zroot = sqrt(z)
+
+    select case(no)
+    case(1)
+        if (i.eq.j) then
+            if (i.eq.1) gammavalue = xi/(z*zroot)
+            if (i.eq.2) gammavalue = (2.d0*xi*eps)/(3.d0*zroot)
+            if (i.eq.3) gammavalue = (4.d0*xi*eps)/(3.d0*zroot)
+        else
+            gammavalue = 0.d0
+        end if
+    case(2)
+        if ((i-1)*(j-1).eq.0) gammavalue = 0.0d0
+        if ((i.eq.1).and.(j.eq.1)) gammavalue = (15.d0*kxi*xi)/(8.d0*z**4)
+        if ((i.eq.2).and.(j.eq.2)) gammavalue = (kxi*xi*eps**2)/(18.d0*z**3)
+        if ((i.eq.3).and.(j.eq.3)) gammavalue = (2.d0*kxi*xi*eps**2)/(9.d0*z**3)
+        if (i*j.eq.6) gammavalue = -(kxi*xi*eps**2)/(9.d0*z**3)
+    case(3)
+        if ((i.eq.1).and.(j.eq.1)) gammavalue = (21.d0*kxi*vz)/(4.d0*zroot*z**4)
+        if ((i.eq.2).and.(j.eq.2)) gammavalue = (kxi*vz*(6.d0+19.d0*eps))/(24.d0*zroot*z**3)
+        if ((i.eq.3).and.(j.eq.3)) gammavalue = (kxi*vz*(3.d0+19.d0*eps))/(12.d0*zroot*z**3)
+        if (i*j.eq.2) gammavalue = (kxi*((eps+3.d0)*vt-3.d0*vx))/(12.d0*zroot*z**3)
+        if (i*j.eq.3) gammavalue = (kxi*((3.d0-eps)*vx-3.d0*vt))/(12.d0*zroot*z**3)
+        if (i*j.eq.6) gammavalue = -(kxi*vz*(eps+1.d0))/(4.d0*zroot)
+    end select
+    return
+end function gammavalue
+
+!*** Here is the function to calculate the force depending on z.
+real*8 function forcevalue(z)
+    !This function would furnish the force on each direction
+    !z: vertical position; vz: velocity vector
+    implicit none
+    real*8 :: z
+    real*8 :: zroot,gzzz,gzxx,gztt,coulombmax
+    include "para.h"
+    
+    zroot = sqrt(z)
+    gzzz = (21.0d0*kxi)/(4.0d0*zroot*z**4)
+    gzxx = -(kxi)/(4.0d0*zroot*z**3)
+    gztt = -(kxi)/(4.0d0*zroot*z**3)
+    coulombmax = 1.0e-15*0.0d0
+
+    forcevalue = - grav*mz*(1-rhosol/rhosty) / clight + (gzzz+gzxx+gztt)/(beta*mz) / clight !+ coulombmax/(z**2)*exp(-z)
+    
+
+    return
+end function forcevalue
+
+!*** Here is the function to calculate inverse mass matrix
+real*8 function Minverse(z,i,j)
+    implicit none
+    include "para.h"
+    real*8 :: z,zroot
+    integer :: i,j !! matrix index
+    zroot = sqrt(z)
+
+    select case(i)
+    case(1)
+        if (j.eq.1) then
+            Minverse = (1.0d0/mz) * (1.0d0 + (15.0d0*kxi)/(8.0d0*zroot*z**2))
+        else
+            Minverse = 0.0d0
+        end if
+    case(2)
+        if (j.eq.1) Minverse = 0.0d0
+        if (j.eq.2) Minverse = (1.0d0/mx) * (1.0d0 + kxe/(12.0d0*zroot*z**2))
+        if (j.eq.3) Minverse = -kxe/(12.0d0*zroot*z**2*mt)
+    case(3)
+        if (j.eq.1) Minverse = 0.0d0
+        if (j.eq.2) Minverse = -kxe/(6.0d0*zroot*z**2*mx)
+        if (j.eq.3) Minverse = (1.0d0/mt) * (1.0d0 + kxe/(6.0d0*zroot*z**2*mt))
+    end select
+    return
+end function Minverse
+
+
+!*** Here is the function to cut off Gauss white noise.
+real*8 function rectGauss(num,value)
+    implicit none
+    real*8 num,value
+    if (abs(value).le.num) then
+        rectGauss=1.0d0
+    else
+        rectGauss=0.0d0
+    end if
+    return
+end function rectGauss
+
+
+!*** Here is the procedure to update gamma.
+subroutine updategamma(valeur,no,i,j,z,vz,vx,vt)
+    implicit none
+    real*8 :: valeur,z,vz,vx,vt
+    integer :: no,i,j
+    real*8,external :: gammavalue
+    include "para.h"
+    valeur = gammavalue(no,i,j,z,vz,vx,vt)
+end subroutine
+
+
+!*** Here is the procedure to update force along z direction.
+subroutine updateforce(valeur,z)
+    implicit none
+    real*8 :: valeur,z
+    real*8,external :: forcevalue
+    !include "para.h"
+    valeur = forcevalue(z)
+end subroutine
+
+
+
+!*** Here is the procedure to update the inverse mass matrix
+subroutine updateMinverse(valeur,z,i,j)
+    implicit none
+    real*8 :: valeur,z
+    integer :: i,j
+    real*8,external :: Minverse
+    valeur = Minverse(z,i,j)
+end subroutine
+
+\end{lstlisting}
 
 
 \end{document}
