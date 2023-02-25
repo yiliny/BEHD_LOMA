@@ -1,6 +1,6 @@
 !!!!! We define parameters used for equations
-real*8 rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt,l_D,csquare
-common/para/rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt,l_D,csquare
+real*8 rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt,l_D,csquare,Lchrt
+common/para/rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B,beta,clight,dt,l_D,csquare,Lchrt
 
 !! rayon: radius of particle
 !! rhosty: density of styrene
@@ -20,6 +20,7 @@ common/para/rayon,rhosty,rhosol,mass,mz,mx,mt,grav,kappa,eps,xi,kxi,kxe,temp,k_B
 !! dt: time gap for numerical simulations
 !! l_D: Debye length for electrostatic repulsion
 !! csquare = clight**2
+!! Lchrt: Characteristic / Typical Length ~ \mathcal{L} ~ 10^{-6} m ?
 
 
 
