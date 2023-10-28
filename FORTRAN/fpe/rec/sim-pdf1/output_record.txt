@@ -1,0 +1,180 @@
+BEHD @ YYE. Sim. done on 2023-10-24   16h15
+
+
+
+It spent    0.00 second for the whole initiation.
+
+
+
+### Sim. w/ κ =    0.000 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.100 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.08 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.200 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.07 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.300 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.400 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.500 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.600 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    #      500000 failed           1 times.
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.700 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    #     1000000 failed           1 times.
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.06 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+### Sim. w/ κ =    0.800 ; and ∆_0 =  2.00; T =    2.98E+05
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle = 1000000
+ 
+    # Sim. done, particle      250000
+    #      250000 failed           1 times.
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      500000
+    #      500000 failed           3 times.
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle      750000
+    #      750000 failed           1 times.
+    This Euler loop spent    0.00 second.
+    # Sim. done, particle     1000000
+    This Euler loop spent    0.00 second.
+    0.00 second spent for this MSD output.
+    0.07 second spent for this PDF output.
+
+
+ ***** ***** ***** ***** ***** ***** ***** ***** ***** *****
+
+
+
+
+   ## All simulation done with     1000000 paticles totally.
+It spent    913.92 second for the whole program.

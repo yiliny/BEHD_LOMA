@@ -1,0 +1,5 @@
+BEHD @ YYE. Sim. done on 2023-10-23   21h31
+### Sim. w/ κ =    0.900 ; and ∆_0 =  2.00; T =    2.98E+03
+ ## r =  1.00E-06 ; rhosty =  1.05E+03 ; rhosol =  1.00E+03
+ ## k =  2.00 ; ∆_eq =  2.00 ; num_particle =    1000
+# Indexx..   Velocity            Particle Number

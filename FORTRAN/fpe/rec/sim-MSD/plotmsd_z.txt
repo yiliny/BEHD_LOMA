@@ -1,0 +1,52 @@
+set terminal postscript eps enhanced color font 'Helvetica,20'
+set output "msd_z.eps" # Note, must write "setput" at first, otherwise there would be no data
+set xlabel "{/Symbol D} T"
+set ylabel "<{/Symbol D}^2>"
+set title ""
+set xrange [0.09:1000]
+set xtics 10
+set mxtics 10
+set yrange [2e-4:0.2]
+set ytics 0.1
+set mytics 10
+set key inside right top vertical maxrows 2
+
+set logscale xy 10
+set format x "10^{%2T}" #set ytic(12345)# "1.23*10^+04"
+set format y "10^{%+2T}" #set ytic(12345)# "1.23*10^+04"
+#set label 1 sprintf("{/Symbol D}=%.1f",0.5) at 2,3 font "Arial, 24"
+
+
+dataf0="k_0-d_0-MSD.txt"
+dataf1="k_1-d_0-MSD.txt"
+dataf2="k_2-d_0-MSD.txt"
+dataf3="k_3-d_0-MSD.txt"
+dataf4="k_4-d_0-MSD.txt"
+dataf5="k_5-d_0-MSD.txt"
+dataf6="k_6-d_0-MSD.txt"
+dataf7="k_7-d_0-MSD.txt"
+dataf8="k_8-d_0-MSD.txt"
+
+
+plot dataf0 using 1:3 title "{/Symbol k}=0.00" with lines lw 3 lc rgb 'black',\
+dataf2 using 1:3 title "{/Symbol k}=0.20" with lines lw 3 lc rgb '#4daf4a',\
+dataf4 using 1:3 title "{/Symbol k}=0.40" with lines lw 3 lc rgb '#ff7f00',\
+dataf6 using 1:3 title "{/Symbol k}=0.60" with lines lw 3 lc rgb '#377eb8',\
+dataf8 using 1:3 title "{/Symbol k}=0.80" with lines lw 3 lc rgb '#e41a1c',\
+#dataf1 using 1:3 title "{/Symbol k}=0.10" with lines lw 1 lc rgb '#a65628',\
+#dataf3 using 1:3 title "{/Symbol k}=0.30" with lines lw 1 lc rgb '#33a02c',\
+#dataf5 using 1:3 title "{/Symbol k}=0.50" with lines lw 1 lc rgb '#b3cde3',\
+#dataf7 using 1:3 title "{/Symbol k}=0.70" with lines lw 1 lc rgb '#6a3d9a',\
+#dataf0 u 1:($1**2/1.6e3) title "T^{2}" with lines lw 6 lc rgb 'black',\
+#dataf0 u 1:($1/1.6e3) title "T^{1}" with lines lw 6 lc rgb 'black',\
+#dataf0 u 1:($1/$1/1.1e2) title "T^{0}" with lines dt 12 lw 6 lc rgb 'black',\
+
+
+
+set output
+unset logscale xy
+unset format x
+unset format y
+unset xrange
+unset yrange
+unset key

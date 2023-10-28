@@ -1,0 +1,19 @@
+PDF
+
+
+200 ! Nmax - max step number for each simulation
+
+100 ! dtmax - max ∆t number for MSD calculs
+
+100000 ! num_particle - particle number for one condition
+
+
+***
+
+MSD
+
+6000 ! Nmax - max step number for each simulation
+
+5000 ! dtmax - max ∆t number for MSD calculs
+
+1000 ! num_particle - particle number for one condition

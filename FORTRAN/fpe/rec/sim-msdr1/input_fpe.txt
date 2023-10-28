@@ -1,0 +1,42 @@
+9.80665d0 ! grav - Gravity, unit: kg·m/s^2
+
+298.0d3 ! temp - Temperature, unit: K
+
+1.0d-6 ! rayon - Radius of particle, unit: m
+
+1.05d3 ! rhosty - Density of particle, unit: kg/m^3
+
+1.00d3 ! rhosol - Density of solvent, unit: kg/m^3
+
+2.0d0 ! kk - V(q) = kk/2*(q-q0)**2
+
+2.0d0 ! q0
+
+
+8000 ! Nmax - max step number for each simulation
+
+6000 ! dtmax - max ∆t number for MSD calculs
+
+1000 ! num_particle - particle number for one condition
+
+1 ! zfix - Determine whether to fix height values or not. 0, fix; 1, no fix with constant initial height; 2, no fix with Gauss distributed initial height
+0 ! xfix - Determine whether to fix horizontal values or not. 0, fix; 1, no fix.
+0 ! tfix - Determine whether to fix rotation angles or not. 0, fix; 1, no fix.
+
+
+0 ! fspur - Determine which type of spurious force used. 0, zero spurious force; 1, Gamma_z; 2, Gamma_z/x/t
+0 ! vspur - Determine if add spurious velocity. 0, zero; 1,∂D(z)/∂z
+0 ! fnoise - Determine which type of random noise used. 0, diagonal; 1, cross.
+
+
+1 ! loop_kappa. 1 yes, 0 no.
+0.0d-2 ! min_kappa
+7.5d-1 ! max_kappa
+10.0d-2 ! gap_kappa
+
+
+
+0 ! loop_delta. 1, yes; 0, no. (ini_height = 1.0d0)
+2.0d0 ! min_delta
+1.0d0 ! max_delta
+0.2d0 ! gap_delta
